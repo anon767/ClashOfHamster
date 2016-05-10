@@ -1,0 +1,31 @@
+User:
+    type: entity
+    table: user
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+                
+          
+    fields:
+        name:
+            type: text
+            nullable: false
+            length: 65535
+
+        hp:
+            type: integer
+            nullable: false
+            length: 65535
+            
+        x:
+            type: integer
+            nullable: true
+            length: 65535
+        y:
+            type: integer
+            nullable: true
+            length: 65535  
+            

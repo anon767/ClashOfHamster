@@ -1,0 +1,53 @@
+<?php
+
+
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * User
+ *
+ * @ORM\Table(name="user")
+ * @ORM\Entity
+ */
+class User
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="name", type="text", length=65535, nullable=false)
+     */
+    private $name;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="hp", type="integer", length=65535, nullable=false)
+     */
+    private $hp;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="x", type="integer", length=65535, nullable=true)
+     */
+    private $x;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="y", type="integer", length=65535, nullable=true)
+     */
+    private $y;
+
+
+}
