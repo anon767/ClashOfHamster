@@ -15,3 +15,6 @@ JSEND (gzip decrompressor)
 JSEND (gzip compressor)
 JQuery (framework for parsing json and retrieving events)
 EaselJS (flash like html5 canvas library)
+
+## Run
+php server/server.php
