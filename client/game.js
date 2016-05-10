@@ -1,6 +1,6 @@
 /* global createjs */
 
-var stage, timeCircle, socketObject, keyboard;
+var stage, timeCircle, socketObject, keyboard, collision;
 var up = false, left = false, right = false, down = false;
 var mePlayer;
 var players = [];
@@ -31,7 +31,8 @@ function keyboardCheck(event) {
     } else {
         down = false;
     }
-    var movedata = move(left, right, up, down, mePlayer, stage, event);
+
+    var movedata = collision.move(left, right, up, down, mePlayer, stage, event);
     mePlayer.move(movedata[0], movedata[1]);
 }
 
@@ -105,6 +106,7 @@ $(document).ready(function () {
     //queue = new createjs.LoadQueue(false); dont know what it does but it sucks
     socketObject = new Communication(Eventcallback); //reduce globals, parameterize callbacks
     stage = new createjs.Stage("stage");
+    collision = new Collision();
     createjs.Ticker.on("tick", tick);
     createjs.Ticker.setFPS(75); //smooth performance
     stage.snapToPixelEnabled = true; //seems like lagging out the game but idk
