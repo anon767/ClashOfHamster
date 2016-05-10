@@ -17,12 +17,11 @@ var Collision = function () {
         }
     };
     this.moveStage = function (x, stage) {
-        console.log(stage.x);
-        if (x > 0 && stage.x < (stage.size - stage.innerWidth)) {
-            stage.x += x;
-        } else if (x < 0 && stage.x >= 0) {
-            stage.x += x;
+        var xNew = stage.x + x;
+        if (xNew > -stage.size + stage.innerWidth && xNew < 0) {
+            stage.x = xNew;
         }
+
     };
     //check collission with every other object
     this.obstacleCollision = function (Player, stage, nextposx, nextposy) {
