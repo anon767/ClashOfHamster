@@ -31,9 +31,7 @@ function keyboardCheck(event) {
     } else {
         down = false;
     }
-
-    var movedata = collision.move(left, right, up, down, mePlayer, stage, event);
-    mePlayer.move(movedata[0], movedata[1]);
+    collision.move(left, right, up, down, mePlayer, stage, event);
 }
 
 /**
@@ -93,9 +91,12 @@ function Eventcallback(data) {
         players[data['3']] = null; //remove
     }
     if (data['5']) { //initialize map
+        stage.size = data['5']['0']["size"]; //set map size
         $.each(data['5'], function (i, o) {
-            var b = new Block();
-            b.create(parseFloat(o['x']), parseFloat(o['y']), "black", parseFloat(o['w']), parseFloat(o['h']), stage);
+            if (i !== 0) {
+                var b = new Block();
+                b.create(parseFloat(o['x']), parseFloat(o['y']), "black", parseFloat(o['w']), parseFloat(o['h']), stage);
+            }
         });
 
     }
@@ -106,6 +107,9 @@ $(document).ready(function () {
     //queue = new createjs.LoadQueue(false); dont know what it does but it sucks
     socketObject = new Communication(Eventcallback); //reduce globals, parameterize callbacks
     stage = new createjs.Stage("stage");
+    stage.innerWidth = window.innerWidth
+            || document.documentElement.clientWidth
+            || document.body.clientWidth;
     collision = new Collision();
     createjs.Ticker.on("tick", tick);
     createjs.Ticker.setFPS(75); //smooth performance

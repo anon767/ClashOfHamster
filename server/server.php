@@ -11,8 +11,8 @@ require_once 'lib/websocket.php';
 require_once 'lib/jsend.php';
 
 // when a client sends data to the server
-function wsOnMessage($clientID, $message, $messageLength, $binary,$Server) {
-    
+function wsOnMessage($clientID, $message, $messageLength, $binary, $Server) {
+
     //$data = json_decode($message);
 // check if message length is 0
     if ($messageLength == 0) {
@@ -25,7 +25,7 @@ function wsOnMessage($clientID, $message, $messageLength, $binary,$Server) {
     $jsmsg = json_decode($message, true);
     if (isset($jsmsg['4']) && $jsmsg['4'] == 1) {
         $Server->wsClients[$clientID][12] = true;
-        $server-log($clientID . " set compression to " . $Server->wsClients[$clientID][12]);
+        $server - log($clientID . " set compression to " . $Server->wsClients[$clientID][12]);
     } else {
 //Send the message to everyone but the person who said it
         foreach ($Server->wsClients as $id => &$client) {
@@ -39,8 +39,9 @@ function wsOnMessage($clientID, $message, $messageLength, $binary,$Server) {
 // when a client connects
 function wsOnOpen($clientID) {
     global $Server;
-    $map = array(1 => array("x" => "150", "y" => "150", "w" => "50", "h" => "50"),
-    2 => array("x" => "250", "y" => "150", "w" => "50", "h" => "50"));
+    $map = array("0" => array("size" => 4000),
+        1 => array("x" => "150", "y" => "150", "w" => "50", "h" => "50"),
+        2 => array("x" => "250", "y" => "150", "w" => "50", "h" => "50"));
 
     $ip = long2ip($Server->wsClients[$clientID][6]);
     $Server->wsClients[$clientID][12] = false;

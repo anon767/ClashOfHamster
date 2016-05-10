@@ -1,5 +1,5 @@
 var Collision = function () {
-    var move, cls, obstacleCollision, maxvel; // Maximum velocity
+    var move, cls, obstacleCollision, maxvel, moveStage; // Maximum velocity
     this.maxvel = 80;
 //when colliding witch obstacle -> bounce to other direction
     this.cls = function (clsdir, Player) {
@@ -14,6 +14,14 @@ var Collision = function () {
         }
         if (clsdir === "bottom") {
             Player.yvel = (Player.yvel < -4) ? Math.round(Player.yvel * -0.5) : 0;
+        }
+    };
+    this.moveStage = function (x, stage) {
+        console.log(stage.x);
+        if (x > 0 && stage.x < (stage.size - stage.innerWidth)) {
+            stage.x += x;
+        } else if (x < 0 && stage.x >= 0) {
+            stage.x += x;
         }
     };
     //check collission with every other object
@@ -45,7 +53,8 @@ var Collision = function () {
         }
     };
 //add velocity and check colliding with ceiling,left,right,and bottom of stage
-    this.move = function (left, right, up, down, Player, stage, event) {
+    this.move = function (left, right, up, down, Player, stage, event, actionCallBack) {
+
 
         if (up === true) {
             Player.yvel -= 2;
@@ -56,13 +65,16 @@ var Collision = function () {
         }
         if (left === true) {
             Player.xvel -= 2;
+            this.moveStage(-1 * event.delta / 1000 * Player.xvel * 18, stage);
         } else {
             if (Player.xvel < 0) {
                 Player.xvel++;
             }
         }
         if (right === true) {
+
             Player.xvel += 2;
+            this.moveStage(-1 * event.delta / 1000 * Player.xvel * 18, stage);
         } else {
             if (Player.xvel > 0) {
                 Player.xvel--;
@@ -102,7 +114,8 @@ var Collision = function () {
         if (nextposy + Player.height > stage.canvas.height) {
             this.cls("top", Player);
         }
-        return [event.delta / 1000 * Player.xvel * 20, event.delta / 1000 * Player.yvel * 20];
+        Player.move(event.delta / 1000 * Player.xvel * 20, event.delta / 1000 * Player.yvel * 20);
+
     };
 
 };

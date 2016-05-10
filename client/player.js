@@ -28,6 +28,7 @@ var Player = function () {
                 x: this.x,
                 y: this.y,
                 rotation: this.rotation,
+                health: this.health,
                 name: this.name
             }});
         socketO.send(data);
