@@ -21,8 +21,8 @@ var Keyboard = function () {
     this.keydown = function (e) {
         if (e.keyCode === 37 || e.keyCode === 38 || e.keyCode === 39 || e.keyCode === 40) {
             e.preventDefault();
+            this.keys[e.keyCode] = true;
         }
-        this.keys[e.keyCode] = true;
     };
     this.keyup = function (e) {
         this.keys[e.keyCode] = false;
