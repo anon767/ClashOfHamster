@@ -6,6 +6,7 @@ var Block = function () {
     this.remove = function () { //incase we need to remove it
         this.stage.removeChild(this.canvasO);
     };
+   
     this.create = function (x, y, color, width, height, stage) {
         this.x = x;
         this.y = y;

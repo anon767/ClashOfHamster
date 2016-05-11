@@ -1,9 +1,8 @@
 /* global createjs */
-
 var stage, timeCircle, socketObject, keyboard, collision;
 var up = false, left = false, right = false, down = false;
 var mePlayer;
-var players = [];
+var players = [null , null , null , null , null ,null]; //allocate some space for players
 
 /**
  * moves when direction is set
@@ -15,7 +14,7 @@ function keyboardCheck(event) {
         up = true;
         mePlayer.boost();
     } else {
-            mePlayer.addBoost();
+        mePlayer.addBoost();
         up = false;
     }
     if (keyboard.keys[37]) { // left
@@ -43,7 +42,6 @@ function keyboardCheck(event) {
  * @param {type} event
  * @returns {undefined}
  */
-var keyboardcheckvar = false;
 function tick(event) {
     if (mePlayer) {
         //always give event as param, needed for interpolation event.delta
@@ -62,7 +60,6 @@ function Eventcallback(data) {
     if (data === null) {
         return 0;
     }
-    console.log(data);
     data = $.parseJSON(data); //parse
     if (data['id']) { //retrieve unique ID for identification in network
         mePlayer = new Player(); //create Player
@@ -96,15 +93,15 @@ function Eventcallback(data) {
         players[data['3']].remove();
         players[data['3']] = null; //remove
     }
+
     if (data['5']) { //initialize map
         stage.size = data['5']['0']["size"]; //set map size
-        $.each(data['5'], function (i, o) {
-            if (i !== 0) {
-                var b = new Block();
-                b.create(parseFloat(o['x']), parseFloat(o['y']), "black", parseFloat(o['w']), parseFloat(o['h']), stage);
-            }
-        });
-
+        var amount = data['5'].length;
+        for (var i = 1; i < amount; ++i) {
+            var b = new Block();
+            var o = data['5'][i];
+            b.create(parseFloat(o['x']), parseFloat(o['y']), "black", parseFloat(o['w']), parseFloat(o['h']), stage);
+        }
     }
 
 }
