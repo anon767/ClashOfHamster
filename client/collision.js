@@ -108,10 +108,10 @@ var Collision = function () {
         }
         //change: 
         if (nextposx + Player.width > stage.canvas.width + Math.abs(stage.canvas.width - stage.size)) {
-            this.cls("right", Player);
+            this.cls("left", Player);
         }
         if (nextposx - Player.width < 0) {
-            this.cls("left", Player);
+            this.cls("right", Player);
         }
         if (nextposy + Player.height > stage.canvas.height) {
             this.cls("top", Player);
