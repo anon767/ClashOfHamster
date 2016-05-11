@@ -13,15 +13,13 @@ $(document).ready(function () {
 });
 
 var Keyboard = function () {
-    var keys, keydown, keyup,keyupcallback,setkeyupcallback;
+    var keys, keydown, keyup;
     this.keys = [];
-    this.setkeyupcallback = function(callback){
-        this.keyupcallback = callback;
-    };
     this.keydown = function (e) {
-        e.preventDefault();
-        this.keys[e.keyCode] = true;
-        return false;
+        if (e.keyCode === 37 || e.keyCode === 38 || e.keyCode === 39 || e.keyCode === 40) {
+            e.preventDefault();
+            this.keys[e.keyCode] = true;
+        }
     };
     this.keyup = function (e) {
         this.keys[e.keyCode] = false;

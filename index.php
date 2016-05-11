@@ -18,8 +18,10 @@ and open the template in the editor.
             integrity="sha256-aaODHAgvwQW1bFOGXMeX+pC4PZIPsvn2h1sArYOhgXQ="
         crossorigin="anonymous"></script>
         <script src="client/lib/jsend.js"></script>
+        <script src="client/lib/virtualJoystick.js"></script>
         <script src="http://code.createjs.com/easeljs-0.7.0.min.js"></script>
         <script src="client/socket.js"></script>
+        <script src="client/mouse.js"></script>
         <script src="client/keyboard.js"></script>
         <script src="client/player.js"></script>
         <script src="client/block.js"></script>
