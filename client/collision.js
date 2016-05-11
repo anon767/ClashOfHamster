@@ -36,7 +36,7 @@ var Collision = function () {
         var amount = stage.getNumChildren();
         for (var i = 0; i < amount; ++i) { //for instead of foreach 
             var rect = stage.getChildAt(i); //faster than getChild();
-            if (Player.canvasO !== rect) {
+            if (Player.canvasO.id !== rect.id) {
                 if (nextposy + Player.height > rect.y &&
                         nextposx + Player.width > rect.x &&
                         nextposx < rect.x + rect.getBounds().width &&
