@@ -1,8 +1,7 @@
 /* global createjs */
-var stage, timeCircle, socketObject, keyboard, collision;
+var stage, timeCircle, socketObject, keyboard, collision, mePlayer, mouse;
 var up = false, left = false, right = false, down = false;
-var mePlayer;
-var players = [null , null , null , null , null ,null]; //allocate some space for players
+var players = [null, null, null, null, null, null]; //allocate some space for players
 
 /**
  * moves when direction is set
@@ -106,10 +105,22 @@ function Eventcallback(data) {
 
 }
 
+/**
+ * callback from mouse listener, used for shooting
+ * @param {type} evt
+ * @returns {undefined}
+ */
+function mouseEvent(evt) {
+    evt.preventDefault();
+    console.log("stageX/Y: " + evt.stageX + "," + evt.stageY); // always in bounds
+}
+
 $(document).ready(function () {
     //queue = new createjs.LoadQueue(false); dont know what it does but it sucks
     socketObject = new Communication(Eventcallback); //reduce globals, parameterize callbacks
     stage = new createjs.Stage("stage");
+    mouse = new Mouse();
+    mouse.setMouse(stage, mouseEvent);
     stage.innerWidth = window.innerWidth
             || document.documentElement.clientWidth
             || document.body.clientWidth;

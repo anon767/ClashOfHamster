@@ -108,7 +108,6 @@ var Collision = function () {
         if (nextposy - Player.height < 0) {
             this.cls(3, Player); // Inverted collision side is proposital!
         }
-
         if (nextposx + Player.width > stage.canvas.width + Math.abs(stage.canvas.width - stage.size)) {
             this.cls(1, Player);
         }

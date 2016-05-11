@@ -3,10 +3,7 @@
 //player speed is currently 20*velocity, check the collission file
 var Player = function () {
     var canvasO, stage, lastsend;
-    var id, name, health, x, y, velocity, rotation, update, xvel, yvel, width, height, remove,addBoost, resetBoostTimer, boost;
-    var boostTimer;
-    var create;
-    var maxBoost;
+    var maxBoost,boostTimer,create,id, name, health, x, y, velocity, rotation, update, xvel, yvel, width, height, remove,addBoost, resetBoostTimer, boost;
     this.maxBoost = 500;
     this.boostTimer = this.maxBoost;
     this.resetBoostTimer = function () {
