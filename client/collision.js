@@ -16,10 +16,12 @@ var Collision = function () {
             Player.yvel = (Player.yvel < -4) ? Math.round(Player.yvel * -0.5) : 0;
         }
     };
-    this.moveStage = function (x, stage) {
+    this.moveStage = function (x, stage, Player) {
         var xNew = stage.x + x;
-        if (xNew > -stage.size + stage.innerWidth && xNew < 0) {
+        if (Player.x - Player.width > -stage.size + stage.innerWidth && xNew < 0) { //only move stage if its between size
             stage.x = xNew;
+        } else if (xNew > 0) { //if stage.x is above 0 for what reason ever reset it
+            stage.x = 0;
         }
 
     };
@@ -64,7 +66,7 @@ var Collision = function () {
         }
         if (left === true) {
             Player.xvel -= 2;
-            this.moveStage(-1 * event.delta / 1000 * Player.xvel * 18, stage);
+
         } else {
             if (Player.xvel < 0) {
                 Player.xvel++;
@@ -73,7 +75,7 @@ var Collision = function () {
         if (right === true) {
 
             Player.xvel += 2;
-            this.moveStage(-1 * event.delta / 1000 * Player.xvel * 18, stage);
+
         } else {
             if (Player.xvel > 0) {
                 Player.xvel--;
@@ -104,15 +106,17 @@ var Collision = function () {
         if (nextposy - Player.height < 0) { // Collided with TOP of stage. Trust me.
             this.cls("bottom", Player); // Inverted collision side is proposital!
         }
-        if (nextposx - Player.width < 0) {
+        //change: 
+        if (nextposx + Player.width > stage.canvas.width + Math.abs(stage.canvas.width - stage.size)) {
             this.cls("right", Player);
         }
-        if (nextposx + Player.width > stage.canvas.width) {
+        if (nextposx - Player.width < 0) {
             this.cls("left", Player);
         }
         if (nextposy + Player.height > stage.canvas.height) {
             this.cls("top", Player);
         }
+        this.moveStage(-1 * event.delta / 1000 * Player.xvel * 15, stage, Player);
         Player.move(event.delta / 1000 * Player.xvel * 20, event.delta / 1000 * Player.yvel * 20);
 
     };
