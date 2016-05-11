@@ -2,7 +2,7 @@
 
 var Block = function () {
     var x, y, color, width, height;
-    var create, canvasO, stage, remove;
+    var create, canvasO, stage, remove ;
     this.remove = function () { //incase we need to remove it
         this.stage.removeChild(this.canvasO);
     };
@@ -22,8 +22,8 @@ var Block = function () {
         this.canvasO.regY = 0;
         this.canvasO.x = x;
         this.canvasO.y = y;
+        this.canvasO.cache( -height,-width, x, y); //cache this shit, unless its moveable later we dont have to update cache
         stage.addChild(this.canvasO);
-        this.canvasO.cache(-width, -height, x, y); //cache this shit, unless its moveable later we dont have to update cache
     };
 
 };

@@ -40,8 +40,8 @@ function wsOnMessage($clientID, $message, $messageLength, $binary, $Server) {
 function wsOnOpen($clientID) {
     global $Server;
     $map = array("0" => array("size" => 1000),
-        1 => array("x" => "150", "y" => "150", "w" => "50", "h" => "50"),
-        2 => array("x" => "250", "y" => "150", "w" => "50", "h" => "50"),
+        1 => array("x" => "150", "y" => "350", "w" => "150", "h" => "40"),
+        2 => array("x" => "250", "y" => "70", "w" => "50", "h" => "50"),
         3 => array("x" => "450", "y" => "150", "w" => "50", "h" => "50"),
         4 => array("x" => "550", "y" => "150", "w" => "50", "h" => "50"),
         5 => array("x" => "750", "y" => "150", "w" => "50", "h" => "50"));

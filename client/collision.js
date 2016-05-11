@@ -16,14 +16,20 @@ var Collision = function () {
             Player.yvel = (Player.yvel < -4) ? Math.round(Player.yvel * -0.5) : 0;
         }
     };
+    /**
+     * moves "camera" by moving the stage to opposite direction the player walks
+     * @param {type} x
+     * @param {type} stage
+     * @param {type} Player
+     * @returns {undefined}
+     */
     this.moveStage = function (x, stage, Player) {
         var xNew = stage.x + x;
         if (Player.x - Player.width > -stage.size + stage.innerWidth && xNew < 0) { //only move stage if its between size
             stage.x = xNew;
-        } else if (xNew > 0) { //if stage.x is above 0 for what reason ever reset it
+        } else if (xNew > 0) { //if stage.x is above 0 for what reason ever: reset it
             stage.x = 0;
         }
-
     };
     //check collission with every other object
     this.obstacleCollision = function (Player, stage, nextposx, nextposy) {
@@ -42,11 +48,9 @@ var Collision = function () {
                         this.cls("left", Player);
                     }
                     if (Player.x > rect.x + rect.getBounds().width) {
-
                         this.cls("right", Player);
                     }
                     if (Player.y > rect.y + rect.getBounds().height) {
-
                         this.cls("bottom", Player);
                     }
                 }
@@ -54,9 +58,7 @@ var Collision = function () {
         }
     };
 //add velocity and check colliding with ceiling,left,right,and bottom of stage
-    this.move = function (left, right, up, down, Player, stage, event, actionCallBack) {
-
-
+    this.move = function (left, right, up, down, Player, stage, event) {
         if (up === true) {
             Player.yvel -= 2;
         } else {
@@ -103,7 +105,7 @@ var Collision = function () {
             (Player.yvel > 0) ? Player.yvel = this.maxvel : Player.yvel = this.maxvel * -1;
         }
         this.obstacleCollision(Player, stage, nextposx, nextposy);
-        if (nextposy - Player.height < 0) { // Collided with TOP of stage. Trust me.
+        if (nextposy - Player.height < 0) { 
             this.cls("bottom", Player); // Inverted collision side is proposital!
         }
         //change: 
@@ -118,7 +120,6 @@ var Collision = function () {
         }
         this.moveStage(-1 * event.delta / 1000 * Player.xvel * 15, stage, Player);
         Player.move(event.delta / 1000 * Player.xvel * 20, event.delta / 1000 * Player.yvel * 20);
-
     };
 
 };

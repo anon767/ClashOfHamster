@@ -11,9 +11,11 @@ var players = [];
  * @returns {undefined}
  */
 function keyboardCheck(event) {
-    if (keyboard.keys[38]) { // up
+    if (keyboard.keys[38] && mePlayer.boostTimer > 0) { // up
         up = true;
+        mePlayer.boost();
     } else {
+            mePlayer.addBoost();
         up = false;
     }
     if (keyboard.keys[37]) { // left
@@ -32,6 +34,8 @@ function keyboardCheck(event) {
         down = false;
     }
     collision.move(left, right, up, down, mePlayer, stage, event);
+
+
 }
 
 /**
@@ -39,8 +43,10 @@ function keyboardCheck(event) {
  * @param {type} event
  * @returns {undefined}
  */
+var keyboardcheckvar = false;
 function tick(event) {
     if (mePlayer) {
+        //always give event as param, needed for interpolation event.delta
         keyboardCheck(event);
         mePlayer.update(socketObject);
     }
@@ -113,5 +119,5 @@ $(document).ready(function () {
     collision = new Collision();
     createjs.Ticker.on("tick", tick);
     createjs.Ticker.setFPS(75); //smooth performance
-    stage.snapToPixelEnabled = true; //seems like lagging out the game but idk
+    //stage.snapToPixelEnabled = true; //seems like lagging out the game but idk
 });
