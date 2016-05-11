@@ -16,7 +16,7 @@ var Block = function () {
         this.canvasO = new createjs.Shape();
         this.canvasO.graphics.beginStroke(color);
         this.canvasO.graphics.setStrokeStyle(1);
-        this.canvasO.graphics.drawRect(-40, -40, width, height);
+        this.canvasO.graphics.drawRect(0, 0, width, height);
         this.canvasO.setBounds(x, y, width, height);
         this.canvasO.regX = 0;
         this.canvasO.regY = 0;
@@ -25,5 +25,4 @@ var Block = function () {
         stage.addChild(this.canvasO);
         this.canvasO.cache(-width, -height, x, y); //cache this shit, unless its moveable later we dont have to update cache
     };
-
 };

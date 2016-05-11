@@ -41,30 +41,35 @@ var Player = function () {
         this.rotation = rotation;
         this.id = id;
         this.health = health;
-        this.x = x;
-        this.y = y;
         this.width = 40;
         this.height = 40;
         this.velocity = velocity;
         this.canvasO = new createjs.Shape();
         this.canvasO.graphics.beginFill("red").drawCircle(0, 0, 20);
-        this.canvasO.y = this.y;
-        this.canvasO.x = this.x;
+        this.setX(x);
+        this.setY(y);
         this.canvasO.regX = 20;
         this.canvasO.regY = 20;
         this.canvasO.setBounds(x, y, this.width, this.height);
         stage.addChild(this.canvasO);
     };
     this.setCoords = function (x, y) {
-        this.canvasO.x = x;
-        this.canvasO.y = y;
-        this.x = x;
-        this.y = y;
+        this.setX(x);
+        this.setY(y);
     };
     this.move = function (x, y) {
-        this.canvasO.x += x;
-        this.canvasO.y += y;
-        this.x += x;
-        this.y += y;
+        this.setX(this.x + x);
+        this.setY(this.y + y);
+    };
+
+    this.setX = function(x) {
+        this.x = x;
+        // complete fucking BS but required. maybe separate state from rendering
+        this.canvasO.x = x + 40;
+    };
+
+    this.setY = function(y) {
+        this.y = y;
+        this.canvasO.y = y + 40;
     };
 };

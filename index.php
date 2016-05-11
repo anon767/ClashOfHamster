@@ -25,6 +25,7 @@ and open the template in the editor.
         <script src="client/block.js"></script>
         <script src="client/collision.js"></script>
         <script src="client/game.js"></script>
+        <script src="client/util.js"></script>
 
     </body>
 
