@@ -3,16 +3,16 @@ var Collision = function () {
     this.maxvel = 80;
 //when colliding witch obstacle -> bounce to other direction
     this.cls = function (clsdir, Player) {
-        if (clsdir === "top") {
+        if (clsdir === 0) { //top
             Player.yvel = (Player.yvel > 4) ? Math.round(Player.yvel * -0.5) : 0;
         }
-        if (clsdir === "left") {
+        if (clsdir === 1) { //left
             Player.xvel = (Player.xvel > 4) ? Math.round(Player.xvel * -0.5) : 0;
         }
-        if (clsdir === "right") {
+        if (clsdir === 2) { //right
             Player.xvel = (Player.xvel < -4) ? Math.round(Player.xvel * -0.5) : 0;
         }
-        if (clsdir === "bottom") {
+        if (clsdir === 3) { //bottom
             Player.yvel = (Player.yvel < -4) ? Math.round(Player.yvel * -0.5) : 0;
         }
     };
@@ -33,7 +33,7 @@ var Collision = function () {
     };
     //check collission with every other object
     this.obstacleCollision = function (Player, stage, nextposx, nextposy) {
-        var amount = stage.getNumChildren() ;
+        var amount = stage.getNumChildren();
         for (var i = 0; i < amount; ++i) { //for instead of foreach 
             var rect = stage.getChildAt(i); //faster than getChild();
             if (Player.canvasO !== rect) {
@@ -42,16 +42,16 @@ var Collision = function () {
                         nextposx < rect.x + rect.getBounds().width &&
                         nextposy < rect.y + rect.getBounds().height) {
                     if (Player.y + Player.height < rect.y) {
-                        this.cls("top", Player);
+                        this.cls(0, Player);
                     }
                     if (Player.x + Player.width < rect.x) {
-                        this.cls("left", Player);
+                        this.cls(1, Player);
                     }
                     if (Player.x > rect.x + rect.getBounds().width) {
-                        this.cls("right", Player);
+                        this.cls(2, Player);
                     }
                     if (Player.y > rect.y + rect.getBounds().height) {
-                        this.cls("bottom", Player);
+                        this.cls(3, Player);
                     }
                 }
             }
@@ -106,17 +106,17 @@ var Collision = function () {
         }
         this.obstacleCollision(Player, stage, nextposx, nextposy);
         if (nextposy - Player.height < 0) {
-            this.cls("bottom", Player); // Inverted collision side is proposital!
+            this.cls(3, Player); // Inverted collision side is proposital!
         }
 
         if (nextposx + Player.width > stage.canvas.width + Math.abs(stage.canvas.width - stage.size)) {
-            this.cls("left", Player);
+            this.cls(1, Player);
         }
         if (nextposx - Player.width < 0) {
-            this.cls("right", Player);
+            this.cls(2, Player);
         }
         if (nextposy + Player.height > stage.canvas.height) {
-            this.cls("top", Player);
+            this.cls(0, Player);
         }
         this.moveStage(-1 * event.delta / 1000 * Player.xvel * 15, stage, Player);
         Player.move(event.delta / 1000 * Player.xvel * 20, event.delta / 1000 * Player.yvel * 20);
