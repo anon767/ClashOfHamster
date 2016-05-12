@@ -37,7 +37,7 @@ var Collision = function () {
         for (var i = 0; i < amount; ++i) { //for instead of foreach 
             var rect = stage.getChildAt(i); //faster than getChild();
             if (Player.canvasO.id !== rect.id) {
-                if(this.hitTest({ x: nextposx, y: nextposy }, Player, rect)) {
+                if( this.hitTest({ x: nextposx, y: nextposy }, Player, rect)) {
                     Player.yvel = (Math.abs(Player.yvel) > 4) ? Math.round(Player.yvel * -0.5) : 0;
                     Player.xvel = (Math.abs(Player.xvel) > 4) ? Math.round(Player.xvel * -0.5) : 0;
                 }

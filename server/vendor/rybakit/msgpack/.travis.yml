@@ -1,0 +1,32 @@
+sudo: required
+
+language: bash
+
+services:
+  - docker
+
+env:
+  - PHP_RUNTIME='php:5.4-cli'
+  - PHP_RUNTIME='php:5.5-cli'
+  - PHP_RUNTIME='php:5.6-cli' PHPUNIT_OPTS='--coverage-clover=coverage.clover'
+  - PHP_RUNTIME='php:7.0-cli'
+  - PHP_RUNTIME='diegomarangoni/hhvm:cli'
+
+before_install:
+  # https://github.com/travis-ci/travis-ci/issues/4778
+  # https://github.com/zuazo/kitchen-in-travis-native/issues/1#issuecomment-142230889
+  - sudo iptables -L DOCKER || (echo "DOCKER iptables chain missing"; sudo iptables -N DOCKER)
+
+install:
+  - ./dockerfile.sh | docker build -t msgpack -
+
+script:
+  - docker run --rm --name msgpack -v $(pwd):/msgpack -w /msgpack -e PHPUNIT_OPTS="$PHPUNIT_OPTS" msgpack
+
+after_script:
+  - docker run --rm --name msgpack -v $(pwd):/msgpack -w /msgpack msgpack bash -c "
+      if [[ -f coverage.clover ]]; then
+        curl -sSOL https://scrutinizer-ci.com/ocular.phar &&
+        php ocular.phar code-coverage:upload --format=php-clover coverage.clover;
+      fi
+    "
