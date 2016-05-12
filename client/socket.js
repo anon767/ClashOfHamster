@@ -20,7 +20,7 @@ function Communication(Eventcallback) {
 
     };
     this.socket.onmessage = function (s) {
-        Eventcallback(s['data']);
+        Eventcallback(s.data);
     };
     this.send = function (data) {
         if (this.compression) {

@@ -37,7 +37,7 @@ var Collision = function () {
         for (var i = 0; i < amount; ++i) { //for instead of foreach 
             var rect = stage.getChildAt(i); //faster than getChild();
             if (Player.canvasO.id !== rect.id) {
-                if( this.hitTest({ x: nextposx, y: nextposy }, Player, rect)) {
+                if (this.hitTest({x: nextposx, y: nextposy}, Player, rect)) {
                     Player.yvel = (Math.abs(Player.yvel) > 4) ? Math.round(Player.yvel * -0.5) : 0;
                     Player.xvel = (Math.abs(Player.xvel) > 4) ? Math.round(Player.xvel * -0.5) : 0;
                 }
@@ -45,23 +45,23 @@ var Collision = function () {
         }
     };
 
-    this.hitTest = function(nextpos, player, displayObject) {
+    this.hitTest = function (nextpos, player, displayObject) {
         var nextCoords = [
-            { x: nextpos.x, y: nextpos.y },
-            { x: nextpos.x + player.width, y: nextpos.y },
-            { x: nextpos.x + player.width, y: nextpos.y + player.height },
-            { x: nextpos.x,  y: nextpos.y + player.height }
+            {x: nextpos.x, y: nextpos.y},
+            {x: nextpos.x + player.width, y: nextpos.y},
+            {x: nextpos.x + player.width, y: nextpos.y + player.height},
+            {x: nextpos.x, y: nextpos.y + player.height}
         ];
         var bounds = displayObject.getBounds();
         // x, y, regx and regy are all set to 0 for rects, so we rotate around the upper left corner (== point 1)
         var rotated = [
-            rotateClockwise({ x: 0, y: 0 }, displayObject.rotation),
-            rotateClockwise({ x: bounds.width, y: 0}, displayObject.rotation),
-            rotateClockwise({ x: bounds.width, y: bounds.height }, displayObject.rotation),
-            rotateClockwise({ x: 0, y: bounds.height }, displayObject.rotation)
+            rotateClockwise({x: 0, y: 0}, displayObject.rotation),
+            rotateClockwise({x: bounds.width, y: 0}, displayObject.rotation),
+            rotateClockwise({x: bounds.width, y: bounds.height}, displayObject.rotation),
+            rotateClockwise({x: 0, y: bounds.height}, displayObject.rotation)
         ];
-        var objectCoords = rotated.map(function(rota) {
-            return { x: rota.x + displayObject.x, y: rota.y + displayObject.y }
+        var objectCoords = rotated.map(function (rota) {
+            return {x: rota.x + displayObject.x, y: rota.y + displayObject.y}
         });
         return intersectRect(nextCoords, objectCoords);
     };
