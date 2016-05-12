@@ -1,7 +1,7 @@
 /* global createjs */
 var stage, timeCircle, socketObject, keyboard, collision, mePlayer, mouse;
-var up = false, left = false, right = false, down = false;
-var players = [null, null, null, null, null, null]; //allocate some space for players
+var up = false, left = false, right = false, down = false, jump = false;
+var players = []; //allocate some space for players
 
 /**
  * moves when direction is set
@@ -13,8 +13,8 @@ function keyboardCheck(event) {
         up = true;
         mePlayer.boost();
     } else {
-        mePlayer.addBoost();
         up = false;
+        mePlayer.addBoost();
     }
     if (keyboard.keys[37]) { // left
         left = true;
@@ -31,7 +31,13 @@ function keyboardCheck(event) {
     } else {
         down = false;
     }
-    collision.move(left, right, up, down, mePlayer, stage, event);
+    if (keyboard.keys[32] && mePlayer.jumpCounter <= 1) { //space for Jump
+        jump = true;
+        mePlayer.jump();
+    } else {
+        jump = false;
+    }
+    collision.move(left, right, up, down, mePlayer, stage, event, jump);
 
 
 }
@@ -59,21 +65,21 @@ function Eventcallback(data) {
     if (data === null) {
         return 0;
     }
+     
     data = $.parseJSON(data); //parse
     if (data['id']) { //retrieve unique ID for identification in network
-        mePlayer = new Player(); //create Player
-        mePlayer.create(stage, "tom", 100, 100, 100, 200, 0, 0, 0, data['id']);
+        mePlayer = new Player().create(stage, "tom", 100, 100, 100, 200, 0, 0, data['id']); //create Player
         mePlayer.initSend(socketObject);
     }
     if (data['0']) { //retrieved initial send (onjoin)
         if (players[data['0']['id']]) { //if there already was a bootstrap attempt for the player
-            players[data['0']['id']].remove();
+            players[data['0']['id']].remove(stage);
             players[data['0']['id']] = null; //remove
         }
+      
         var joinedPlayer = new Player(); //create a new player
-        joinedPlayer.create(stage, data[0]['name'], data['0']['health'], data['0']['x'],
-                data['0']['y'], 0, data['0']['rotation']);
-        players[data['0']['id']] = joinedPlayer;
+        players[data['0']['id']] = joinedPlayer.create(stage, data[0]['name'], data['0']['health'], data['0']['x'],
+                data['0']['y'], data['0']['rotation'], 0, 0, data['0']['id']);
     }
     if (data['1']) { //update player
         if (players[data['1']['id']]) {
@@ -89,7 +95,7 @@ function Eventcallback(data) {
         mePlayer.initSend(socketObject);
     }
     if (data['3']) { //player dead
-        players[data['3']].remove();
+        players[data['3']].remove(stage);
         players[data['3']] = null; //remove
     }
 
@@ -127,5 +133,5 @@ $(document).ready(function () {
     collision = new Collision();
     createjs.Ticker.on("tick", tick);
     createjs.Ticker.setFPS(75); //smooth performance
-    //stage.snapToPixelEnabled = true; //seems like lagging out the game but idk
+    stage.snapToPixelEnabled = true; //seems like lagging out the game but idk
 });

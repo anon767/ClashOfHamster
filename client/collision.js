@@ -36,21 +36,21 @@ var Collision = function () {
         var amount = stage.getNumChildren();
         for (var i = 0; i < amount; ++i) { //for instead of foreach 
             var rect = stage.getChildAt(i); //faster than getChild();
-            if (Player.canvasO.id !== rect.id) {
+            if (Player.id !== rect.id) {
                 if (nextposy + Player.height > rect.y &&
                         nextposx + Player.width > rect.x &&
-                        nextposx < rect.x + rect.getBounds().width &&
-                        nextposy < rect.y + rect.getBounds().height) {
+                        nextposx < rect.x + rect.width &&
+                        nextposy < rect.y + rect.height) {
                     if (Player.y + Player.height < rect.y) {
                         this.cls(0, Player);
                     }
                     if (Player.x + Player.width < rect.x) {
                         this.cls(1, Player);
                     }
-                    if (Player.x > rect.x + rect.getBounds().width) {
+                    if (Player.x > rect.x + rect.width) {
                         this.cls(2, Player);
                     }
-                    if (Player.y > rect.y + rect.getBounds().height) {
+                    if (Player.y > rect.y + rect.height) {
                         this.cls(3, Player);
                     }
                 }
@@ -58,8 +58,10 @@ var Collision = function () {
         }
     };
 //add velocity and check colliding with ceiling,left,right,and bottom of stage
-    this.move = function (left, right, up, down, Player, stage, event) {
+    this.move = function (left, right, up, down, Player, stage, event, jump) {
+
         if (up === true) {
+ 
             Player.yvel -= 2;
         } else {
             if (Player.yvel < 0) {
@@ -90,6 +92,10 @@ var Collision = function () {
                 Player.yvel--;
             }
         }
+        if (jump === true) {
+            Player.yvel -= 15;
+        }
+
         //gravity
         if (Player.y < stage.canvas.height) {
             Player.yvel += 1.5;
@@ -107,6 +113,7 @@ var Collision = function () {
         this.obstacleCollision(Player, stage, nextposx, nextposy);
         if (nextposy - Player.height < 0) {
             this.cls(3, Player); // Inverted collision side is proposital!
+
         }
         if (nextposx + Player.width > stage.canvas.width + Math.abs(stage.canvas.width - stage.size)) {
             this.cls(1, Player);
@@ -116,6 +123,9 @@ var Collision = function () {
         }
         if (nextposy + Player.height > stage.canvas.height) {
             this.cls(0, Player);
+        }
+        if (Player.yvel === 0) {
+            Player.resetJumpCounter();
         }
         this.moveStage(-1 * event.delta / 1000 * Player.xvel * 15, stage, Player);
         Player.move(event.delta / 1000 * Player.xvel * 20, event.delta / 1000 * Player.yvel * 20);
