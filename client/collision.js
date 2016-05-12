@@ -1,3 +1,5 @@
+
+
 var Collision = function () {
     var move, cls, obstacleCollision, maxvel, moveStage; // Maximum velocity
     this.maxvel = 80;
@@ -31,7 +33,7 @@ var Collision = function () {
             stage.x = 0;
         }
     };
-    //check collission with every other object
+    //check collision with every other object
     this.obstacleCollision = function (Player, stage, nextposx, nextposy) {
         var amount = stage.getNumChildren();
         for (var i = 0; i < amount; ++i) { //for instead of foreach 
@@ -57,6 +59,9 @@ var Collision = function () {
             }
         }
     };
+    
+    
+    
 //add velocity and check colliding with ceiling,left,right,and bottom of stage
     this.move = function (left, right, up, down, Player, stage, event, jump) {
 
@@ -113,7 +118,6 @@ var Collision = function () {
         this.obstacleCollision(Player, stage, nextposx, nextposy);
         if (nextposy - Player.height < 0) {
             this.cls(3, Player); // Inverted collision side is proposital!
-
         }
         if (nextposx + Player.width > stage.canvas.width + Math.abs(stage.canvas.width - stage.size)) {
             this.cls(1, Player);
@@ -128,7 +132,9 @@ var Collision = function () {
             Player.resetJumpCounter();
         }
         this.moveStage(-1 * event.delta / 1000 * Player.xvel * 15, stage, Player);
-        Player.move(event.delta / 1000 * Player.xvel * 20, event.delta / 1000 * Player.yvel * 20);
+        Player.x += (event.delta / 1000 * Player.xvel * 20);
+        Player.y += (event.delta / 1000 * Player.yvel * 20);
     };
 
 };
+

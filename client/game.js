@@ -1,7 +1,8 @@
 /* global createjs */
 var stage, timeCircle, socketObject, keyboard, collision, mePlayer, mouse;
 var up = false, left = false, right = false, down = false, jump = false;
-var players = []; //allocate some space for players
+var players = [null, null, null, null, null, null]; //allocate some space for players
+
 
 /**
  * moves when direction is set
@@ -31,6 +32,7 @@ function keyboardCheck(event) {
     } else {
         down = false;
     }
+
     if (keyboard.keys[32] && mePlayer.jumpCounter <= 1) { //space for Jump
         jump = true;
         mePlayer.jump();
@@ -38,6 +40,7 @@ function keyboardCheck(event) {
         jump = false;
     }
     collision.move(left, right, up, down, mePlayer, stage, event, jump);
+
 
 
 }
@@ -68,7 +71,9 @@ function Eventcallback(data) {
      
     data = $.parseJSON(data); //parse
     if (data['id']) { //retrieve unique ID for identification in network
+
         mePlayer = new Player().create(stage, "tom", 100, 100, 100, 200, 0, 0, data['id']); //create Player
+
         mePlayer.initSend(socketObject);
     }
     if (data['0']) { //retrieved initial send (onjoin)
@@ -76,15 +81,17 @@ function Eventcallback(data) {
             players[data['0']['id']].remove(stage);
             players[data['0']['id']] = null; //remove
         }
-      
+ 
         var joinedPlayer = new Player(); //create a new player
         players[data['0']['id']] = joinedPlayer.create(stage, data[0]['name'], data['0']['health'], data['0']['x'],
                 data['0']['y'], data['0']['rotation'], 0, 0, data['0']['id']);
+
     }
     if (data['1']) { //update player
         if (players[data['1']['id']]) {
             if (Math.abs(data['1']['x'] - players[data['1']['id']].x) < 100 && Math.abs(data['1']['y'] - players[data['1']['id']].y) < 100) {
-                players[data['1']['id']].setCoords(data['1']['x'], data['1']['y']);
+                players[data['1']['id']].x = data['1']['x'];
+                players[data['1']['id']].y = data['1']['y'];
                 players[data['1']['id']].health = data['1']['health'];
             }
         } else {

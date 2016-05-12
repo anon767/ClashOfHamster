@@ -20,5 +20,4 @@ var Block = function () {
         stage.addChild(this.canvasO);
         return this.canvasO;
     };
-
 };
