@@ -3,7 +3,7 @@
 //player speed is currently 20*velocity, check the collission file
 var Player = function () {
     var canvasO, stage, lastsend;
-    var maxBoost,boostTimer,create,id, name, health, x, y, velocity, rotation, update, xvel, yvel, width, height, remove,addBoost, resetBoostTimer, boost;
+    var maxBoost, boostTimer, create, id, name, health, x, y, velocity, rotation, update, xvel, yvel, width, height, remove, addBoost, resetBoostTimer, boost;
     this.maxBoost = 500;
     this.boostTimer = this.maxBoost;
     this.resetBoostTimer = function () {
@@ -74,14 +74,16 @@ var Player = function () {
         this.setY(this.y + y);
     };
 
-    this.setX = function(x) {
+    this.setX = function (x) {
         this.x = x;
         // complete fucking BS but required. maybe separate state from rendering
-        this.canvasO.x = x + 40;
+        this.canvasO.x = x ;
+        this.canvasO.setBounds(this.canvasO.x, this.canvasO.y, this.width, this.height);
     };
 
-    this.setY = function(y) {
+    this.setY = function (y) {
         this.y = y;
-        this.canvasO.y = y + 40;
+        this.canvasO.y = y ;
+        this.canvasO.setBounds(this.canvasO.x, this.canvasO.y, this.width, this.height);
     };
 };
