@@ -1,6 +1,6 @@
 /* global createjs */
 var stage, timeCircle, socketObject, keyboard, collision, mePlayer, mouse;
-var up = false, left = false, right = false, down = false;
+var up = false, left = false, right = false, down = false, jump = false;
 var players = [null, null, null, null, null, null]; //allocate some space for players
 
 /**
@@ -31,7 +31,13 @@ function keyboardCheck(event) {
     } else {
         down = false;
     }
-    collision.move(left, right, up, down, mePlayer, stage, event);
+    if (keyboard.keys[32] && mePlayer.jumpCounter <= 2) { //space for Jump
+        jump = true;
+        mePlayer.jump();
+    } else {
+        jump = false;
+    }
+    collision.move(left, right, up, down, jump, mePlayer, stage, event, mePlayer.resetJumpCounter());
 
 
 }

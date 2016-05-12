@@ -13,6 +13,7 @@ var Player = function (stage, name, health, x, y, rotation, xvel, yvel, id) {
     this.socketId = id;
     this.maxBoost = 500;
     this.boostTimer = this.maxBoost;
+    this.jumpCounter = 0;
     this.rotation = rotation;
     this.regX = 20;
     this.regY = 20;
@@ -37,6 +38,15 @@ Player.prototype.addBoost = function () {
 Player.prototype.boost = function () {
     this.boostTimer -= 5;
 };
+Player.prototype.jump = function() {
+  this.jumpCounter += 1;  
+};
+Player.prototype.resetJumpCounter = function () {
+ if(this.jumpCounter > 2){
+     this.jumpCounter = 0;
+ }
+};
+
 Player.prototype.remove = function () {
     this.stage.removeChild(this);
 };
