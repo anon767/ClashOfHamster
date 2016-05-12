@@ -72,7 +72,7 @@ var Player = function () {
         this.canvasO.health = health;
         this.canvasO.name = name;
         this.canvasO.rotation = rotation;
-        this.canvasO.graphics.beginFill("red").drawCircle(-6, 6, 20);
+        this.canvasO.graphics.beginFill("red").drawCircle(-6, 8, 20);
         this.canvasO.y = y;
         this.canvasO.x = x;
         this.canvasO.regX = 20;
