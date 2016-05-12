@@ -1,3 +1,5 @@
+
+
 var Collision = function () {
     var move, cls, obstacleCollision, maxvel, moveStage; // Maximum velocity
     this.maxvel = 80;
@@ -36,36 +38,27 @@ var Collision = function () {
         var amount = stage.getNumChildren();
         for (var i = 0; i < amount; ++i) { //for instead of foreach 
             var rect = stage.getChildAt(i); //faster than getChild();
-            if (Player.canvasO.id !== rect.id) {
-                if (this.hitTest({x: nextposx, y: nextposy}, Player, rect)) {
-                    Player.yvel = (Math.abs(Player.yvel) > 4) ? Math.round(Player.yvel * -0.5) : 0;
-                    Player.xvel = (Math.abs(Player.xvel) > 4) ? Math.round(Player.xvel * -0.5) : 0;
+            if (Player.id !== rect.id) {
+                if (nextposy + Player.height > rect.y &&
+                        nextposx + Player.width > rect.x &&
+                        nextposx < rect.x + rect.getBounds().width &&
+                        nextposy < rect.y + rect.getBounds().height) {
+                    if (Player.y + Player.height  < rect.y) {
+                        this.cls(0, Player);
+                    }
+                    if (Player.x + Player.width < rect.x) {
+                        this.cls(1, Player);
+                    }
+                    if (Player.x > rect.x + rect.getBounds().width) {
+                        this.cls(2, Player);
+                    }
+                    if (Player.y > rect.y + rect.getBounds().height) {
+                        this.cls(3, Player);
+                    }
                 }
             }
         }
     };
-
-    this.hitTest = function (nextpos, player, displayObject) {
-        var nextCoords = [
-            {x: nextpos.x, y: nextpos.y},
-            {x: nextpos.x + player.width, y: nextpos.y},
-            {x: nextpos.x + player.width, y: nextpos.y + player.height},
-            {x: nextpos.x, y: nextpos.y + player.height}
-        ];
-        var bounds = displayObject.getBounds();
-        // x, y, regx and regy are all set to 0 for rects, so we rotate around the upper left corner (== point 1)
-        var rotated = [
-            rotateClockwise({x: 0, y: 0}, displayObject.rotation),
-            rotateClockwise({x: bounds.width, y: 0}, displayObject.rotation),
-            rotateClockwise({x: bounds.width, y: bounds.height}, displayObject.rotation),
-            rotateClockwise({x: 0, y: bounds.height}, displayObject.rotation)
-        ];
-        var objectCoords = rotated.map(function (rota) {
-            return {x: rota.x + displayObject.x, y: rota.y + displayObject.y}
-        });
-        return intersectRect(nextCoords, objectCoords);
-    };
-
 //add velocity and check colliding with ceiling,left,right,and bottom of stage
     this.move = function (left, right, up, down, Player, stage, event) {
         if (up === true) {
@@ -127,7 +120,9 @@ var Collision = function () {
             this.cls(0, Player);
         }
         this.moveStage(-1 * event.delta / 1000 * Player.xvel * 15, stage, Player);
-        Player.move(event.delta / 1000 * Player.xvel * 20, event.delta / 1000 * Player.yvel * 20);
+        Player.x += (event.delta / 1000 * Player.xvel * 20);
+        Player.y += (event.delta / 1000 * Player.yvel * 20);
     };
 
 };
+

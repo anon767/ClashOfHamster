@@ -61,8 +61,7 @@ function Eventcallback(data) {
     }
     data = $.parseJSON(data); //parse
     if (data['id']) { //retrieve unique ID for identification in network
-        mePlayer = new Player(); //create Player
-        mePlayer.create(stage, "tom", 100, 100, 100, 200, 0, 0, 0, data['id']);
+        mePlayer = new Player(stage, "tom", 100, 100, 100, 200, 0, 0, data['id']); //create Player
         mePlayer.initSend(socketObject);
     }
     if (data['0']) { //retrieved initial send (onjoin)
@@ -70,15 +69,15 @@ function Eventcallback(data) {
             players[data['0']['id']].remove();
             players[data['0']['id']] = null; //remove
         }
-        var joinedPlayer = new Player(); //create a new player
-        joinedPlayer.create(stage, data[0]['name'], data['0']['health'], data['0']['x'],
-                data['0']['y'], 0, data['0']['rotation']);
+        var joinedPlayer = new Player(stage, data[0]['name'], data['0']['health'], data['0']['x'],
+                data['0']['y'], data['0']['rotation'], data['0']['id']); //create a new player
         players[data['0']['id']] = joinedPlayer;
     }
     if (data['1']) { //update player
         if (players[data['1']['id']]) {
             if (Math.abs(data['1']['x'] - players[data['1']['id']].x) < 100 && Math.abs(data['1']['y'] - players[data['1']['id']].y) < 100) {
-                players[data['1']['id']].setCoords(data['1']['x'], data['1']['y']);
+                players[data['1']['id']].x = data['1']['x'];
+                players[data['1']['id']].y = data['1']['y'];
                 players[data['1']['id']].health = data['1']['health'];
             }
         } else {
@@ -127,5 +126,5 @@ $(document).ready(function () {
     collision = new Collision();
     createjs.Ticker.on("tick", tick);
     createjs.Ticker.setFPS(75); //smooth performance
-    //stage.snapToPixelEnabled = true; //seems like lagging out the game but idk
+    stage.snapToPixelEnabled = true; //seems like lagging out the game but idk
 });
