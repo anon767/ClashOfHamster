@@ -131,15 +131,12 @@ function mouseEvent(evt) {
 $(document).ready(function () {
     //queue = new createjs.LoadQueue(false); dont know what it does but it sucks
     socketObject = new Communication(Eventcallback); //reduce globals, parameterize callbacks
-    stage = new createjs.Stage("stage");
+    stage = new Stage();
+    window.addEventListener('resize', stage.resizeCanvas, false);
     mouse = new Mouse();
     mouse.setMouse(stage, mouseEvent);
-    stage.innerWidth = window.innerWidth
-            || document.documentElement.clientWidth
-            || document.body.clientWidth;
-    stage.mouseEnabled = false;
     collision = new Collision();
     createjs.Ticker.on("tick", tick);
     createjs.Ticker.setFPS(75); //smooth performance
-    stage.snapToPixelEnabled = true; //seems like lagging out the game but idk
+
 });

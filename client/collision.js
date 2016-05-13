@@ -25,9 +25,9 @@ var Collision = function () {
      * @param {type} Player
      * @returns {undefined}
      */
-    this.moveStage = function (x, stage, Player) {
+    this.moveStage = function (x, stage, nextx) {
         var xNew = stage.x + x;
-        if (Player.x - Player.width > -stage.size + stage.innerWidth && xNew < 0) { //only move stage if its between size
+        if (nextx > (stage.size - stage.innerWidth) && xNew < 0) { //only move stage if its between size
             stage.x = xNew;
         } else if (xNew > 0) { //if stage.x is above 0 for what reason ever: reset it
             stage.x = 0;
@@ -125,7 +125,7 @@ var Collision = function () {
         if (nextposy - Player.height < 0) {
             this.cls(3, Player); // Inverted collision side is proposital!
         }
-        if (nextposx + Player.width > stage.canvas.width + Math.abs(stage.canvas.width - stage.size)) {
+        if (nextposx + Player.width > stage.size ) {
             this.cls(1, Player);
         }
         if (nextposx - Player.width < 0) {
@@ -138,7 +138,7 @@ var Collision = function () {
         if (Player.yvel === 0) {
             Player.resetJumpCounter();
         }
-        this.moveStage(-1 * event.delta / 1000 * Player.xvel * 15, stage, Player);
+        this.moveStage(-1 * event.delta / 1000 * Player.xvel * 15, stage, nextposx - Player.width);
         Player.x += (event.delta / 1000 * Player.xvel * 20);
         Player.y += (event.delta / 1000 * Player.yvel * 20);
     };
