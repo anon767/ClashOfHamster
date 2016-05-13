@@ -1,7 +1,7 @@
 
 
 var Collision = function () {
-    var move, cls, obstacleCollision, maxvel, moveStage; // Maximum velocity
+    var move, cls, obstacleCollision, maxvel, moveStage, collide // Maximum velocity
     this.maxvel = 80;
 //when colliding witch obstacle -> bounce to other direction
     this.cls = function (clsdir, Player) {
@@ -33,40 +33,43 @@ var Collision = function () {
             stage.x = 0;
         }
     };
+    this.collide = function (objecta, nextposx, nextposy, objectb) {
+        if (nextposy + objecta.height > objectb.y &&
+                nextposx + objecta.width > objectb.x &&
+                nextposx < objectb.x + objectb.width &&
+                nextposy < objectb.y + objectb.height) {
+            if (objecta.y + objecta.height < objectb.y) {
+                this.cls(0, objecta);
+            }
+            if (objecta.x + objecta.width < objectb.x) {
+                this.cls(1, objecta);
+            }
+            if (objecta.x > objectb.x + objectb.width) {
+                this.cls(2, objecta);
+            }
+            if (objecta.y > objectb.y + objectb.height) {
+                this.cls(3, objecta);
+            }
+        }
+    };
     //check collision with every other object
     this.obstacleCollision = function (Player, stage, nextposx, nextposy) {
         var amount = stage.getNumChildren();
         for (var i = 0; i < amount; ++i) { //for instead of foreach 
             var rect = stage.getChildAt(i); //faster than getChild();
             if (Player.id !== rect.id) {
-                if (nextposy + Player.height > rect.y &&
-                        nextposx + Player.width > rect.x &&
-                        nextposx < rect.x + rect.width &&
-                        nextposy < rect.y + rect.height) {
-                    if (Player.y + Player.height < rect.y) {
-                        this.cls(0, Player);
-                    }
-                    if (Player.x + Player.width < rect.x) {
-                        this.cls(1, Player);
-                    }
-                    if (Player.x > rect.x + rect.width) {
-                        this.cls(2, Player);
-                    }
-                    if (Player.y > rect.y + rect.height) {
-                        this.cls(3, Player);
-                    }
-                }
+                this.collide(Player, nextposx, nextposy, rect);
             }
         }
     };
-    
-    
-    
+
+
+
 //add velocity and check colliding with ceiling,left,right,and bottom of stage
     this.move = function (left, right, up, down, Player, stage, event, jump) {
 
         if (up === true) {
- 
+
             Player.yvel -= 2;
         } else {
             if (Player.yvel < 0) {
