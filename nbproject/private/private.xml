@@ -3,9 +3,13 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/xampp/htdocs/gameproject/client/player.js</file>
-            <file>file:/C:/xampp/htdocs/gameproject/client/block.js</file>
-            <file>file:/C:/xampp/htdocs/gameproject/client/game.js</file>
+            <file>file:/C:/xampp/htdocs/jsgameproject/client/game.js</file>
+            <file>file:/C:/xampp/htdocs/jsgameproject/client/block.js</file>
+            <file>file:/C:/xampp/htdocs/jsgameproject/index.php</file>
+            <file>file:/C:/xampp/htdocs/jsgameproject/client/keyboard.js</file>
+            <file>file:/C:/xampp/htdocs/jsgameproject/client/collision.js</file>
+            <file>file:/C:/xampp/htdocs/jsgameproject/client/player.js</file>
+            <file>file:/C:/xampp/htdocs/jsgameproject/.git/config</file>
         </group>
     </open-files>
 </project-private>

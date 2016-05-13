@@ -105,8 +105,10 @@ var Collision = function () {
         }
 
         //gravity
-        if (Player.y < stage.canvas.height) {
-            Player.yvel += 1.5;
+        if ((Player.y < stage.canvas.height || Player.yvel !== 0) && !up) {
+
+            Player.yvel +=  1.5 ;
+          
         }
         var nextposx = Player.x + event.delta / 1000 * Player.xvel * 20;
         var nextposy = Player.y + event.delta / 1000 * Player.yvel * 20;
