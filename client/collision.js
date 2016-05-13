@@ -98,7 +98,7 @@ var Collision = function () {
             }
         }
         if (jump === true) {
-            Player.yvel -= 15;
+            Player.yvel -= 20;
         }
 
         //gravity
