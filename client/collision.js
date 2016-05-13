@@ -39,6 +39,7 @@ var Collision = function () {
                 nextposx < objectb.x + objectb.width &&
                 nextposy < objectb.y + objectb.height) {
             if (objecta.y + objecta.height < objectb.y) {
+                objecta.gravityCounter = Math.round(objecta.gravityCounter / 2);
                 this.cls(0, objecta);
             }
             if (objecta.x + objecta.width < objectb.x) {
@@ -106,7 +107,6 @@ var Collision = function () {
 
         //gravity
         if ((Player.y < stage.canvas.height || Player.yvel !== 0) && !up) {
-
             Player.yvel += 2.5 * Player.gravityCounter * event.delta / 1000;
             Player.gravityCounter += 2;
 
