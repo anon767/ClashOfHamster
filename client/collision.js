@@ -70,7 +70,7 @@ var Collision = function () {
 
         if (up === true) {
 
-            Player.yvel -= 2;
+            Player.yvel -= 1.25;
         } else {
             if (Player.yvel < 0) {
                 Player.yvel++;
@@ -107,8 +107,9 @@ var Collision = function () {
         //gravity
         if ((Player.y < stage.canvas.height || Player.yvel !== 0) && !up) {
 
-            Player.yvel +=  1.5 ;
-          
+            Player.yvel += 2.5 * Player.gravityCounter * event.delta / 1000;
+            Player.gravityCounter += 2;
+
         }
         var nextposx = Player.x + event.delta / 1000 * Player.xvel * 20;
         var nextposy = Player.y + event.delta / 1000 * Player.yvel * 20;
@@ -131,6 +132,7 @@ var Collision = function () {
             this.cls(2, Player);
         }
         if (nextposy + Player.height > stage.canvas.height) {
+            Player.gravityCounter = Math.round(Player.gravityCounter / 2);
             this.cls(0, Player);
         }
         if (Player.yvel === 0) {

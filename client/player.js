@@ -9,6 +9,7 @@ var Player = function () {
         this.canvasO = new createjs.Shape();
         this.canvasO.maxBoost = 500;
         this.canvasO.stage = stage;
+        this.canvasO.gravityCounter = 1;
         this.canvasO.boostTimer = 500;
         this.canvasO.jumpCounter = 0;
         this.canvasO.mouseEnabled = false;
