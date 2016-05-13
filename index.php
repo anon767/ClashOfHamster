@@ -17,12 +17,12 @@ and open the template in the editor.
         <script src="client/stage.js"></script>
         
         <script
-            src="https://code.jquery.com/jquery-1.12.3.min.js"
+            src="//code.jquery.com/jquery-1.12.3.min.js"
             integrity="sha256-aaODHAgvwQW1bFOGXMeX+pC4PZIPsvn2h1sArYOhgXQ="
         crossorigin="anonymous"></script>
         <script src="client/lib/jsend.js"></script>
         <script src="client/lib/virtualJoystick.js"></script>
-        <script src="http://code.createjs.com/easeljs-0.7.0.min.js"></script>
+        <script src="//code.createjs.com/easeljs-0.7.0.min.js"></script>
         <script src="client/socket.js"></script>
         <script src="client/mouse.js"></script>
         <script src="client/keyboard.js"></script>
