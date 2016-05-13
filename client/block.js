@@ -1,5 +1,6 @@
 /* global createjs */
 
+//Block class is actually abstract modify the canvasO object!
 var Block = function () {
     var create, canvasO;
     this.create = function (x, y, color, width, height, stage) {
@@ -11,6 +12,7 @@ var Block = function () {
         this.canvasO.regX = 0;
         this.canvasO.regY = 0;
         this.canvasO.x = x;
+        this.canvasO.mouseEnabled = false;
         this.canvasO.width = width;
         this.canvasO.height = height;
         this.canvasO.color = color;

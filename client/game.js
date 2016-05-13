@@ -68,7 +68,7 @@ function Eventcallback(data) {
     if (data === null) {
         return 0;
     }
-     
+
     data = $.parseJSON(data); //parse
     if (data['id']) { //retrieve unique ID for identification in network
 
@@ -81,7 +81,7 @@ function Eventcallback(data) {
             players[data['0']['id']].remove(stage);
             players[data['0']['id']] = null; //remove
         }
- 
+
         var joinedPlayer = new Player(); //create a new player
         players[data['0']['id']] = joinedPlayer.create(stage, data[0]['name'], data['0']['health'], data['0']['x'],
                 data['0']['y'], data['0']['rotation'], 0, 0, data['0']['id']);
@@ -137,6 +137,7 @@ $(document).ready(function () {
     stage.innerWidth = window.innerWidth
             || document.documentElement.clientWidth
             || document.body.clientWidth;
+    stage.mouseEnabled = false;
     collision = new Collision();
     createjs.Ticker.on("tick", tick);
     createjs.Ticker.setFPS(75); //smooth performance

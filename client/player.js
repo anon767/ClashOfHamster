@@ -1,6 +1,8 @@
 /* global createjs */
 
 //player speed is currently 20*velocity, check the collission file
+
+//Player class is actually abstract, modify the canvasO!
 var Player = function () {
     var canvasO,stage, lastsend;
     this.create = function (stage, name, health, x, y, rotation, xvel, yvel, id) {
@@ -9,6 +11,7 @@ var Player = function () {
         this.canvasO.stage = stage;
         this.canvasO.boostTimer = 500;
         this.canvasO.jumpCounter = 0;
+        this.canvasO.mouseEnabled = false;
         this.canvasO.resetBoostTimer = function () {
             this.boostTimer = this.maxBoost;
         };
@@ -72,7 +75,7 @@ var Player = function () {
         this.canvasO.health = health;
         this.canvasO.name = name;
         this.canvasO.rotation = rotation;
-        this.canvasO.graphics.beginFill("red").drawCircle(-6, 8, 20);
+        this.canvasO.graphics.beginFill("red").drawCircle(-6, 9, 20);
         this.canvasO.y = y;
         this.canvasO.x = x;
         this.canvasO.regX = 20;
