@@ -6,6 +6,8 @@
 var Stage = function () {
     var stage = new createjs.Stage("stage");
     stage.size = 800;
+    stage.blocking = [];
+    stage.nonBlocking = [];
     var tempWidth = window.innerWidth
             || document.documentElement.clientWidth
             || document.body.clientWidth;

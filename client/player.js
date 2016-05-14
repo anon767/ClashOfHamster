@@ -4,11 +4,11 @@
 
 //Player class is actually abstract, modify the canvasO!
 var Player = function () {
-    var PlayerO, ContainerO, nameO, stage, lastsend;
+    var PlayerO, ContainerO, Texto;
     this.create = function (stage, name, health, x, y, rotation, xvel, yvel, id) {
         this.PlayerO = new createjs.Shape();
         this.ContainerO = new createjs.Container();
-        var TextO = new createjs.Text(name, "12px Arial", "darkblue");
+        this.TextO = new createjs.Text(name, "12px Arial", "darkblue");
         this.ContainerO.maxBoost = 500;
         this.ContainerO.stage = stage;
         this.ContainerO.gravityCounter = 1;
@@ -20,20 +20,22 @@ var Player = function () {
             this.boostTimer = this.maxBoost;
         };
         this.ContainerO.boost = function () {
-            this.boostTimer -= 5;
+            console.log(this.boostTimer);
+            if (this.boostTimer > 0) {
+                this.boostTimer -= 2;
+            }
         };
         this.ContainerO.addBoost = function () {
             if (this.boostTimer < this.maxBoost) {
-                this.boostTimer++;
+                this.boostTimer += 1;
             }
         };
         this.ContainerO.jump = function () {
-            this.jumpCounter += 1;
+            console.log(this.jumpCounter);
+            this.jumpCounter = 1;
         };
         this.ContainerO.resetJumpCounter = function () {
-            if (this.jumpCounter >= 1) {
-                this.jumpCounter = 0;
-            }
+            this.jumpCounter = 0;
         };
         this.ContainerO.remove = function (stage) {
             stage.removeChild(this);
@@ -85,12 +87,13 @@ var Player = function () {
         this.ContainerO.regX = 10;
         this.ContainerO.snapToPixel = true;
         this.ContainerO.regY = 10;
-        TextO.x = -5;
-        TextO.y = 5;
-        TextO.textBaseline = "alphabetic";
-        this.ContainerO.addChild(this.PlayerO,TextO);
+        this.TextO.x = -5;
+        this.TextO.y = 5;
+        this.TextO.textBaseline = "alphabetic";
+        this.ContainerO.addChild(this.PlayerO, this.TextO);
         this.ContainerO.y = y;
         this.ContainerO.x = x;
+        stage.blocking.push(this.ContainerO);
         stage.addChild(this.ContainerO);
         return this.ContainerO;
     };

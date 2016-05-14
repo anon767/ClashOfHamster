@@ -33,7 +33,7 @@ var Collision = function () {
             stage.x = 0;
         }
     };
-     this.collide = function (objecta, nextposx, nextposy, objectb) {
+    this.collide = function (objecta, nextposx, nextposy, objectb) {
         if (nextposy + objecta.height > objectb.y &&
                 nextposx + objecta.width > objectb.x &&
                 nextposx < objectb.x + objectb.width &&
@@ -53,13 +53,13 @@ var Collision = function () {
             }
         }
     };
-    
+
     //check collision with every other object
     this.obstacleCollision = function (Player, stage, nextposx, nextposy) {
-        var amount = stage.getNumChildren();
+        var amount = stage.blocking.length;
         for (var i = 0; i < amount; ++i) { //for instead of foreach 
-            var rect = stage.getChildAt(i); //faster than getChild();
-            if (Player.id !== rect.id && !rect.transparent) {
+            var rect = stage.blocking[i]; //faster than getChild();
+            if (rect != undefined && Player.id !== rect.id ) {
                 this.collide(Player, nextposx, nextposy, rect);
             }
         }

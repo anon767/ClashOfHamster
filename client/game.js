@@ -124,7 +124,7 @@ function Eventcallback(data) {
  * @returns {undefined}
  */
 function mouseEvent(evt) {
-    evt.preventDefault();
+    console.log(evt);
     
 }
 
@@ -133,6 +133,7 @@ $(document).ready(function () {
     socketObject = new Communication(Eventcallback); //reduce globals, parameterize callbacks
     stage = new Stage();
     window.addEventListener('resize', stage.resizeCanvas, false);
+    
     mouse = new Mouse();
     mouse.setMouse(stage, mouseEvent);
     collision = new Collision();
