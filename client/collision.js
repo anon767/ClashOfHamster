@@ -106,7 +106,7 @@ var Collision = function () {
         }
 
         //gravity
-        if ((Player.y < stage.canvas.height || Player.yvel !== 0) && !up) {
+        if ((Player.y < stage.canvas.height || Player.yvel !== 0) && !up && !jump) {
             Player.yvel += 2.5 * Player.gravityCounter * event.delta / 1000;
             Player.gravityCounter += 2;
 
