@@ -33,7 +33,7 @@ var Collision = function () {
             stage.x = 0;
         }
     };
-    this.collide = function (objecta, nextposx, nextposy, objectb) {
+     this.collide = function (objecta, nextposx, nextposy, objectb) {
         if (nextposy + objecta.height > objectb.y &&
                 nextposx + objecta.width > objectb.x &&
                 nextposx < objectb.x + objectb.width &&
@@ -53,6 +53,7 @@ var Collision = function () {
             }
         }
     };
+    
     //check collision with every other object
     this.obstacleCollision = function (Player, stage, nextposx, nextposy) {
         var amount = stage.getNumChildren();
@@ -125,7 +126,7 @@ var Collision = function () {
         if (nextposy - Player.height < 0) {
             this.cls(3, Player); // Inverted collision side is proposital!
         }
-        if (nextposx + Player.width > stage.size ) {
+        if (nextposx + Player.width > stage.size) {
             this.cls(1, Player);
         }
         if (nextposx - Player.width < 0) {

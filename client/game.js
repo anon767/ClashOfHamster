@@ -72,7 +72,7 @@ function Eventcallback(data) {
     data = $.parseJSON(data); //parse
     if (data['id']) { //retrieve unique ID for identification in network
 
-        mePlayer = new Player().create(stage, "tom", 100, 100, 100, 200, 0, 0, data['id']); //create Player
+        mePlayer = new Player().create(stage, "tom", 100, 100, 100, 0, 0, 0, data['id']); //create Player
 
         mePlayer.initSend(socketObject);
     }
