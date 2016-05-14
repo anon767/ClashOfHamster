@@ -33,7 +33,7 @@ function keyboardCheck(event) {
         down = false;
     }
 
-    if (keyboard.keys[32] && mePlayer.jumpCounter <= 1) { //space for Jump
+    if (keyboard.keys[32] && mePlayer.jumpCounter === 0) { //space for Jump
         jump = true;
         mePlayer.jump();
     } else {

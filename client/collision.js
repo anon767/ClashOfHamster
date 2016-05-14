@@ -49,6 +49,9 @@ var Collision = function () {
                 this.cls(2, objecta);
             }
             if (objecta.y > objectb.y + objectb.height) {
+             
+                    objecta.resetJumpCounter();
+                
                 this.cls(3, objecta);
             }
         }
@@ -59,7 +62,7 @@ var Collision = function () {
         var amount = stage.blocking.length;
         for (var i = 0; i < amount; ++i) { //for instead of foreach 
             var rect = stage.blocking[i]; //faster than getChild();
-            if (rect != undefined && Player.id !== rect.id ) {
+            if (rect != undefined && Player.id !== rect.id) {
                 this.collide(Player, nextposx, nextposy, rect);
             }
         }
@@ -70,7 +73,7 @@ var Collision = function () {
 //add velocity and check colliding with ceiling,left,right,and bottom of stage
     this.move = function (left, right, up, down, Player, stage, event, jump) {
 
-        if (up === true) {
+        if (up) {
 
             Player.yvel -= 1.25;
         } else {
@@ -78,7 +81,7 @@ var Collision = function () {
                 Player.yvel++;
             }
         }
-        if (left === true) {
+        if (left) {
             Player.xvel -= 2;
 
         } else {
@@ -86,7 +89,7 @@ var Collision = function () {
                 Player.xvel++;
             }
         }
-        if (right === true) {
+        if (right) {
 
             Player.xvel += 2;
 
@@ -95,15 +98,15 @@ var Collision = function () {
                 Player.xvel--;
             }
         }
-        if (down === true) {
+        if (down) {
             Player.yvel += 2;
         } else {
             if (Player.yvel > 0) {
                 Player.yvel--;
             }
         }
-        if (jump === true) {
-            Player.yvel -= 20;
+        if (jump ) {
+            Player.yvel -= 30;
         }
 
         //gravity
@@ -133,12 +136,13 @@ var Collision = function () {
             this.cls(2, Player);
         }
         if (nextposy + Player.height > stage.canvas.height) {
+            
+                Player.resetJumpCounter();
+            
             Player.gravityCounter = Math.round(Player.gravityCounter / 2);
             this.cls(0, Player);
         }
-        if (Player.yvel === 0) {
-            Player.resetJumpCounter();
-        }
+
         this.moveStage(-1 * event.delta / 1000 * Player.xvel * 15, stage, nextposx - Player.width);
         Player.x += (event.delta / 1000 * Player.xvel * 20);
         Player.y += (event.delta / 1000 * Player.yvel * 20);

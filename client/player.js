@@ -20,7 +20,6 @@ var Player = function () {
             this.boostTimer = this.maxBoost;
         };
         this.ContainerO.boost = function () {
-            console.log(this.boostTimer);
             if (this.boostTimer > 0) {
                 this.boostTimer -= 2;
             }
@@ -31,7 +30,6 @@ var Player = function () {
             }
         };
         this.ContainerO.jump = function () {
-            console.log(this.jumpCounter);
             this.jumpCounter = 1;
         };
         this.ContainerO.resetJumpCounter = function () {
