@@ -40,6 +40,7 @@ var Collision = function () {
                 nextposy < objectb.y + objectb.height) {
             if (objecta.y + objecta.height < objectb.y) {
                 objecta.gravityCounter = Math.round(objecta.gravityCounter / 2);
+                objecta.resetJumpCounter();
                 this.cls(0, objecta);
             }
             if (objecta.x + objecta.width < objectb.x) {
@@ -49,9 +50,7 @@ var Collision = function () {
                 this.cls(2, objecta);
             }
             if (objecta.y > objectb.y + objectb.height) {
-             
-                    objecta.resetJumpCounter();
-                
+
                 this.cls(3, objecta);
             }
         }
@@ -105,7 +104,7 @@ var Collision = function () {
                 Player.yvel--;
             }
         }
-        if (jump ) {
+        if (jump) {
             Player.yvel -= 30;
         }
 
@@ -136,9 +135,9 @@ var Collision = function () {
             this.cls(2, Player);
         }
         if (nextposy + Player.height > stage.canvas.height) {
-            
-                Player.resetJumpCounter();
-            
+
+            Player.resetJumpCounter();
+
             Player.gravityCounter = Math.round(Player.gravityCounter / 2);
             this.cls(0, Player);
         }

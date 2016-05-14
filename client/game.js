@@ -137,8 +137,8 @@ $(document).ready(function () {
     $(window).keydown(function(e){keyboard.keydown(e);});
     $(window).keyup(function(e){keyboard.keyup(e);});
     $(window).on("click",function(e){alert("asd");});
-    mouse = new Mouse();
-    mouse.setMouse(stage, mouseEvent);
+    //mouse = new Mouse();
+   // mouse.setMouse(stage, mouseEvent);
     collision = new Collision();
     createjs.Ticker.on("tick", tick);
     createjs.Ticker.setFPS(75); //smooth performance
