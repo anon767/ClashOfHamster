@@ -74,7 +74,7 @@ var Collision = function () {
 
         if (up) {
 
-            Player.yvel -= 1.25;
+            Player.yvel -= 1.15;
         } else {
             if (Player.yvel < 0) {
                 Player.yvel++;

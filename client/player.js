@@ -21,7 +21,7 @@ var Player = function () {
         };
         this.ContainerO.boost = function () {
             if (this.boostTimer > 0) {
-                this.boostTimer -= 2;
+                this.boostTimer -= 4;
             }
         };
         this.ContainerO.addBoost = function () {

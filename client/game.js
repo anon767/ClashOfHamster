@@ -10,24 +10,24 @@ var players = [null, null, null, null, null, null]; //allocate some space for pl
  * @returns {undefined}
  */
 function keyboardCheck(event) {
-    if (keyboard.keys[87] && mePlayer.boostTimer > 0) { // up
+    if (keyboard.keys[38] && mePlayer.boostTimer > 0) { // up
         up = true;
         mePlayer.boost();
     } else {
         up = false;
         mePlayer.addBoost();
     }
-    if (keyboard.keys[65]) { // left
+    if (keyboard.keys[37]) { // left
         left = true;
     } else {
         left = false;
     }
-    if (keyboard.keys[68]) { // right
+    if (keyboard.keys[39]) { // right
         right = true;
     } else {
         right = false;
     }
-    if (keyboard.keys[83]) { // down
+    if (keyboard.keys[40]) { // down
         down = true;
     } else {
         down = false;
@@ -133,12 +133,12 @@ $(document).ready(function () {
     socketObject = new Communication(Eventcallback); //reduce globals, parameterize callbacks
     stage = new Stage();
     window.addEventListener('resize', stage.resizeCanvas, false);
-   
+   //$(window).on("down",function(e){console.log("bla")});
     $(window).keydown(function(e){keyboard.keydown(e);});
     $(window).keyup(function(e){keyboard.keyup(e);});
-    $(window).on("click",function(e){alert("asd");});
-    //mouse = new Mouse();
-   // mouse.setMouse(stage, mouseEvent);
+
+    mouse = new Mouse();
+    mouse.setMouse(stage, mouseEvent);
     collision = new Collision();
     createjs.Ticker.on("tick", tick);
     createjs.Ticker.setFPS(75); //smooth performance
