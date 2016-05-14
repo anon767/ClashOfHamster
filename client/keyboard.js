@@ -1,16 +1,4 @@
-$(document).ready(function () {
-    keyboard = new Keyboard();
-    $(window).keydown(
-            function (e) {
-                keyboard.keydown(e);
-            }
-    );
-    $(window).keyup(
-            function (e) {
-                keyboard.keyup(e);
-            }
-    );
-});
+
 
 var Keyboard = function () {
     var keys, keydown, keyup;

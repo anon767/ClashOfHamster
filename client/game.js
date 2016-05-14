@@ -1,5 +1,5 @@
 /* global createjs */
-var stage, timeCircle, socketObject, keyboard, collision, mePlayer, mouse;
+var stage, timeCircle, socketObject,  keyboard = new Keyboard(), collision, mePlayer, mouse;
 var up = false, left = false, right = false, down = false, jump = false;
 var players = [null, null, null, null, null, null]; //allocate some space for players
 
@@ -72,7 +72,7 @@ function Eventcallback(data) {
     data = $.parseJSON(data); //parse
     if (data['id']) { //retrieve unique ID for identification in network
 
-        mePlayer = new Player().create(stage, "nigger" +   (Math.floor(Math.random() * (5)) + 1), 100, 100, 100, 0, 0, 0, data['id']); //create Player
+        mePlayer = new Player().create(stage, "nigger" + (Math.floor(Math.random() * (5)) + 1), 100, 100, 100, 0, 0, 0, data['id']); //create Player
 
         mePlayer.initSend(socketObject);
     }
@@ -125,7 +125,7 @@ function Eventcallback(data) {
  */
 function mouseEvent(evt) {
     console.log(evt);
-    
+
 }
 
 $(document).ready(function () {
@@ -133,7 +133,10 @@ $(document).ready(function () {
     socketObject = new Communication(Eventcallback); //reduce globals, parameterize callbacks
     stage = new Stage();
     window.addEventListener('resize', stage.resizeCanvas, false);
-    
+   
+    $(window).keydown(function(e){keyboard.keydown(e);});
+    $(window).keyup(function(e){keyboard.keyup(e);});
+    $(window).on("click",function(e){alert("asd");});
     mouse = new Mouse();
     mouse.setMouse(stage, mouseEvent);
     collision = new Collision();
