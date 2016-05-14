@@ -59,7 +59,7 @@ var Collision = function () {
         var amount = stage.getNumChildren();
         for (var i = 0; i < amount; ++i) { //for instead of foreach 
             var rect = stage.getChildAt(i); //faster than getChild();
-            if (Player.id !== rect.id) {
+            if (Player.id !== rect.id && !rect.transparent) {
                 this.collide(Player, nextposx, nextposy, rect);
             }
         }

@@ -7,7 +7,7 @@ var Block = function () {
         this.canvasO = new createjs.Shape();
         this.canvasO.graphics.beginStroke(color);
         this.canvasO.graphics.setStrokeStyle(1);
-        this.canvasO.graphics.drawRect(-20, -20, width, height);
+        this.canvasO.graphics.drawRect(0, 0, width, height);
         this.canvasO.regX = 0;
         this.canvasO.regY = 0;
         this.canvasO.x = x;

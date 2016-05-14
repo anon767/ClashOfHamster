@@ -9,7 +9,7 @@ var Bullet = function () {
         this.canvasO.graphics.beginFill(color).drawCircle(-6, 9, width);
         this.canvasO.regX = 0;
         this.canvasO.regY = 0;
-        this.canvasO.name = "bullet";
+        this.canvasO.transparent = true;
         this.canvasO.playerId = id;
         this.canvasO.x = x;
         this.canvasO.mouseEnabled = false;

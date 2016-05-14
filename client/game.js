@@ -72,7 +72,7 @@ function Eventcallback(data) {
     data = $.parseJSON(data); //parse
     if (data['id']) { //retrieve unique ID for identification in network
 
-        mePlayer = new Player().create(stage, "tom", 100, 100, 100, 0, 0, 0, data['id']); //create Player
+        mePlayer = new Player().create(stage, "nigger" +   (Math.floor(Math.random() * (5)) + 1), 100, 100, 100, 0, 0, 0, data['id']); //create Player
 
         mePlayer.initSend(socketObject);
     }
@@ -125,7 +125,7 @@ function Eventcallback(data) {
  */
 function mouseEvent(evt) {
     evt.preventDefault();
-    console.log("stageX/Y: " + evt.stageX + "," + evt.stageY); // always in bounds
+    
 }
 
 $(document).ready(function () {

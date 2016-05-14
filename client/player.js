@@ -79,14 +79,14 @@ var Player = function () {
         this.ContainerO.health = health;
         this.ContainerO.name = name;
         this.ContainerO.rotation = rotation;
-        this.PlayerO.graphics.beginFill("red").drawCircle(0, 0, 10);
+        this.PlayerO.graphics.beginFill("red").drawCircle(+20, +20, 10);
         this.ContainerO.y = y;
         this.ContainerO.x = x;
         this.ContainerO.regX = 10;
         this.ContainerO.snapToPixel = true;
         this.ContainerO.regY = 10;
-        TextO.x = -10;
-        TextO.y = -15;
+        TextO.x = -5;
+        TextO.y = 5;
         TextO.textBaseline = "alphabetic";
         this.ContainerO.addChild(this.PlayerO,TextO);
         this.ContainerO.y = y;
