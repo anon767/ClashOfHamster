@@ -128,7 +128,7 @@ var Player = function () {
         //this.PlayerO.graphics.beginFill("red").drawCircle(+20, +20, 10);
         this.ContainerO.y = y;
         this.ContainerO.x = x;
-        this.ContainerO.PlayerO.y = 23;
+        this.ContainerO.PlayerO.y = 29;
         this.ContainerO.PlayerO.x = 24;
         this.ContainerO.PlayerO.regX = this.ContainerO.width / 2;
         this.ContainerO.PlayerO.regY = this.ContainerO.height / 2;
