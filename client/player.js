@@ -1,15 +1,15 @@
-/* global createjs */
+/* global createjs, left */
 
 //player speed is currently 20*velocity, check the collission file
 
 //Player class is actually abstract, modify the canvasO!
 var Player = function () {
-    var PlayerO, ContainerO, Texto;
+    var ContainerO, Texto;
     this.create = function (stage, name, health, x, y, rotation, xvel, yvel, id) {
-        this.PlayerO = new createjs.Shape();
         var img = new Image(44, 47);
         img.src = "client/assets/img/player.png";
         this.ContainerO = new createjs.Container();
+        this.ContainerO.PlayerO = new createjs.Shape();
         this.TextO = new createjs.Text(name, "12px Arial", "darkblue");
         this.ContainerO.maxBoost = 500;
         this.ContainerO.stage = stage;
@@ -53,13 +53,18 @@ var Player = function () {
         this.ContainerO.remove = function (stage) {
             stage.removeChild(this);
         };
+        this.ContainerO.particleUpdate = function () {
+            this.ps.position = {x: (this.x + this.x) / 2 - 10, y: (this.y + this.height - 4)};
+            this.ps.update(stage);
+        };
         this.ContainerO.update = function (socketO) {
             var data = JSON.stringify({1: {
                     id: this.socketId,
                     x: this.x,
                     y: this.y,
                     health: this.health,
-                    rotation: this.rotation
+                    rotation: this.rotation,
+                    dir: this.PlayerO.scaleX
                 }});
             if (data !== this.lastsend) {
                 socketO.send(data);
@@ -78,7 +83,16 @@ var Player = function () {
                 }});
             socketO.send(data);
         };
-        this.ContainerO.setCoords = function (x, y) {
+        this.ContainerO.setCoords = function (x, y, dir) {
+            if (dir){
+                this.PlayerO.scaleX = -1;
+            }else{
+                this.PlayerO.scaleX = 1;
+            }
+            
+            if (this.y - y < 0) {
+                this.particleUpdate();
+            }
             this.x = x;
             this.y = y;
         };
@@ -86,8 +100,27 @@ var Player = function () {
             this.x += x;
             this.y += y;
         };
-        this.ContainerO.toBeCheckedx = 0;
-        this.ContainerO.toBeCheckedy = 0;
+        this.ContainerO.ps = null;
+        this.ContainerO.addParticle = function () {
+            this.ps = new ParticleSystem();
+            this.ps.lifetime = {min: 150, max: 200};
+            this.ps.position = {x: (this.x + this.x + this.width) / 2, y: (this.y + this.height)};
+            this.ps.positionOffsetX = {min: -1, max: 1};
+            this.ps.positionOffsetY = {min: -1, max: 1};
+            this.ps.velocityY = {min: -2, max: 2};
+            this.ps.velocityX = {min: -2, max: 2};
+            this.ps.radius = {min: 1, max: 7};
+            this.ps.count = 150;
+            this.ps.startColor = {
+                min: new RGBA(230, 50, 0, 255),
+                max: new RGBA(255, 230, 0, 255)
+            };
+
+            this.ps.endColor = {
+                min: new RGBA(255, 0, 0, 0),
+                max: new RGBA(255, 0, 0, 0)
+            };
+        };
         this.ContainerO.xvel = xvel;
         this.ContainerO.width = 44;
         this.ContainerO.height = 47;
@@ -96,21 +129,24 @@ var Player = function () {
         this.ContainerO.health = health;
         this.ContainerO.name = name;
         this.ContainerO.rotation = rotation;
-        this.PlayerO.graphics.beginBitmapFill(img).drawRect(0,0,44,47);
+        this.ContainerO.PlayerO.graphics.beginBitmapFill(img).drawRect(0, 0, 44, 47);
         //this.PlayerO.graphics.beginFill("red").drawCircle(+20, +20, 10);
-       this.PlayerO.x += 9;
-       this.PlayerO.y += 9;
         this.ContainerO.y = y;
         this.ContainerO.x = x;
-        this.ContainerO.regX = 10;
+        this.ContainerO.PlayerO.y = 23;
+        this.ContainerO.PlayerO.x = 24;
+        this.ContainerO.PlayerO.regX = this.ContainerO.width / 2;
+        this.ContainerO.PlayerO.regY  = this.ContainerO.height / 2;
+        this.ContainerO.regX = 0;
         this.ContainerO.snapToPixel = true;
-        this.ContainerO.regY = 10;
+        this.ContainerO.regY = 0;
         this.TextO.x = -5;
         this.TextO.y = 5;
         this.TextO.textBaseline = "alphabetic";
-        this.ContainerO.addChild(this.PlayerO, this.TextO);
+        this.ContainerO.addChild(this.ContainerO.PlayerO, this.TextO);
         this.ContainerO.y = y;
         this.ContainerO.x = x;
+        this.ContainerO.addParticle();
         stage.addChild(this.ContainerO);
         stage.blocking[this.ContainerO.id] = this.ContainerO;
         return this.ContainerO;

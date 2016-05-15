@@ -147,8 +147,8 @@ var Collision = function () {
         }
 
         this.moveStage(-1 * event.delta / 1000 * Player.xvel * 15, stage, nextposx - Player.width);
-        Player.x = (event.delta / 1000 * Player.xvel * 20);
-        Player.y = (event.delta / 1000 * Player.yvel * 20);
+        Player.x += (event.delta / 1000 * Player.xvel * 20);
+        Player.y += (event.delta / 1000 * Player.yvel * 20);
     }
     ;
 

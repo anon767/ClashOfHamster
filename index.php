@@ -20,12 +20,15 @@ and open the template in the editor.
             src="//code.jquery.com/jquery-1.12.3.min.js"
             integrity="sha256-aaODHAgvwQW1bFOGXMeX+pC4PZIPsvn2h1sArYOhgXQ="
         crossorigin="anonymous"></script>
+        <script
+        src="//code.createjs.com/tweenjs-0.6.2.min.js"></script>
         <script src="client/lib/jsend.js"></script>
         <script src="client/lib/virtualJoystick.js"></script>
         <script src="//code.createjs.com/easeljs-0.8.2.min.js"></script>
         <script src="client/socket.js"></script>
         <script src="client/mouse.js"></script>
         <script src="client/keyboard.js"></script>
+        <script src="client/particle.js"></script>
         <script src="client/player.js"></script>
         <script src="client/block.js"></script>
         <script src="client/collision.js"></script>

@@ -15,7 +15,6 @@ function keyboardCheck(event) {
         mePlayer.getChildAt(0).rotation = 10;
         mePlayer.boost();
     } else {
-        mePlayer.getChildAt(0).rotation = 0;
         up = false;
         mePlayer.addBoost();
     }
@@ -32,11 +31,18 @@ function keyboardCheck(event) {
         right = false;
     }
     if (keyboard.keys[40]) { // down
+        mePlayer.getChildAt(0).rotation = 10;
         down = true;
     } else {
         down = false;
     }
-
+    if (!up && !down) {
+        mePlayer.getChildAt(0).rotation = 0;
+    } else if (up) {
+        if (mePlayer.ps !== null) {
+            mePlayer.particleUpdate();
+        }
+    }
     if (keyboard.keys[32] && mePlayer.jumpCounter === 0) { //space for Jump
         jump = true;
         mePlayer.jump();
@@ -93,8 +99,7 @@ function Eventcallback(data) {
     }
     if (data['1']) { //update player
         if (players[data['1']['id']]) {
-            players[data['1']['id']].x = data['1']['x'];
-            players[data['1']['id']].y = data['1']['y'];
+            players[data['1']['id']].setCoords(data['1']['x'],data['1']['y'],data['1']['dir']);
             players[data['1']['id']].health = data['1']['health'];
         } else {
             socketObject.send(JSON.stringify({2: data['1']['id']})); //on missing player request initial sends
