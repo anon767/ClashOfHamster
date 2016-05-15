@@ -9,7 +9,6 @@ var Bullet = function () {
         this.canvasO.graphics.beginFill(color).drawCircle(0, 0, width);
         this.canvasO.regX = 0;
         this.canvasO.regY = 0;
-        this.canvasO.transparent = true;
         this.canvasO.playerId = id;
         this.canvasO.x = x;
         this.canvasO.mouseEnabled = false;
@@ -22,8 +21,6 @@ var Bullet = function () {
         };
         this.canvasO.y = y;
         this.canvasO.snapToPixel = true;
-        this.canvasO.cache(-width, -height, width * 2, height * 2); //cache this shit, unless its moveable later we dont have to update cache
-
         stage.addChild(this.canvasO);
         stage.nonBlocking[this.canvasO.id] = this.canvasO;
         return this.canvasO;
