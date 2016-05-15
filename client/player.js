@@ -17,7 +17,7 @@ var Player = function () {
         this.ContainerO.mouseEnabled = false;
         this.ContainerO.lastsend = "";
         this.ContainerO.bottomCallBack = function () {
-            this.gravityCounter = Math.round(this.gravityCounter / 2);
+            this.gravityCounter = Math.floor(this.gravityCounter / 2);
             this.resetJumpCounter();
         };
         this.ContainerO.topCallBack = function () {
