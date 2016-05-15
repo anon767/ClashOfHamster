@@ -5,7 +5,7 @@ var Background = function () {
     var create, canvasO;
     this.create = function (stage) {
         var img = new Image(1215, 608);
-        img.src = "http://127.0.0.1/jsgameproject/client/assets/img/background.jpg";
+        img.src = "client/assets/img/background.jpg";
         this.canvasO =  new createjs.Shape();
         this.canvasO.x = 0;
         this.canvasO.y = -180;
