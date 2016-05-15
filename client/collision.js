@@ -106,7 +106,7 @@ var Collision = function () {
                 Player.yvel--;
             }
         }
-        if (jump) {
+        if (jump && Player.yvel === 0) {
             Player.yvel -= 30;
         }
 
