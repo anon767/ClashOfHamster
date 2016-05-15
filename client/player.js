@@ -104,8 +104,8 @@ var Player = function () {
         this.ContainerO.addChild(this.PlayerO, this.TextO);
         this.ContainerO.y = y;
         this.ContainerO.x = x;
-        stage.blocking.push(this.ContainerO);
         stage.addChild(this.ContainerO);
+        stage.blocking[this.ContainerO.id] = this.ContainerO;
         return this.ContainerO;
     };
 

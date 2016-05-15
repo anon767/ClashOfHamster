@@ -18,8 +18,8 @@ var Block = function () {
         this.canvasO.y = y;
         this.canvasO.snapToPixel = true;
         this.canvasO.cache(-width, -height, width * 2, height * 2); //cache this shit, unless its moveable later we dont have to update cache
-        stage.blocking.push(this.canvasO);
         stage.addChild(this.canvasO);
+        stage.blocking[this.canvasO.id] = this.canvasO;
         return this.canvasO;
     };
 };

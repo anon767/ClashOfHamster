@@ -16,11 +16,16 @@ var Bullet = function () {
         this.canvasO.width = width;
         this.canvasO.height = height;
         this.canvasO.color = color;
+        this.canvasO.explode = function (stage) {
+            stage.nonBlocking[this.id] = null;
+            stage.removeChild(this);
+        };
         this.canvasO.y = y;
         this.canvasO.snapToPixel = true;
         this.canvasO.cache(-width, -height, width * 2, height * 2); //cache this shit, unless its moveable later we dont have to update cache
-        stage.nonBlocking.push(this.canvasO);
+
         stage.addChild(this.canvasO);
+        stage.nonBlocking[this.canvasO.id] = this.canvasO;
         return this.canvasO;
     };
 };

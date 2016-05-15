@@ -1,5 +1,5 @@
 /* global createjs */
-var stage, timeCircle, socketObject,  keyboard = new Keyboard(), collision, mePlayer, mouse;
+var stage, timeCircle, socketObject, keyboard = new Keyboard(), collision, mePlayer, mouse;
 var up = false, left = false, right = false, down = false, jump = false;
 var players = [null, null, null, null, null, null]; //allocate some space for players
 
@@ -124,7 +124,10 @@ function Eventcallback(data) {
  * @returns {undefined}
  */
 function mouseEvent(evt) {
-    console.log(evt);
+    console.log(evt.stageX);
+    var x = evt.stageX < mePlayer.x ? mePlayer.x : mePlayer.x + 40;
+    var y = evt.stageY < mePlayer.y ? mePlayer.y : mePlayer.y + 40;
+    new Bullet().create(x,y,"black",mePlayer.socketId,stage);
 
 }
 
@@ -133,9 +136,13 @@ $(document).ready(function () {
     socketObject = new Communication(Eventcallback); //reduce globals, parameterize callbacks
     stage = new Stage();
     window.addEventListener('resize', stage.resizeCanvas, false);
-   //$(window).on("down",function(e){console.log("bla")});
-    $(window).keydown(function(e){keyboard.keydown(e);});
-    $(window).keyup(function(e){keyboard.keyup(e);});
+    //$(window).on("down",function(e){console.log("bla")});
+    $(window).keydown(function (e) {
+        keyboard.keydown(e);
+    });
+    $(window).keyup(function (e) {
+        keyboard.keyup(e);
+    });
 
     mouse = new Mouse();
     mouse.setMouse(stage, mouseEvent);

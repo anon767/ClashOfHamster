@@ -34,26 +34,28 @@ var Collision = function () {
         }
     };
     this.collide = function (objecta, nextposx, nextposy, objectb) {
-        if (nextposy + objecta.height > objectb.y &&
-                nextposx + objecta.width > objectb.x &&
-                nextposx < objectb.x + objectb.width &&
-                nextposy < objectb.y + objectb.height) {
-            if (objecta.y + objecta.height < objectb.y) {
-                if (typeof objecta.bottomCallBack == 'function') {
+        if (objecta && objectb) {
+            if (nextposy + objecta.height > objectb.y &&
+                    nextposx + objecta.width > objectb.x &&
+                    nextposx < objectb.x + objectb.width &&
+                    nextposy < objectb.y + objectb.height) {
+                if (objecta.y + objecta.height < objectb.y) {
+                    if (typeof objecta.bottomCallBack == 'function') {
+                        objecta.bottomCallBack();
+                    }
                     objecta.bottomCallBack();
+                    this.cls(0, objecta);
                 }
-                objecta.bottomCallBack();
-                this.cls(0, objecta);
-            }
-            if (objecta.x + objecta.width < objectb.x) {
-                this.cls(1, objecta);
-            }
-            if (objecta.x > objectb.x + objectb.width) {
-                this.cls(2, objecta);
-            }
-            if (objecta.y > objectb.y + objectb.height) {
+                if (objecta.x + objecta.width < objectb.x) {
+                    this.cls(1, objecta);
+                }
+                if (objecta.x > objectb.x + objectb.width) {
+                    this.cls(2, objecta);
+                }
+                if (objecta.y > objectb.y + objectb.height) {
 
-                this.cls(3, objecta);
+                    this.cls(3, objecta);
+                }
             }
         }
     };
