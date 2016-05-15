@@ -124,11 +124,9 @@ function Eventcallback(data) {
  * @returns {undefined}
  */
 function mouseEvent(evt) {
-    console.log(evt.stageX);
     var x = evt.stageX < mePlayer.x ? mePlayer.x : mePlayer.x + 40;
     var y = evt.stageY < mePlayer.y ? mePlayer.y : mePlayer.y + 40;
     new Bullet().create(x,y,"black",mePlayer.socketId,stage);
-
 }
 
 $(document).ready(function () {
