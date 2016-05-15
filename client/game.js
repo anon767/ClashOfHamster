@@ -89,11 +89,10 @@ function Eventcallback(data) {
     }
     if (data['1']) { //update player
         if (players[data['1']['id']]) {
-            if (Math.abs(data['1']['x'] - players[data['1']['id']].x) < 100 && Math.abs(data['1']['y'] - players[data['1']['id']].y) < 100) {
-                players[data['1']['id']].x = data['1']['x'];
-                players[data['1']['id']].y = data['1']['y'];
-                players[data['1']['id']].health = data['1']['health'];
-            }
+            players[data['1']['id']].x = data['1']['x'];
+            players[data['1']['id']].y = data['1']['y'];
+            players[data['1']['id']].health = data['1']['health'];
+
         } else {
             socketObject.send(JSON.stringify({2: data['1']['id']})); //on missing player request initial sends
         }
@@ -126,7 +125,7 @@ function Eventcallback(data) {
 function mouseEvent(evt) {
     var x = evt.stageX < mePlayer.x ? mePlayer.x : mePlayer.x + 40;
     var y = evt.stageY < mePlayer.y ? mePlayer.y : mePlayer.y + 40;
-    new Bullet().create(x,y,"black",mePlayer.socketId,stage);
+    new Bullet().create(x, y, "black", mePlayer.socketId, stage);
 }
 
 $(document).ready(function () {
