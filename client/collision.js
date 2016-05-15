@@ -27,7 +27,7 @@ var Collision = function () {
      */
     this.moveStage = function (x, stage, nextx) {
         var xNew = stage.x + x;
-        if (nextx > (stage.size - stage.innerWidth) && xNew < 0) { //only move stage if its between size
+        if (nextx > ( stage.innerWidth*2 -stage.size)/2 && xNew < 0) { //only move stage if its between size
             stage.x = xNew;
         } else if (xNew > 0) { //if stage.x is above 0 for what reason ever: reset it
             stage.x = 0;
