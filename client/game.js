@@ -12,17 +12,21 @@ var players = [null, null, null, null, null, null]; //allocate some space for pl
 function keyboardCheck(event) {
     if (keyboard.keys[38] && mePlayer.boostTimer > 0) { // up
         up = true;
+        mePlayer.getChildAt(0).rotation = 10;
         mePlayer.boost();
     } else {
+        mePlayer.getChildAt(0).rotation = 0;
         up = false;
         mePlayer.addBoost();
     }
     if (keyboard.keys[37]) { // left
+        mePlayer.getChildAt(0).scaleX = -1;
         left = true;
     } else {
         left = false;
     }
     if (keyboard.keys[39]) { // right
+        mePlayer.getChildAt(0).scaleX = 1;
         right = true;
     } else {
         right = false;

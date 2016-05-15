@@ -86,6 +86,8 @@ var Player = function () {
             this.x += x;
             this.y += y;
         };
+        this.ContainerO.toBeCheckedx = 0;
+        this.ContainerO.toBeCheckedy = 0;
         this.ContainerO.xvel = xvel;
         this.ContainerO.width = 44;
         this.ContainerO.height = 47;
