@@ -54,7 +54,7 @@ var Player = function () {
             stage.removeChild(this);
         };
         this.ContainerO.particleUpdate = function () {
-            this.ps.position = {x: (this.x + this.x) / 2 - 10, y: (this.y + this.height - 4)};
+            this.ps.position = {x: (this.x + this.x) / 2 - 10*this.PlayerO.scaleX, y: (this.y + this.height - 4)};
             this.ps.update(stage);
         };
         this.ContainerO.update = function (socketO) {
@@ -84,12 +84,7 @@ var Player = function () {
             socketO.send(data);
         };
         this.ContainerO.setCoords = function (x, y, dir) {
-            if (dir){
-                this.PlayerO.scaleX = -1;
-            }else{
-                this.PlayerO.scaleX = 1;
-            }
-            
+            this.PlayerO.scaleX = dir;
             if (this.y - y < 0) {
                 this.particleUpdate();
             }
@@ -136,7 +131,7 @@ var Player = function () {
         this.ContainerO.PlayerO.y = 23;
         this.ContainerO.PlayerO.x = 24;
         this.ContainerO.PlayerO.regX = this.ContainerO.width / 2;
-        this.ContainerO.PlayerO.regY  = this.ContainerO.height / 2;
+        this.ContainerO.PlayerO.regY = this.ContainerO.height / 2;
         this.ContainerO.regX = 0;
         this.ContainerO.snapToPixel = true;
         this.ContainerO.regY = 0;
