@@ -128,6 +128,7 @@ var Collision = function () {
         if (Player.yvel > this.maxvel || Player.yvel < this.maxvel * -1) {
             (Player.yvel > 0) ? Player.yvel = this.maxvel : Player.yvel = this.maxvel * -1;
         }
+        
         this.obstacleCollision(Player, stage, nextposx, nextposy);
         if (nextposy - Player.height < 0) {
             this.cls(3, Player); // Inverted collision side is proposital!

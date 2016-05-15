@@ -7,6 +7,8 @@ var Player = function () {
     var PlayerO, ContainerO, Texto;
     this.create = function (stage, name, health, x, y, rotation, xvel, yvel, id) {
         this.PlayerO = new createjs.Shape();
+        var img = new Image(44, 47);
+        img.src = "client/assets/img/player.png";
         this.ContainerO = new createjs.Container();
         this.TextO = new createjs.Text(name, "12px Arial", "darkblue");
         this.ContainerO.maxBoost = 500;
@@ -85,14 +87,17 @@ var Player = function () {
             this.y += y;
         };
         this.ContainerO.xvel = xvel;
-        this.ContainerO.width = 20;
-        this.ContainerO.height = 20;
+        this.ContainerO.width = 44;
+        this.ContainerO.height = 47;
         this.ContainerO.socketId = id;
         this.ContainerO.yvel = yvel;
         this.ContainerO.health = health;
         this.ContainerO.name = name;
         this.ContainerO.rotation = rotation;
-        this.PlayerO.graphics.beginFill("red").drawCircle(+20, +20, 10);
+        this.PlayerO.graphics.beginBitmapFill(img).drawRect(0,0,44,47);
+        //this.PlayerO.graphics.beginFill("red").drawCircle(+20, +20, 10);
+       this.PlayerO.x += 9;
+       this.PlayerO.y += 9;
         this.ContainerO.y = y;
         this.ContainerO.x = x;
         this.ContainerO.regX = 10;
