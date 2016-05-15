@@ -30,6 +30,7 @@ and open the template in the editor.
         <script src="client/block.js"></script>
         <script src="client/collision.js"></script>
         <script src="client/bullet.js"></script>
+        <script src="client/background.js"></script>
         <script src="client/game.js"></script>
     </body>
 

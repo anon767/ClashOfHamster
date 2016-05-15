@@ -5,8 +5,8 @@ var Block = function () {
     var create, canvasO;
     this.create = function (x, y, color, width, height, stage) {
         this.canvasO = new createjs.Shape();
-        this.canvasO.graphics.beginStroke(color);
-        this.canvasO.graphics.setStrokeStyle(1);
+        this.canvasO.graphics.beginFill("#C2826D");
+        this.canvasO.graphics.setStrokeStyle(2);
         this.canvasO.graphics.drawRect(0, 0, width, height);
         this.canvasO.regX = 0;
         this.canvasO.regY = 0;

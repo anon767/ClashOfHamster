@@ -16,6 +16,7 @@ var Stage = function () {
     stage.canvas.height = 400;
     stage.mouseEnabled = false;
     stage.snapToPixelEnabled = true; //seems like lagging out the game but idk
+    new Background().create(stage);
     stage.resizeCanvas = function () {
         var tempWidth = window.innerWidth
                 || document.documentElement.clientWidth
