@@ -39,8 +39,10 @@ var Collision = function () {
                 nextposx < objectb.x + objectb.width &&
                 nextposy < objectb.y + objectb.height) {
             if (objecta.y + objecta.height < objectb.y) {
-                objecta.gravityCounter = Math.round(objecta.gravityCounter / 2);
-                objecta.resetJumpCounter();
+                if (typeof objecta.bottomCallBack == 'function') {
+                    objecta.bottomCallBack();
+                }
+                objecta.bottomCallBack();
                 this.cls(0, objecta);
             }
             if (objecta.x + objecta.width < objectb.x) {
@@ -135,17 +137,17 @@ var Collision = function () {
             this.cls(2, Player);
         }
         if (nextposy + Player.height > stage.canvas.height) {
-
-            Player.resetJumpCounter();
-
-            Player.gravityCounter = Math.round(Player.gravityCounter / 2);
+            if (typeof Player.bottomCallBack == 'function') {
+                Player.bottomCallBack();
+            }
             this.cls(0, Player);
         }
 
         this.moveStage(-1 * event.delta / 1000 * Player.xvel * 15, stage, nextposx - Player.width);
         Player.x += (event.delta / 1000 * Player.xvel * 20);
         Player.y += (event.delta / 1000 * Player.yvel * 20);
-    };
+    }
+    ;
 
 };
 

@@ -16,6 +16,19 @@ var Player = function () {
         this.ContainerO.jumpCounter = 0;
         this.ContainerO.mouseEnabled = false;
         this.ContainerO.lastsend = "";
+        this.ContainerO.bottomCallBack = function () {
+            this.gravityCounter = Math.round(this.gravityCounter / 2);
+            this.resetJumpCounter();
+        };
+        this.ContainerO.topCallBack = function () {
+
+        };
+        this.ContainerO.leftCallBack = function () {
+
+        };
+        this.ContainerO.rightCallBack = function () {
+
+        };
         this.ContainerO.resetBoostTimer = function () {
             this.boostTimer = this.maxBoost;
         };
