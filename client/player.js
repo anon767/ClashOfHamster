@@ -5,15 +5,23 @@
 //Player class is actually abstract, modify the canvasO!
 var Player = function () {
     var ContainerO;
-    this.create = function (stage, name, health, x, y, rotation, xvel, yvel, id) {
+    this.create = function (stage, name, health, x, y, rotation, xvel, yvel, id, healthLabel, boostLabel) {
         var img = new Image(44, 47);
         img.src = queue.getResult("player").src;
         this.ContainerO = new createjs.Container();
+        this.ContainerO.maxHealth = 100;
         this.ContainerO.PlayerO = new createjs.Shape();
         this.TextO = new createjs.Text(name, "12px Arial", "darkblue");
         this.ContainerO.maxBoost = 500;
         this.ContainerO.stage = stage;
         this.ContainerO.gravityCounter = 1;
+        console.log(healthLabel);
+        if(healthLabel){
+            this.ContainerO.healthLabel = healthLabel;
+        }
+        if (boostLabel){
+            this.ContainerO.boostLabel = boostLabel;
+        }
         this.ContainerO.boostTimer = 500;
         this.ContainerO.jumpCounter = 0;
         this.ContainerO.mouseEnabled = false;
@@ -58,6 +66,10 @@ var Player = function () {
             this.ps.update(stage);
         };
         this.ContainerO.update = function (socketO) {
+            this.healthLabel.update(this.health,this.maxHealth);
+            this.boostLabel.update(this.boostTimer,this.maxBoost);
+            this.healthLabel.x = -stage.x;
+            this.boostLabel.x = -stage.x;
             var data = JSON.stringify({1: {
                     id: this.socketId,
                     x: this.x,

@@ -1,5 +1,5 @@
 /* global createjs */
-var stage, timeCircle, socketObject, keyboard = new Keyboard(), collision, mePlayer, mouse;
+var stage, timeCircle, socketObject, keyboard = new Keyboard(), collision, mePlayer, mouse, healthLabel, boostLabel;
 var up = false, left = false, right = false, down = false, jump = false;
 var players = [null, null, null, null, null, null]; //allocate some space for players
 var queue = new createjs.LoadQueue(false);
@@ -81,7 +81,7 @@ function Eventcallback(data) {
     data = $.parseJSON(data); //parse
     if (data['id']) { //retrieve unique ID for identification in network
 
-        mePlayer = new Player().create(stage, "hamsti" + (Math.floor(Math.random() * (5)) + 1), 100, 100, 100, 0, 0, 0, data['id'], queue); //create Player
+        mePlayer = new Player().create(stage, "hamsti" + (Math.floor(Math.random() * (5)) + 1), 100, 100, 100, 0, 0, 0, data['id'],healthLabel,boostLabel); //create Player
 
         mePlayer.initSend(socketObject);
     }
@@ -93,7 +93,7 @@ function Eventcallback(data) {
 
         var joinedPlayer = new Player(); //create a new player
         players[data['0']['id']] = joinedPlayer.create(stage, data[0]['name'], data['0']['health'], data['0']['x'],
-                data['0']['y'], data['0']['rotation'], 0, 0, data['0']['id'], queue);
+                data['0']['y'], data['0']['rotation'], 0, 0, data['0']['id']);
 
     }
     if (data['1']) { //update player
@@ -146,6 +146,8 @@ $(document).ready(function () {
     function handleComplete() {
         socketObject = new Communication(Eventcallback); //reduce globals, parameterize callbacks
         stage = new Stage();
+        healthLabel = new StatusLabel().create(0, 0, "green", 150, 10, stage);
+        boostLabel = new StatusLabel().create(0, 10, "Yellow", 150, 10, stage);
         window.addEventListener('resize', stage.resizeCanvas, false);
         //$(window).on("down",function(e){console.log("bla")});
         $(window).keydown(function (e) {
