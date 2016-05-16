@@ -104,8 +104,8 @@ var Player = function () {
             this.ps.positionOffsetY = {min: -1, max: 1};
             this.ps.velocityY = {min: -2, max: 2};
             this.ps.velocityX = {min: -2, max: 2};
-            this.ps.radius = {min: 1, max: 7};
-            this.ps.count = 150;
+            this.ps.radius = {min: 2, max: 7};
+            this.ps.count = 350;
             this.ps.startColor = {
                 min: new RGBA(230, 50, 0, 255),
                 max: new RGBA(255, 230, 0, 255)
