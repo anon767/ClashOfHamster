@@ -7,6 +7,7 @@
  * 3 Dead
  * 4 compression on
  * 5 retrieve map details
+ * 6 retrieve bullet information
  */
 function Communication(Eventcallback) {
     var socket, send, compression, setCompression;

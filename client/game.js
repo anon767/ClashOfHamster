@@ -49,9 +49,29 @@ function keyboardCheck(event) {
         jump = false;
     }
     collision.move(left, right, up, down, mePlayer, stage, event, jump);
+}
 
+/**
+ * 
+ * @returns {undefined}
+ */
+function calculateBullets(evt) {
+    var bulletCount = stage.bullets.length;
+    for (var i = 0; i < bulletCount; i++) {
+        if (typeof stage.bullets[i] != 'undefined' && stage.bullets[i] != null) {
+            stage.bullets[i].xvel = stage.bullets[i].tox < stage.bullets[i].startX ? -(stage.bullets[i].tox / stage.bullets[i].startX) * 5 : (stage.bullets[i].tox / stage.bullets[i].startX) * 5;
+            stage.bullets[i].yvel = stage.bullets[i].toy > stage.bullets[i].startY ? (stage.bullets[i].toy / stage.bullets[i].startY) * 5 : -(stage.bullets[i].toy / stage.bullets[i].startY) * 5;
 
-
+            var nextposx = stage.bullets[i].x + stage.bullets[i].xvel;
+            var nextposy = stage.bullets[i].y + stage.bullets[i].yvel;
+            collision.stageCollision(nextposx, nextposy, stage.bullets[i]);
+            collision.obstacleCollision(stage.bullets[i], stage, nextposx, nextposy);
+            if (stage.bullets[i] != null) {
+                stage.bullets[i].x = nextposx;
+                stage.bullets[i].y = nextposy;
+            }
+        }
+    }
 }
 
 /**
@@ -62,6 +82,7 @@ function keyboardCheck(event) {
 function tick(event) {
     if (mePlayer) {
         //always give event as param, needed for interpolation event.delta
+        calculateBullets(event);
         keyboardCheck(event);
         mePlayer.update(socketObject);
     }
@@ -95,15 +116,14 @@ function Eventcallback(data) {
         var hl = new StatusLabel().create(data['0']['x'], data['0']['y'], "green", 50, 5, stage);
         players[data['0']['id']] = joinedPlayer.create(stage, data[0]['name'], data['0']['health'], data['0']['x'],
                 data['0']['y'], data['0']['rotation'], 0, 0, data['0']['id'], hl);
-
     }
     if (data['1']) { //update player
         if (players[data['1']['id']]) {
             players[data['1']['id']].setCoords(data['1']['x'], data['1']['y'], data['1']['dir']);
             players[data['1']['id']].health = data['1']['health'];
-            players[data['1']['id']].healthLabel.update(players[data['1']['id']].health,mePlayer.maxHealth);
+            players[data['1']['id']].healthLabel.update(players[data['1']['id']].health, mePlayer.maxHealth);
             players[data['1']['id']].healthLabel.x = data['1']['x'];
-            players[data['1']['id']].healthLabel.y = data['1']['y']-12;
+            players[data['1']['id']].healthLabel.y = data['1']['y'] - 12;
         } else {
             socketObject.send(JSON.stringify({2: data['1']['id']})); //on missing player request initial sends
         }
@@ -112,8 +132,10 @@ function Eventcallback(data) {
         mePlayer.initSend(socketObject);
     }
     if (data['3']) { //player dead
-        players[data['3']].remove(stage);
-        players[data['3']] = null; //remove
+        if (players[data['3']] != null) {
+            players[data['3']].remove(stage);
+            players[data['3']] = null; //remove
+        }
     }
 
     if (data['5']) { //initialize map
@@ -125,6 +147,9 @@ function Eventcallback(data) {
             b.create(parseFloat(o['x']), parseFloat(o['y']), "#C2826D", parseFloat(o['w']), parseFloat(o['h']), stage);
         }
     }
+    if (data['6']) {
+        new Bullet().create(data['6']['x'], data['6']['y'], "black", data['6']['id'], stage, data['6']['tox'], data['6']['toy']);
+    }
 
 }
 
@@ -134,9 +159,16 @@ function Eventcallback(data) {
  * @returns {undefined}
  */
 function mouseEvent(evt) {
-    var x = evt.stageX < mePlayer.x ? mePlayer.x : mePlayer.x + 40;
+    var x = evt.stageX + -1 * stage.x < mePlayer.x ? mePlayer.x : mePlayer.x + 40;
     var y = evt.stageY < mePlayer.y ? mePlayer.y : mePlayer.y + 40;
-    new Bullet().create(x, y, "black", mePlayer.socketId, stage);
+    var b = new Bullet().create(x, y, "black", mePlayer.socketId, stage, evt.stageX + -1 * stage.x, evt.stageY);
+    socketObject.send(JSON.stringify({6: {
+            id: mePlayer.socketId,
+            x: x,
+            y: y,
+            tox: evt.stageX + -1 * stage.x,
+            toy: evt.stageY
+        }}));
 }
 
 $(document).ready(function () {
@@ -160,7 +192,6 @@ $(document).ready(function () {
         $(window).keyup(function (e) {
             keyboard.keyup(e);
         });
-
         mouse = new Mouse();
         mouse.setMouse(stage, mouseEvent);
         collision = new Collision();

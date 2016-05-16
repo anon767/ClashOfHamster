@@ -27,37 +27,44 @@ var Collision = function () {
      */
     this.moveStage = function (x, stage, nextx) {
         var xNew = stage.x + x;
-        if (nextx > ( stage.innerWidth*2 -stage.size)/2 && xNew <= 0) { //only move stage if its between size
+        if (nextx > (stage.innerWidth * 2 - stage.size) / 2 && xNew <= 0) { //only move stage if its between size
             stage.x = xNew;
         } else if (xNew > 0) { //if stage.x is above 0 for what reason ever: reset it
             stage.x = 0;
         }
     };
     this.collide = function (objecta, nextposx, nextposy, objectb) {
-        if(objecta && objectb){
-        if (nextposy + objecta.height > objectb.y &&
-                nextposx + objecta.width > objectb.x &&
-                nextposx < objectb.x + objectb.width &&
-                nextposy < objectb.y + objectb.height) {
-            if (objecta.y + objecta.height < objectb.y) {
-                if (typeof objecta.bottomCallBack == 'function') {
-                    objecta.bottomCallBack();
+        if (objecta && objectb) {
+            if (nextposy + objecta.height > objectb.y &&
+                    nextposx + objecta.width > objectb.x &&
+                    nextposx < objectb.x + objectb.width &&
+                    nextposy < objectb.y + objectb.height) {
+                if (objecta.y + objecta.height < objectb.y) {
+                    if (typeof objecta.bottomCallBack == 'function') {
+                        objecta.bottomCallBack();
+                    }
+                    this.cls(0, objecta);
                 }
-                objecta.bottomCallBack();
-                this.cls(0, objecta);
-            }
-            if (objecta.x + objecta.width < objectb.x) {
-                this.cls(1, objecta);
-            }
-            if (objecta.x > objectb.x + objectb.width) {
-                this.cls(2, objecta);
-            }
-            if (objecta.y > objectb.y + objectb.height) {
-
-                this.cls(3, objecta);
+                if (objecta.x + objecta.width < objectb.x) {
+                    this.cls(1, objecta);
+                    if (typeof objecta.leftCallBack == 'function') {
+                        objecta.leftCallBack();
+                    }
+                }
+                if (objecta.x > objectb.x + objectb.width) {
+                    this.cls(2, objecta);
+                    if (typeof objecta.rightCallBack == 'function') {
+                        objecta.rightCallBack();
+                    }
+                }
+                if (objecta.y > objectb.y + objectb.height) {
+                    if (typeof objecta.topCallBack == 'function') {
+                        objecta.topCallBack();
+                    }
+                    this.cls(3, objecta);
+                }
             }
         }
-    }
     };
 
     //check collision with every other object
@@ -65,14 +72,40 @@ var Collision = function () {
         var amount = stage.blocking.length;
         for (var i = 0; i < amount; ++i) { //for instead of foreach 
             var rect = stage.blocking[i]; //faster than getChild();
-            if (rect != undefined && Player.id !== rect.id) {
+            if (Player != null && rect != undefined && Player.id !== rect.id) {
                 this.collide(Player, nextposx, nextposy, rect);
             }
         }
     };
 
 
+    this.stageCollision = function (nextposx, nextposy, object) {
+        if (nextposy - object.height < 0) {
+            this.cls(3, object);
+            if (typeof object.topCallBack == 'function') {
+                object.topCallBack();
+            }
+        }
+        if (nextposx + object.width > stage.size) {
+            this.cls(1, object);
+            if (typeof object.leftCallBack == 'function') {
+                object.leftCallBack();
+            }
+        }
+        if (nextposx - object.width < 0) {
+            this.cls(2, object);
+            if (typeof object.rightCallBack == 'function') {
+                object.rightCallBack();
+            }
+        }
+        if (nextposy + object.height > stage.canvas.height) {
+            if (typeof object.bottomCallBack == 'function') {
+                object.bottomCallBack();
+            }
+            this.cls(0, object);
+        }
 
+    };
 //add velocity and check colliding with ceiling,left,right,and bottom of stage
     this.move = function (left, right, up, down, Player, stage, event, jump) {
 
@@ -128,23 +161,9 @@ var Collision = function () {
         if (Player.yvel > this.maxvel || Player.yvel < this.maxvel * -1) {
             (Player.yvel > 0) ? Player.yvel = this.maxvel : Player.yvel = this.maxvel * -1;
         }
-        
+
         this.obstacleCollision(Player, stage, nextposx, nextposy);
-        if (nextposy - Player.height < 0) {
-            this.cls(3, Player); // Inverted collision side is proposital!
-        }
-        if (nextposx + Player.width > stage.size) {
-            this.cls(1, Player);
-        }
-        if (nextposx - Player.width < 0) {
-            this.cls(2, Player);
-        }
-        if (nextposy + Player.height > stage.canvas.height) {
-            if (typeof Player.bottomCallBack == 'function') {
-                Player.bottomCallBack();
-            }
-            this.cls(0, Player);
-        }
+        this.stageCollision(nextposx, nextposy, Player);
 
         this.moveStage(-1 * event.delta / 1000 * Player.xvel * 15, stage, nextposx - Player.width);
         Player.x += (event.delta / 1000 * Player.xvel * 20);
