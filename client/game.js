@@ -59,8 +59,8 @@ function calculateBullets(evt) {
     var bulletCount = stage.bullets.length;
     for (var i = 0; i < bulletCount; i++) {
         if (typeof stage.bullets[i] != 'undefined' && stage.bullets[i] != null) {
-            stage.bullets[i].xvel = 3 * evt.delta/1000 * (stage.bullets[i].tox - stage.bullets[i].startX);
-            stage.bullets[i].yvel = 3 * evt.delta/1000 * (stage.bullets[i].toy - stage.bullets[i].startY);
+            stage.bullets[i].xvel += evt.delta/1000 * (stage.bullets[i].tox - stage.bullets[i].startX);
+            stage.bullets[i].yvel += evt.delta/1000 * (stage.bullets[i].toy - stage.bullets[i].startY);
 
             var nextposx = stage.bullets[i].x + stage.bullets[i].xvel;
             var nextposy = stage.bullets[i].y + stage.bullets[i].yvel;
@@ -159,9 +159,9 @@ function Eventcallback(data) {
  * @returns {undefined}
  */
 function mouseEvent(evt) {
-    var x = evt.stageX + -1 * stage.x < mePlayer.x ? mePlayer.x : mePlayer.x + 40;
-    var y = evt.stageY < mePlayer.y ? mePlayer.y : mePlayer.y + 40;
-    var b = new Bullet().create(x, y, "black", mePlayer.socketId, stage, evt.stageX + -1 * stage.x, evt.stageY);
+    var x = mePlayer.x + 22;
+    var y = mePlayer.y + 23;
+    var b = new Bullet().create(x, y, "black", mePlayer.socketId, stage, evt.stageX +  -stage.x, evt.stageY);
     socketObject.send(JSON.stringify({6: {
             id: mePlayer.socketId,
             x: x,
@@ -176,7 +176,7 @@ $(document).ready(function () {
     queue.loadManifest([
         {id: "bg", src: "client/assets/img/background.jpg"},
         {id: "explosion", src: "client/assets/img/explosion.png"},
-        {id: "player", src: "client/assets/img/player.png"},
+        {id: "player", src: "client/assets/img/player.png"}
     ]);
     queue.on("complete", handleComplete, this);
     function handleComplete() {
