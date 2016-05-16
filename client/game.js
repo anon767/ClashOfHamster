@@ -118,7 +118,7 @@ function Eventcallback(data) {
         for (var i = 1; i < amount; ++i) {
             var b = new Block();
             var o = data['5'][i];
-            b.create(parseFloat(o['x']), parseFloat(o['y']), "black", parseFloat(o['w']), parseFloat(o['h']), stage);
+            b.create(parseFloat(o['x']), parseFloat(o['y']), "#C2826D", parseFloat(o['w']), parseFloat(o['h']), stage);
         }
     }
 
