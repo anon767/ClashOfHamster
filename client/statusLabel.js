@@ -24,7 +24,7 @@ var StatusLabel = function () {
             this.scaleX = 1/maxValue * value;
         };
         stage.addChild(this.canvasO);
-        stage.blocking[this.canvasO.id] = this.canvasO;
+        stage.nonBlocking[this.canvasO.id] = this.canvasO;
         return this.canvasO;
     };
 };

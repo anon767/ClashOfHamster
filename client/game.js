@@ -81,7 +81,7 @@ function Eventcallback(data) {
     data = $.parseJSON(data); //parse
     if (data['id']) { //retrieve unique ID for identification in network
 
-        mePlayer = new Player().create(stage, "hamsti" + (Math.floor(Math.random() * (5)) + 1), 100, 100, 100, 0, 0, 0, data['id'],healthLabel,boostLabel); //create Player
+        mePlayer = new Player().create(stage, "hamsti" + (Math.floor(Math.random() * (5)) + 1), 100, 100, 100, 0, 0, 0, data['id'], healthLabel, boostLabel); //create Player
 
         mePlayer.initSend(socketObject);
     }
@@ -92,14 +92,18 @@ function Eventcallback(data) {
         }
 
         var joinedPlayer = new Player(); //create a new player
+        var hl = new StatusLabel().create(data['0']['x'], data['0']['y'], "green", 50, 5, stage);
         players[data['0']['id']] = joinedPlayer.create(stage, data[0]['name'], data['0']['health'], data['0']['x'],
-                data['0']['y'], data['0']['rotation'], 0, 0, data['0']['id']);
+                data['0']['y'], data['0']['rotation'], 0, 0, data['0']['id'], hl);
 
     }
     if (data['1']) { //update player
         if (players[data['1']['id']]) {
             players[data['1']['id']].setCoords(data['1']['x'], data['1']['y'], data['1']['dir']);
             players[data['1']['id']].health = data['1']['health'];
+            players[data['1']['id']].healthLabel.update(players[data['1']['id']].health,mePlayer.maxHealth);
+            players[data['1']['id']].healthLabel.x = data['1']['x'];
+            players[data['1']['id']].healthLabel.y = data['1']['y']-12;
         } else {
             socketObject.send(JSON.stringify({2: data['1']['id']})); //on missing player request initial sends
         }

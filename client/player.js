@@ -16,10 +16,10 @@ var Player = function () {
         this.ContainerO.stage = stage;
         this.ContainerO.gravityCounter = 1;
         console.log(healthLabel);
-        if(healthLabel){
+        if (healthLabel) {
             this.ContainerO.healthLabel = healthLabel;
         }
-        if (boostLabel){
+        if (boostLabel) {
             this.ContainerO.boostLabel = boostLabel;
         }
         this.ContainerO.boostTimer = 500;
@@ -59,15 +59,17 @@ var Player = function () {
             this.jumpCounter = 0;
         };
         this.ContainerO.remove = function (stage) {
+            stage.blocking[this.id] = null;
+            stage.removeChild(this.healthLabel);
             stage.removeChild(this);
         };
         this.ContainerO.particleUpdate = function () {
-            this.ps.position = {x: (this.x + this.x) / 2 - 10*this.PlayerO.scaleX, y: (this.y + this.height - 4)};
+            this.ps.position = {x: (this.x + this.x) / 2 - 10 * this.PlayerO.scaleX, y: (this.y + this.height - 4)};
             this.ps.update(stage);
         };
         this.ContainerO.update = function (socketO) {
-            this.healthLabel.update(this.health,this.maxHealth);
-            this.boostLabel.update(this.boostTimer,this.maxBoost);
+            this.healthLabel.update(this.health, this.maxHealth);
+            this.boostLabel.update(this.boostTimer, this.maxBoost);
             this.healthLabel.x = -stage.x;
             this.boostLabel.x = -stage.x;
             var data = JSON.stringify({1: {
