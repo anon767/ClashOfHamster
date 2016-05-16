@@ -67,6 +67,10 @@ var Player = function () {
             this.ps.update(stage);
         };
         this.ContainerO.update = function (socketO) {
+            if(this.health <= 0){
+                alert("you are dead");
+                this.remove(this.stage);
+            }
             this.healthLabel.update(this.health, this.maxHealth);
             this.boostLabel.update(this.boostTimer, this.maxBoost);
             this.healthLabel.x = -stage.x;
