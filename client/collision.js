@@ -43,6 +43,9 @@ var Collision = function () {
                     if (typeof objecta.bottomCallBack == 'function') {
                         objecta.bottomCallBack();
                     }
+                    if (objectb.id === mePlayer.id) {
+                        mePlayer.hit(1);
+                    }
                     this.cls(0, objecta);
                 }
                 if (objecta.x + objecta.width < objectb.x) {
@@ -50,16 +53,25 @@ var Collision = function () {
                     if (typeof objecta.leftCallBack == 'function') {
                         objecta.leftCallBack();
                     }
+                    if (objectb.id === mePlayer.id) {
+                        mePlayer.hit(1);
+                    }
                 }
                 if (objecta.x > objectb.x + objectb.width) {
                     this.cls(2, objecta);
                     if (typeof objecta.rightCallBack == 'function') {
                         objecta.rightCallBack();
                     }
+                    if (objectb.id === mePlayer.id) {
+                        mePlayer.hit(0);
+                    }
                 }
                 if (objecta.y > objectb.y + objectb.height) {
                     if (typeof objecta.topCallBack == 'function') {
                         objecta.topCallBack();
+                    }
+                    if (objectb.id === mePlayer.id) {
+                        mePlayer.hit(0);
                     }
                     this.cls(3, objecta);
                 }
@@ -153,8 +165,8 @@ var Collision = function () {
         }
         var nextposx = Player.x + event.delta / 1000 * Player.xvel * 20;
         var nextposy = Player.y + event.delta / 1000 * Player.yvel * 20;
-        // Velocity limiter:
 
+        // Velocity limiter:
         if (Player.xvel > this.maxvel || Player.xvel < this.maxvel * -1) {
             (Player.xvel > 0) ? Player.xvel = this.maxvel : Player.xvel = this.maxvel * -1;
         }
