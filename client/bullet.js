@@ -15,7 +15,9 @@ var Bullet = function () {
         this.canvasO.width = width;
         this.canvasO.height = height;
         this.canvasO.color = color;
-        this.canvasO.explode = function (stage) {
+        this.canvasO.stage = stage;
+        this.canvasO.explode = function () {
+            (new Explosion()).create(this.x,this.y,this.playerId,this.stage);
             stage.nonBlocking[this.id] = null;
             stage.removeChild(this);
         };

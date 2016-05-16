@@ -128,7 +128,7 @@ var Player = function () {
         //this.PlayerO.graphics.beginFill("red").drawCircle(+20, +20, 10);
         this.ContainerO.y = y;
         this.ContainerO.x = x;
-        this.ContainerO.PlayerO.y = 29;
+        this.ContainerO.PlayerO.y = 25;
         this.ContainerO.PlayerO.x = 24;
         this.ContainerO.PlayerO.regX = this.ContainerO.width / 2;
         this.ContainerO.PlayerO.regY = this.ContainerO.height / 2;
@@ -136,7 +136,7 @@ var Player = function () {
         this.ContainerO.snapToPixel = true;
         this.ContainerO.regY = 0;
         this.TextO.x = -5;
-        this.TextO.y = 5;
+        this.TextO.y = 7;
         this.TextO.textBaseline = "alphabetic";
         this.ContainerO.addChild(this.ContainerO.PlayerO, this.TextO);
         this.ContainerO.y = y;

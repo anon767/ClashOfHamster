@@ -98,6 +98,7 @@ function ParticleSystem() {
         this.particles.forEach(function (p, i, array) {
             if (p.isDead()) {
                 p.dispose(stage);
+                stage.removeChild(p);
                 array.splice(i, 1);
             } else {
                 p.update(stage);

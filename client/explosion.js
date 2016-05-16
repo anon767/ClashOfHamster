@@ -2,10 +2,9 @@
 
 //Explosion
 var Explosion = function () {
-    var create, canvasO, stage;
+    var create, canvasO;
     this.create = function (x, y, id, stage) {
         var width = 5, height = 5;
-        this.stage = stage;
         var sprite = new createjs.SpriteSheet({
             "frames": {
                 "width": 65,
@@ -21,7 +20,7 @@ var Explosion = function () {
         });
 
         this.canvasO = new createjs.Sprite(sprite, "run");
-
+        this.canvasO.mystage = stage;
         this.canvasO.regX = 0;
         this.canvasO.regY = 0;
         this.canvasO.playerId = id;
@@ -33,12 +32,12 @@ var Explosion = function () {
         this.canvasO.height = height;
         this.canvasO.y = y;
         this.canvasO.snapToPixel = true;
-        this.stage.addChild(this.canvasO);
+        this.canvasO.mystage.addChild(this.canvasO);
         this.canvasO.on("animationend", function () {
-            stage.nonBlocking[this.id] = null;
-            stage.removeChild(this);
+            this.mystage.nonBlocking[this.id] = null;
+            this.mystage.removeChild(this);
         });
-        this.stage.nonBlocking[this.canvasO.id] = this.canvasO;
+        this.canvasO.mystage.nonBlocking[this.canvasO.id] = this.canvasO;
         return this.canvasO;
     };
 };
