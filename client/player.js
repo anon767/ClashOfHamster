@@ -67,9 +67,10 @@ var Player = function () {
             this.ps.update(stage);
         };
         this.ContainerO.update = function (socketO) {
-            if(this.health <= 0){
+            if (this.health <= 0) {
+                socketO.send(JSON.stringify({3: this.socketId}));
                 alert("you are dead");
-                this.remove(this.stage);
+                this.remove(this);
             }
             this.healthLabel.update(this.health, this.maxHealth);
             this.boostLabel.update(this.boostTimer, this.maxBoost);
@@ -127,7 +128,6 @@ var Player = function () {
                 min: new RGBA(230, 50, 0, 255),
                 max: new RGBA(255, 230, 0, 255)
             };
-
             this.ps.endColor = {
                 min: new RGBA(255, 0, 0, 0),
                 max: new RGBA(255, 0, 0, 0)
@@ -138,6 +138,15 @@ var Player = function () {
         this.ContainerO.height = 47;
         this.ContainerO.socketId = id;
         this.ContainerO.yvel = yvel;
+        this.ContainerO.hit = function (dir) {
+            if (dir) {
+                this.xvel += 25;
+            } else {
+                this.xvel -= 25;
+            }
+            this.yvel -= 25;
+            this.health -= 10;
+        };
         this.ContainerO.health = health;
         this.ContainerO.name = name;
         this.ContainerO.rotation = rotation;
@@ -163,5 +172,4 @@ var Player = function () {
         stage.blocking[this.ContainerO.id] = this.ContainerO;
         return this.ContainerO;
     };
-
 };
