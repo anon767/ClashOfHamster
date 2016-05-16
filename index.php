@@ -35,6 +35,7 @@ and open the template in the editor.
         <script src="client/particle.js"></script>
         <script src="client/player.js"></script>
         <script src="client/block.js"></script>
+        <script src="client/statusLabel.js"></script>
         <script src="client/collision.js"></script>
         <script src="client/bullet.js"></script>
         <script src="client/background.js"></script>

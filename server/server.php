@@ -25,7 +25,7 @@ function wsOnMessage($clientID, $message, $messageLength, $binary, $Server) {
     $jsmsg = json_decode($message, true);
     if (isset($jsmsg['4']) && $jsmsg['4'] == 1) {
         $Server->wsClients[$clientID][12] = true;
-        $server - log($clientID . " set compression to " . $Server->wsClients[$clientID][12]);
+        $Server - log($clientID . " set compression to " . $Server->wsClients[$clientID][12]);
     } else {
 //Send the message to everyone but the person who said it
         foreach ($Server->wsClients as $id => &$client) {
@@ -76,4 +76,4 @@ $Server->bind('open', 'wsOnOpen');
 $Server->bind('close', 'wsOnClose');
 // for other computers to connect, you will probably need to change this to your LAN IP or external IP,
 // alternatively use: gethostbyaddr(gethostbyname($_SERVER['SERVER_NAME']))
-$Server->wsStartServer('192.168.188.173', 9300);
+$Server->wsStartServer('127.0.0.1', 9300);
