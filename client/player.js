@@ -15,7 +15,6 @@ var Player = function () {
         this.ContainerO.maxBoost = 500;
         this.ContainerO.stage = stage;
         this.ContainerO.gravityCounter = 1;
-        console.log(healthLabel);
         if (healthLabel) {
             this.ContainerO.healthLabel = healthLabel;
         }
