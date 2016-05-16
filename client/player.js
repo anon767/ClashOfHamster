@@ -118,12 +118,12 @@ var Player = function () {
             this.ps = new ParticleSystem();
             this.ps.lifetime = {min: 150, max: 200};
             this.ps.position = {x: (this.x + this.x + this.width) / 2, y: (this.y + this.height)};
-            this.ps.positionOffsetX = {min: -1, max: 1};
-            this.ps.positionOffsetY = {min: -1, max: 1};
+            this.ps.positionOffsetX = {min: -1, max: 2};
+            this.ps.positionOffsetY = {min: -1, max: 2};
             this.ps.velocityY = {min: -2, max: 2};
             this.ps.velocityX = {min: -2, max: 2};
-            this.ps.radius = {min: 2, max: 7};
-            this.ps.count = 350;
+            this.ps.radius = {min: 3, max: 8};
+            this.ps.count = 450;
             this.ps.startColor = {
                 min: new RGBA(230, 50, 0, 255),
                 max: new RGBA(255, 230, 0, 255)
