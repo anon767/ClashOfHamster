@@ -22,14 +22,14 @@ var Collision = function () {
      * moves "camera" by moving the stage to opposite direction the player walks
      * @param {type} x
      * @param {type} stage
-     * @param {type} Player
+     * @param {type} nextx
      * @returns {undefined}
      */
     this.moveStage = function (x, stage, nextx) {
         var xNew = stage.x + x;
         if (nextx > ( stage.innerWidth*2 -stage.size)/2 && xNew <= 0) { //only move stage if its between size
             stage.x = xNew;
-        } else if (xNew > 0) { //if stage.x is above 0 for what reason ever: reset it
+        } else if (xNew > 0 || (nextx < 100 && stage.x !== 0)) { //if stage.x is above 0 for what reason ever: reset it
             stage.x = 0;
         }
     };
