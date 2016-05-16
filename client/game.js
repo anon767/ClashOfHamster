@@ -2,8 +2,7 @@
 var stage, timeCircle, socketObject, keyboard = new Keyboard(), collision, mePlayer, mouse;
 var up = false, left = false, right = false, down = false, jump = false;
 var players = [null, null, null, null, null, null]; //allocate some space for players
-
-
+var queue = new createjs.LoadQueue(false);
 /**
  * moves when direction is set
  * @param {type} event
@@ -82,7 +81,7 @@ function Eventcallback(data) {
     data = $.parseJSON(data); //parse
     if (data['id']) { //retrieve unique ID for identification in network
 
-        mePlayer = new Player().create(stage, "hamsti" + (Math.floor(Math.random() * (5)) + 1), 100, 100, 100, 0, 0, 0, data['id']); //create Player
+        mePlayer = new Player().create(stage, "hamsti" + (Math.floor(Math.random() * (5)) + 1), 100, 100, 100, 0, 0, 0, data['id'], queue); //create Player
 
         mePlayer.initSend(socketObject);
     }
@@ -94,12 +93,12 @@ function Eventcallback(data) {
 
         var joinedPlayer = new Player(); //create a new player
         players[data['0']['id']] = joinedPlayer.create(stage, data[0]['name'], data['0']['health'], data['0']['x'],
-                data['0']['y'], data['0']['rotation'], 0, 0, data['0']['id']);
+                data['0']['y'], data['0']['rotation'], 0, 0, data['0']['id'], queue);
 
     }
     if (data['1']) { //update player
         if (players[data['1']['id']]) {
-            players[data['1']['id']].setCoords(data['1']['x'],data['1']['y'],data['1']['dir']);
+            players[data['1']['id']].setCoords(data['1']['x'], data['1']['y'], data['1']['dir']);
             players[data['1']['id']].health = data['1']['health'];
         } else {
             socketObject.send(JSON.stringify({2: data['1']['id']})); //on missing player request initial sends
@@ -137,22 +136,29 @@ function mouseEvent(evt) {
 }
 
 $(document).ready(function () {
-    //queue = new createjs.LoadQueue(false); dont know what it does but it sucks
-    socketObject = new Communication(Eventcallback); //reduce globals, parameterize callbacks
-    stage = new Stage();
-    window.addEventListener('resize', stage.resizeCanvas, false);
-    //$(window).on("down",function(e){console.log("bla")});
-    $(window).keydown(function (e) {
-        keyboard.keydown(e);
-    });
-    $(window).keyup(function (e) {
-        keyboard.keyup(e);
-    });
 
-    mouse = new Mouse();
-    mouse.setMouse(stage, mouseEvent);
-    collision = new Collision();
-    createjs.Ticker.on("tick", tick);
-    createjs.Ticker.setFPS(75); //smooth performance
+    queue.loadManifest([
+        {id: "bg", src: "client/assets/img/background.jpg"},
+        {id: "explosion", src: "client/assets/img/explosion.png"},
+        {id: "player", src: "client/assets/img/player.png"},
+    ]);
+    queue.on("complete", handleComplete, this);
+    function handleComplete() {
+        socketObject = new Communication(Eventcallback); //reduce globals, parameterize callbacks
+        stage = new Stage();
+        window.addEventListener('resize', stage.resizeCanvas, false);
+        //$(window).on("down",function(e){console.log("bla")});
+        $(window).keydown(function (e) {
+            keyboard.keydown(e);
+        });
+        $(window).keyup(function (e) {
+            keyboard.keyup(e);
+        });
 
+        mouse = new Mouse();
+        mouse.setMouse(stage, mouseEvent);
+        collision = new Collision();
+        createjs.Ticker.on("tick", tick);
+        createjs.Ticker.setFPS(75); //smooth performance
+    }
 });

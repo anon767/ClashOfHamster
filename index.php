@@ -16,15 +16,18 @@ and open the template in the editor.
         <canvas id="stage" style="position:absolute; left: 0px; top: 0px;"></canvas>
         <script src="client/stage.js"></script>
 
+
+
+        <script src="//code.createjs.com/tweenjs-0.6.2.min.js"></script>
+        <script src="//code.createjs.com/preloadjs-0.6.2.min.js"></script>
         <script
             src="//code.jquery.com/jquery-1.12.3.min.js"
             integrity="sha256-aaODHAgvwQW1bFOGXMeX+pC4PZIPsvn2h1sArYOhgXQ="
         crossorigin="anonymous"></script>
-        <script
-        src="//code.createjs.com/tweenjs-0.6.2.min.js"></script>
         <script src="client/lib/jsend.js"></script>
         <script src="client/lib/virtualJoystick.js"></script>
         <script src="//code.createjs.com/easeljs-0.8.2.min.js"></script>
+
         <script src="client/explosion.js"></script>
         <script src="client/socket.js"></script>
         <script src="client/mouse.js"></script>

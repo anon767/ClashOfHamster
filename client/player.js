@@ -4,10 +4,10 @@
 
 //Player class is actually abstract, modify the canvasO!
 var Player = function () {
-    var ContainerO, Texto;
+    var ContainerO;
     this.create = function (stage, name, health, x, y, rotation, xvel, yvel, id) {
         var img = new Image(44, 47);
-        img.src = "client/assets/img/player.png";
+        img.src = queue.getResult("player").src;
         this.ContainerO = new createjs.Container();
         this.ContainerO.PlayerO = new createjs.Shape();
         this.TextO = new createjs.Text(name, "12px Arial", "darkblue");
