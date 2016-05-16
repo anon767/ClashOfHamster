@@ -59,8 +59,8 @@ function calculateBullets(evt) {
     var bulletCount = stage.bullets.length;
     for (var i = 0; i < bulletCount; i++) {
         if (typeof stage.bullets[i] != 'undefined' && stage.bullets[i] != null) {
-            stage.bullets[i].xvel = stage.bullets[i].tox < stage.bullets[i].startX ? -(stage.bullets[i].tox / stage.bullets[i].startX) * 5 : (stage.bullets[i].tox / stage.bullets[i].startX) * 5;
-            stage.bullets[i].yvel = stage.bullets[i].toy > stage.bullets[i].startY ? (stage.bullets[i].toy / stage.bullets[i].startY) * 5 : -(stage.bullets[i].toy / stage.bullets[i].startY) * 5;
+            stage.bullets[i].xvel = 3 * evt.delta/1000 * (stage.bullets[i].tox - stage.bullets[i].startX);
+            stage.bullets[i].yvel = 3 * evt.delta/1000 * (stage.bullets[i].toy - stage.bullets[i].startY);
 
             var nextposx = stage.bullets[i].x + stage.bullets[i].xvel;
             var nextposy = stage.bullets[i].y + stage.bullets[i].yvel;
