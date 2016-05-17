@@ -150,6 +150,7 @@ var Player = function () {
         this.ContainerO.name = name;
         this.ContainerO.rotation = rotation;
         this.ContainerO.PlayerO.graphics.beginBitmapFill(img).drawRect(0, 0, 44, 47);
+        
         //this.PlayerO.graphics.beginFill("red").drawCircle(+20, +20, 10);
         this.ContainerO.y = y;
         this.ContainerO.x = x;
