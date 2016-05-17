@@ -12,7 +12,7 @@ and open the template in the editor.
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body style="overflow: hidden">
-
+        <link rel="stylesheet" href="client/assets/css/style.css">
         <canvas id="stage" max-height=400 style="position:absolute; left: 0px; top: 0px;"></canvas>
         <script
             src="//code.jquery.com/jquery-1.12.3.min.js"
