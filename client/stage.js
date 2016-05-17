@@ -23,7 +23,6 @@ var Stage = function () {
                 || document.documentElement.clientWidth
                 || document.body.clientWidth;
         stage.canvas.width = tempWidth;
-        stage.canvas.height = 400;
         stage.innerWidth = (tempWidth < stage.size) ? tempWidth : stage.size;
     };
     return stage;

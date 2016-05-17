@@ -13,7 +13,7 @@ and open the template in the editor.
     </head>
     <body style="overflow: hidden">
         <link rel="stylesheet" href="client/assets/css/style.css">
-        <canvas id="stage" max-height=400 style="position:absolute; left: 0px; top: 0px;"></canvas>
+        <canvas id="stage" height="400" style="position:absolute; left: 0px; top: 0px;"></canvas>
         <script
             src="//code.jquery.com/jquery-1.12.3.min.js"
             integrity="sha256-aaODHAgvwQW1bFOGXMeX+pC4PZIPsvn2h1sArYOhgXQ="
