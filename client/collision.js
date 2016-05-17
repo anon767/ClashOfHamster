@@ -29,7 +29,7 @@ var Collision = function () {
         var xNew = stage.x + x;
         if (nextx > (stage.innerWidth * 2 - stage.size) / 2 && xNew <= 0) { //only move stage if its between size
             stage.x = xNew;
-            stage.background.x = stage.background.x - x + x*0.1;
+            stage.background.x = stage.background.x - x + x * 0.1;
         } else if (xNew > 0 || (nextx < 100 && stage.x !== 0)) { //if stage.x is above 0 for what reason ever: reset it
             stage.x = 0;
             stage.background.x = 0;
@@ -160,10 +160,9 @@ var Collision = function () {
         }
 
         //gravity
-        if ((Player.y < stage.canvas.height || Player.yvel !== 0) && !up && !jump) {
-            Player.yvel += 2.5 * Player.gravityCounter * event.delta / 1000;
-            Player.gravityCounter += 2;
-
+        if ((Player.y + 50 < stage.canvas.height) && !up && !jump) {
+            Player.yvel += Math.floor(1.5 * Player.gravityCounter * event.delta / 1000);
+            Player.gravityCounter += 3;
         }
         var nextposx = Player.x + event.delta / 1000 * Player.xvel * 20;
         var nextposy = Player.y + event.delta / 1000 * Player.yvel * 20;

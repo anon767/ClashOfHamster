@@ -14,16 +14,21 @@ and open the template in the editor.
     <body style="overflow: hidden">
 
         <canvas id="stage" style="position:absolute; left: 0px; top: 0px;"></canvas>
-        <script>
-            var username = "<?= $_POST['user'] ?>";
-        </script>
-        <script src="client/stage.js"></script>
-        <script src="//code.createjs.com/tweenjs-0.6.2.min.js"></script>
-        <script src="//code.createjs.com/preloadjs-0.6.2.min.js"></script>
         <script
             src="//code.jquery.com/jquery-1.12.3.min.js"
             integrity="sha256-aaODHAgvwQW1bFOGXMeX+pC4PZIPsvn2h1sArYOhgXQ="
         crossorigin="anonymous"></script>
+        <script>
+            $.urlParam = function (name) {
+                var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+                return results[1] || 0;
+            }
+            var username = $.urlParam("user");
+        </script>
+        <script src="client/stage.js"></script>
+        <script src="//code.createjs.com/tweenjs-0.6.2.min.js"></script>
+        <script src="//code.createjs.com/preloadjs-0.6.2.min.js"></script>
+
         <script src="client/lib/jsend.js"></script>
         <script src="client/lib/virtualJoystick.js"></script>
         <script src="//code.createjs.com/easeljs-0.8.2.min.js"></script>

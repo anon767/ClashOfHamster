@@ -14,7 +14,7 @@ and open the template in the editor.
         <link rel="stylesheet" href="client/assets/css/style.css">
         <div class="login-page">
             <div class="form">
-                <form class="login-form" method="POST" action="game.php">
+                <form class="login-form" method="GET" action="game.php">
                     <input type="text" name="user" placeholder="username"/>
                     <button>login</button>
                 </form>
