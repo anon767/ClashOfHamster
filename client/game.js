@@ -59,8 +59,8 @@ function calculateBullets(evt) {
     var bulletCount = stage.bullets.length;
     for (var i = 0; i < bulletCount; i++) {
         if (typeof stage.bullets[i] != 'undefined' && stage.bullets[i] != null) {
-            stage.bullets[i].xvel += evt.delta/1000 * (stage.bullets[i].tox - stage.bullets[i].startX);
-            stage.bullets[i].yvel += evt.delta/1000 * (stage.bullets[i].toy - stage.bullets[i].startY);
+            stage.bullets[i].xvel += evt.delta / 1000 * (stage.bullets[i].tox - stage.bullets[i].startX);
+            stage.bullets[i].yvel += evt.delta / 1000 * (stage.bullets[i].toy - stage.bullets[i].startY);
 
             var nextposx = stage.bullets[i].x + stage.bullets[i].xvel;
             var nextposy = stage.bullets[i].y + stage.bullets[i].yvel;
@@ -161,7 +161,12 @@ function Eventcallback(data) {
 function mouseEvent(evt) {
     var x = mePlayer.x + 22;
     var y = mePlayer.y + 23;
-    var b = new Bullet().create(x, y, "black", mePlayer.socketId, stage, evt.stageX +  -stage.x, evt.stageY);
+    var b = new Bullet().create(x, y, "black", mePlayer.socketId, stage, evt.stageX - stage.x, evt.stageY);
+    if (evt.stageX - stage.x < mePlayer.x) {
+        mePlayer.PlayerO.scaleX = -1;
+    } else if (evt.stageX - stage.x > mePlayer.x) {
+        mePlayer.PlayerO.scaleX = 1;
+    }
     socketObject.send(JSON.stringify({6: {
             id: mePlayer.socketId,
             x: x,

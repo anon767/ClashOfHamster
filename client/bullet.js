@@ -4,7 +4,7 @@
 var Bullet = function () {
     var create, canvasO;
     this.create = function (x, y, color, id, stage, tox, toy) {
-        var width = 5, height = 5;
+        var width = 4, height = 4;
         this.canvasO = new createjs.Shape();
         this.canvasO.tox = tox;
         this.canvasO.toy = toy;
@@ -24,7 +24,7 @@ var Bullet = function () {
         this.canvasO.rightCallBack = function () {
             this.explode();
         };
-        this.canvasO.graphics.beginFill(color).drawCircle(0, 0, width);
+        this.canvasO.graphics.beginFill(color).drawCircle(0, 0, width,height);
         this.canvasO.regX = 0;
         this.canvasO.regY = 0;
         this.canvasO.playerId = id;
