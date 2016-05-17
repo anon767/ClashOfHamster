@@ -16,7 +16,7 @@ var Explosion = function () {
             "animations": {
                 "run": [0, 24, false]
             },
-            "images": [queue.getResult("explosion").src]
+            "images": ["client/assets/img/explosion.png"]
         });
 
         this.canvasO = new createjs.Sprite(sprite, "run");
