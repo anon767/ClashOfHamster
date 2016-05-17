@@ -64,8 +64,10 @@ function calculateBullets(evt) {
 
             var nextposx = stage.bullets[i].x + stage.bullets[i].xvel;
             var nextposy = stage.bullets[i].y + stage.bullets[i].yvel;
-            collision.stageCollision(nextposx, nextposy, stage.bullets[i]);
             collision.obstacleCollision(stage.bullets[i], stage, nextposx, nextposy);
+            if (stage.bullets[i] != null) {
+                collision.stageCollision(nextposx, nextposy, stage.bullets[i]);
+            }
             if (stage.bullets[i] != null) {
                 stage.bullets[i].x = nextposx;
                 stage.bullets[i].y = nextposy;
@@ -102,7 +104,7 @@ function Eventcallback(data) {
     data = $.parseJSON(data); //parse
     if (data['id']) { //retrieve unique ID for identification in network
 
-        mePlayer = new Player().create(stage, "hamsti" + (Math.floor(Math.random() * (5)) + 1), 100, 100, 100, 0, 0, 0, data['id'], healthLabel, boostLabel); //create Player
+        mePlayer = new Player().create(stage, username, 100, 100, 100, 0, 0, 0, data['id'], healthLabel, boostLabel); //create Player
 
         mePlayer.initSend(socketObject);
     }
