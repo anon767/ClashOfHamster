@@ -4,7 +4,7 @@
 var Explosion = function () {
     var create, canvasO;
     this.create = function (x, y, id, stage) {
-        var width = 5, height = 5;
+        var width = 65, height = 65;
         var sprite = new createjs.SpriteSheet({
             "frames": {
                 "width": 65,
@@ -21,8 +21,7 @@ var Explosion = function () {
 
         this.canvasO = new createjs.Sprite(sprite, "run");
         this.canvasO.mystage = stage;
-        this.canvasO.regX = 0;
-        this.canvasO.regY = 0;
+
         this.canvasO.playerId = id;
         this.canvasO.scaleX = 0.7;
         this.canvasO.scaleY = 0.7;
@@ -30,6 +29,8 @@ var Explosion = function () {
         this.canvasO.mouseEnabled = false;
         this.canvasO.width = width;
         this.canvasO.height = height;
+        this.canvasO.regX = width / 2;
+        this.canvasO.regY = height / 2;
         this.canvasO.y = y;
         this.canvasO.snapToPixel = true;
         this.canvasO.mystage.addChild(this.canvasO);
