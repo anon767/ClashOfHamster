@@ -13,6 +13,6 @@ var Background = function () {
         this.canvasO.graphics.beginBitmapFill(img, 'repeat').drawRect(0,0, stage.canvas.width*4, stage.canvas.height*4);
         stage.addChild(this.canvasO);
         stage.nonBlocking[this.canvasO.id] = this.canvasO;
-        return this.CanvasO;
+        return this.canvasO;
     };
 };

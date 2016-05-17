@@ -29,8 +29,10 @@ var Collision = function () {
         var xNew = stage.x + x;
         if (nextx > (stage.innerWidth * 2 - stage.size) / 2 && xNew <= 0) { //only move stage if its between size
             stage.x = xNew;
+            stage.background.x = stage.background.x - x + x*0.1;
         } else if (xNew > 0 || (nextx < 100 && stage.x !== 0)) { //if stage.x is above 0 for what reason ever: reset it
             stage.x = 0;
+            stage.background.x = 0;
         }
     };
     this.collide = function (objecta, nextposx, nextposy, objectb) {

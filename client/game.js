@@ -73,7 +73,9 @@ function calculateBullets(evt) {
                 stage.bullets[i].y = nextposy;
             }
         }
+      
     }
+
 }
 
 /**

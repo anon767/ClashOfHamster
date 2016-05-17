@@ -15,11 +15,9 @@ var Stage = function () {
     stage.innerWidth = (tempWidth < stage.size) ? tempWidth : stage.size;
     stage.canvas.width = window.innerWidth;
     stage.canvas.height = 400;
-    new Background().create(stage);
+    stage.background = (new Background()).create(stage);
     stage.mouseEnabled = false;
     stage.snapToPixelEnabled = true; //seems like lagging out the game but idk
-
-
     stage.resizeCanvas = function () {
         var tempWidth = window.innerWidth
                 || document.documentElement.clientWidth
