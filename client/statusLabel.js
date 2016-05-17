@@ -1,4 +1,3 @@
-/* global createjs */
 
 //Block class is actually abstract modify the canvasO object!
 var StatusLabel = function () {
