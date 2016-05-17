@@ -83,8 +83,7 @@ var Collision = function () {
 
     //check collision with every other object
     this.obstacleCollision = function (Player, stage, nextposx, nextposy) {
-        var amount = stage.blocking.length;
-        for (var i = 0; i < amount; ++i) { //for instead of foreach 
+        for (var i in stage.blocking) { //for instead of foreach 
             var rect = stage.blocking[i]; //faster than getChild();
             if (Player != null && rect != undefined && Player.id !== rect.id) {
                 this.collide(Player, nextposx, nextposy, rect);
@@ -161,7 +160,7 @@ var Collision = function () {
 
         //gravity
         if ((Player.y + 50 < stage.canvas.height) && !up && !jump) {
-            Player.yvel += Math.floor(1.5 * Player.gravityCounter * event.delta / 1000);
+            Player.yvel += Math.floor(2.5 * Player.gravityCounter * event.delta / 1000);
             Player.gravityCounter += 3;
         }
         var nextposx = Player.x + event.delta / 1000 * Player.xvel * 20;

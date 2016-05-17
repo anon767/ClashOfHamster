@@ -34,7 +34,7 @@ var Explosion = function () {
         this.canvasO.snapToPixel = true;
         this.canvasO.mystage.addChild(this.canvasO);
         this.canvasO.on("animationend", function () {
-            this.mystage.nonBlocking[this.id] = null;
+            delete this.mystage.nonBlocking[this.id];
             this.mystage.removeChild(this);
         });
         this.canvasO.mystage.nonBlocking[this.canvasO.id] = this.canvasO;

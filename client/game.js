@@ -56,8 +56,7 @@ function keyboardCheck(event) {
  * @returns {undefined}
  */
 function calculateBullets(evt) {
-    var bulletCount = stage.bullets.length;
-    for (var i = 0; i < bulletCount; i++) {
+    for(var i in stage.bullets){
         if (typeof stage.bullets[i] != 'undefined' && stage.bullets[i] != null) {
             stage.bullets[i].xvel += evt.delta / 1000 * (stage.bullets[i].tox - stage.bullets[i].startX);
             stage.bullets[i].yvel += evt.delta / 1000 * (stage.bullets[i].toy - stage.bullets[i].startY);

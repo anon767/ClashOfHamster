@@ -58,7 +58,7 @@ var Player = function () {
             this.jumpCounter = 0;
         };
         this.ContainerO.remove = function (stage) {
-            stage.blocking[this.id] = null;
+            delete stage.blocking[this.id];
             stage.removeChild(this.healthLabel);
             stage.removeChild(this);
         };

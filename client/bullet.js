@@ -36,8 +36,8 @@ var Bullet = function () {
         this.canvasO.stage = stage;
         this.canvasO.explode = function () {
             (new Explosion()).create(this.x, this.y, this.playerId, stage);
-            stage.nonBlocking[this.id] = null;
-            stage.bullets[this.id] = null;
+            delete stage.nonBlocking[this.id] ;
+            delete stage.bullets[this.id] ;
             stage.removeChild(this);
         };
         this.canvasO.y = y;
