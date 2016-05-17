@@ -12,19 +12,19 @@ var Bullet = function () {
         this.canvasO.yvel = 0;
         this.canvasO.startX = x;
         this.canvasO.startY = y;
-        this.canvasO.bottomCallBack = function () {
+        this.canvasO.bottomCallBack = function (object) {
             this.explode();
         };
-        this.canvasO.topCallBack = function () {
+        this.canvasO.topCallBack = function (object) {
             this.explode();
         };
-        this.canvasO.leftCallBack = function () {
+        this.canvasO.leftCallBack = function (object) {
             this.explode();
         };
-        this.canvasO.rightCallBack = function () {
+        this.canvasO.rightCallBack = function (object) {
             this.explode();
         };
-        this.canvasO.graphics.beginFill(color).drawCircle(0, 0, width,height);
+        this.canvasO.graphics.beginFill(color).drawCircle(0, 0, width, height);
         this.canvasO.regX = 0;
         this.canvasO.regY = 0;
         this.canvasO.playerId = id;

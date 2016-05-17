@@ -43,7 +43,7 @@ var Collision = function () {
                     nextposy < objectb.y + objectb.height) {
                 if (objecta.y + objecta.height < objectb.y) {
                     if (typeof objecta.bottomCallBack == 'function') {
-                        objecta.bottomCallBack();
+                        objecta.bottomCallBack(objectb);
                     }
                     if (objectb.id === mePlayer.id) {
                         mePlayer.hit(1);
@@ -53,7 +53,7 @@ var Collision = function () {
                 if (objecta.x + objecta.width < objectb.x) {
                     this.cls(1, objecta);
                     if (typeof objecta.leftCallBack == 'function') {
-                        objecta.leftCallBack();
+                        objecta.leftCallBack(objectb);
                     }
                     if (objectb.id === mePlayer.id) {
                         mePlayer.hit(1);
@@ -62,7 +62,7 @@ var Collision = function () {
                 if (objecta.x > objectb.x + objectb.width) {
                     this.cls(2, objecta);
                     if (typeof objecta.rightCallBack == 'function') {
-                        objecta.rightCallBack();
+                        objecta.rightCallBack(objectb);
                     }
                     if (objectb.id === mePlayer.id) {
                         mePlayer.hit(0);
@@ -70,7 +70,7 @@ var Collision = function () {
                 }
                 if (objecta.y > objectb.y + objectb.height) {
                     if (typeof objecta.topCallBack == 'function') {
-                        objecta.topCallBack();
+                        objecta.topCallBack(objectb);
                     }
                     if (objectb.id === mePlayer.id) {
                         mePlayer.hit(0);

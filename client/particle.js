@@ -33,7 +33,7 @@ function Particle() {
     this.shape = null;
 
     this.isDead = function () {
-        return this.lifetime < 1 || (this.shape !== null && this.shape.scale >= 0);
+        return this.lifetime < 1 ;
     };
 
     this.update = function (stage) {

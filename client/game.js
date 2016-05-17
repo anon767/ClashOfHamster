@@ -69,11 +69,11 @@ function calculateBullets(evt) {
                 collision.stageCollision(nextposx, nextposy, stage.bullets[i]);
             }
             if (stage.bullets[i] != null) {
-                stage.bullets[i].x = nextposx;
-                stage.bullets[i].y = nextposy;
+                stage.bullets[i].x = stage.bullets[i].x + stage.bullets[i].xvel;
+                stage.bullets[i].y = stage.bullets[i].y + stage.bullets[i].yvel;
             }
         }
-      
+
     }
 
 }
