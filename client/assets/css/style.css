@@ -98,3 +98,12 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;      
 }
+
+.ui-dialog {
+    opacity:0.8;
+}
+.ui-widget-header {
+    background-image:none;
+    background-color:lightgreen!important;
+    border:none!important;
+}

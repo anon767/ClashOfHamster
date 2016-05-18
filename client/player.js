@@ -86,7 +86,17 @@ var Player = function () {
         this.ContainerO.update = function (socketO) {
             if (this.health <= 0) {
                 socketO.send(JSON.stringify({3: this.socketId}));
-                location.href = "./index.php";
+                $('dead').show();
+                $('#dead').dialog({
+                    autoOpen: true,
+                    modal: true,
+                    draggable: true,
+                    title: "You are Dead!",
+                    close: function () {
+                        location.href = "./index.php";
+                    }
+                });
+
             }
             this.healthLabel.update(this.health, this.maxHealth);
             this.boostLabel.update(this.boostTimer, this.maxBoost);
