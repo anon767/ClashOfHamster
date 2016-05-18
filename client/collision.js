@@ -119,6 +119,13 @@ var Collision = function () {
         }
 
     };
+    this.applyGravity = function (object, stage, event) {
+        //gravity
+        if ((object.y + 50 < stage.canvas.height)) {
+            object.yvel += Math.floor(2.5 * object.gravityCounter * event.delta / 1000);
+            object.gravityCounter += 3;
+        }
+    };
 //add velocity and check colliding with ceiling,left,right,and bottom of stage
     this.move = function (left, right, up, down, Player, stage, event, jump) {
 
@@ -155,13 +162,11 @@ var Collision = function () {
             }
         }
         if (jump && Player.yvel === 0) {
-            Player.yvel -= 30;
+            Player.yvel -= 40;
         }
 
-        //gravity
-        if ((Player.y + 50 < stage.canvas.height) && !up && !jump) {
-            Player.yvel += Math.floor(2.5 * Player.gravityCounter * event.delta / 1000);
-            Player.gravityCounter += 3;
+        if (!up && !jump) {
+            this.applyGravity(Player, stage, event);
         }
         var nextposx = Player.x + event.delta / 1000 * Player.xvel * 20;
         var nextposy = Player.y + event.delta / 1000 * Player.yvel * 20;

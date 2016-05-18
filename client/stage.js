@@ -8,6 +8,7 @@ var Stage = function () {
     stage.size = 800;
     stage.bullets = [];
     stage.blocking = [];
+    stage.moving = [];
     stage.nonBlocking = [];
     var tempWidth = window.innerWidth
             || document.documentElement.clientWidth

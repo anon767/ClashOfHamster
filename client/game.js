@@ -56,11 +56,10 @@ function keyboardCheck(event) {
  * @returns {undefined}
  */
 function calculateBullets(evt) {
-    for(var i in stage.bullets){
-        if (typeof stage.bullets[i] != 'undefined' && stage.bullets[i] != null) {
+    for (var i in stage.bullets) {
+        if (stage.bullets[i] != null) {
             stage.bullets[i].xvel += evt.delta / 1000 * (stage.bullets[i].tox - stage.bullets[i].startX);
             stage.bullets[i].yvel += evt.delta / 1000 * (stage.bullets[i].toy - stage.bullets[i].startY);
-
             var nextposx = stage.bullets[i].x + stage.bullets[i].xvel;
             var nextposy = stage.bullets[i].y + stage.bullets[i].yvel;
             collision.obstacleCollision(stage.bullets[i], stage, nextposx, nextposy);
@@ -77,6 +76,19 @@ function calculateBullets(evt) {
 
 }
 
+function calculateMovingObjects(event) {
+    for (var i in stage.moving) {
+        if (stage.moving[i] != null && stage.moving[i].y < stage.canvas.height) {
+            collision.applyGravity(stage.moving[i], stage, event);
+            var nextposx = stage.moving[i].x + stage.moving[i].xvel;
+            var nextposy = stage.moving[i].y + stage.moving[i].yvel;
+            stage.moving[i].x = stage.moving[i].x + stage.moving[i].xvel;
+            stage.moving[i].y = stage.moving[i].y + stage.moving[i].yvel;
+            //console.log(stage.moving[i].y);
+        }
+    }
+}
+
 /**
  * callback function called every frame
  * @param {type} event
@@ -86,6 +98,7 @@ function tick(event) {
     if (mePlayer) {
         //always give event as param, needed for interpolation event.delta
         calculateBullets(event);
+        calculateMovingObjects(event);
         keyboardCheck(event);
         mePlayer.update(socketObject);
     }
@@ -123,6 +136,9 @@ function Eventcallback(data) {
     if (data['1']) { //update player
         if (players[data['1']['id']]) {
             players[data['1']['id']].setCoords(data['1']['x'], data['1']['y'], data['1']['dir']);
+            if (players[data['1']['id']].health - data['1']['health'] !== 0) {
+                players[data['1']['id']].damageTrackerUpdate(players[data['1']['id']].health - data['1']['health']);
+            }
             players[data['1']['id']].health = data['1']['health'];
             players[data['1']['id']].healthLabel.update(players[data['1']['id']].health, mePlayer.maxHealth);
             players[data['1']['id']].healthLabel.x = data['1']['x'];

@@ -1,4 +1,4 @@
-/* global createjs, left */
+/* global createjs, left, queue */
 
 //player speed is currently 20*velocity, check the collission file
 
@@ -12,6 +12,13 @@ var Player = function () {
         this.ContainerO.maxHealth = 100;
         this.ContainerO.PlayerO = new createjs.Shape();
         this.TextO = new createjs.Text(name, "12px Arial", "darkblue");
+        this.ContainerO.damageTracker = new createjs.Text("", "12px Arial", "red");
+        this.ContainerO.damageTracker.yvel = 0;
+        this.ContainerO.damageTracker.x = 15;
+        this.ContainerO.damageTracker.xvel = 0;
+        this.ContainerO.damageTracker.y = 15;
+        this.ContainerO.damageTracker.gravityCounter = 0;
+        this.ContainerO.gravityCounter = 0;
         this.ContainerO.maxBoost = 500;
         this.ContainerO.stage = stage;
         this.ContainerO.gravityCounter = 1;
@@ -65,6 +72,15 @@ var Player = function () {
         this.ContainerO.particleUpdate = function () {
             this.ps.position = {x: (this.x + this.x) / 2 - 10 * this.PlayerO.scaleX, y: (this.y + this.height - 4)};
             this.ps.update(stage);
+        };
+        this.ContainerO.damageTrackerUpdate = function (x) {
+            this.damageTracker.alpha = 1;
+            this.damageTracker.gravityCounter = 0;
+            this.damageTracker.x = 15;
+            this.damageTracker.y = 15;
+            this.damageTracker.text = x;
+            this.damageTracker.yvel = -10;
+            createjs.Tween.get(this.damageTracker).to({alpha: 0.4}, 500);
         };
         this.ContainerO.update = function (socketO) {
             if (this.health <= 0) {
@@ -143,6 +159,7 @@ var Player = function () {
             } else {
                 this.xvel -= 25;
             }
+            this.damageTrackerUpdate("-10");
             this.yvel -= 25;
             this.health -= 10;
         };
@@ -163,11 +180,12 @@ var Player = function () {
         this.TextO.x = -5;
         this.TextO.y = 7;
         this.TextO.textBaseline = "alphabetic";
-        this.ContainerO.addChild(this.ContainerO.PlayerO, this.TextO);
+        this.ContainerO.addChild(this.ContainerO.PlayerO, this.TextO, this.ContainerO.damageTracker);
         this.ContainerO.y = y;
         this.ContainerO.x = x;
         this.ContainerO.addParticle();
         stage.addChild(this.ContainerO);
+        stage.moving[this.ContainerO.damageTracker.id] = this.ContainerO.damageTracker;
         stage.blocking[this.ContainerO.id] = this.ContainerO;
         return this.ContainerO;
     };
