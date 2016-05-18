@@ -1,8 +1,3 @@
-/**
- * Created by rbaum on 13.05.2016.
- */
-
-
 var Stage = function () {
     var stage = new createjs.Stage("stage");
     stage.size = 800;
@@ -17,6 +12,7 @@ var Stage = function () {
     stage.canvas.width = window.innerWidth;
     stage.canvas.height = window.innerHeight < 400 ? window.innerHeight : 400;
     stage.background = (new Background()).create(stage);
+    stage.playerInfo = (new PlayerInfo()).create(stage);
     stage.mouseEnabled = true;
     stage.snapToPixelEnabled = true; //seems like lagging out the game but idk
     stage.resizeCanvas = function () {

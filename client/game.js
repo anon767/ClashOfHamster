@@ -5,8 +5,8 @@ var players = [null, null, null, null, null, null]; //allocate some space for pl
 var queue = new createjs.LoadQueue(false);
 /**
  * moves when direction is set
- * @param {type} event
  * @returns {undefined}
+ * @param {type} event
  */
 function keyboardCheck(event) {
     if (keyboard.keys[87] && mePlayer.boostTimer > 0) { // up
@@ -199,14 +199,15 @@ $(document).ready(function () {
     queue.loadManifest([
         {id: "bg", src: "client/assets/img/background.jpg"},
         {id: "explosion", src: "client/assets/img/explosion.png"},
-        {id: "player", src: "client/assets/img/player.png"}
+        {id: "player", src: "client/assets/img/player.png"},
+        {id: "playerInfo", src: "client/assets/img/playerInfo.png"}
     ]);
     queue.on("complete", handleComplete, this);
     function handleComplete() {
         socketObject = new Communication(Eventcallback); //reduce globals, parameterize callbacks
         stage = new Stage();
-        healthLabel = new StatusLabel().create(0, 0, "green", 150, 10, stage);
-        boostLabel = new StatusLabel().create(0, 10, "Yellow", 150, 10, stage);
+        healthLabel = new StatusLabel().create(83, 38, "green", 120, 10, stage);
+        boostLabel = new StatusLabel().create(83, 50, "Yellow", 120, 10, stage);
         window.addEventListener('resize', stage.resizeCanvas, false);
         //$(window).on("down",function(e){console.log("bla")});
         $(window).keydown(function (e) {

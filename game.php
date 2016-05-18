@@ -44,6 +44,7 @@ and open the template in the editor.
         <script src="client/bullet.js"></script>
         <script src="client/background.js"></script>
         <script src="client/game.js"></script>
+        <script src="client/playerInfo.js"></script>
 
     </body>
 
