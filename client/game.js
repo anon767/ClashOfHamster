@@ -9,7 +9,7 @@ var queue = new createjs.LoadQueue(false);
  * @returns {undefined}
  */
 function keyboardCheck(event) {
-    if (keyboard.keys[38] && mePlayer.boostTimer > 0) { // up
+    if (keyboard.keys[87] && mePlayer.boostTimer > 0) { // up
         up = true;
         mePlayer.getChildAt(0).rotation = 10;
         mePlayer.boost();
@@ -17,19 +17,19 @@ function keyboardCheck(event) {
         up = false;
         mePlayer.addBoost();
     }
-    if (keyboard.keys[37]) { // left
+    if (keyboard.keys[65]) { // left
         mePlayer.getChildAt(0).scaleX = -1;
         left = true;
     } else {
         left = false;
     }
-    if (keyboard.keys[39]) { // right
+    if (keyboard.keys[68]) { // right
         mePlayer.getChildAt(0).scaleX = 1;
         right = true;
     } else {
         right = false;
     }
-    if (keyboard.keys[40]) { // down
+    if (keyboard.keys[83]) { // down
         mePlayer.getChildAt(0).rotation = 10;
         down = true;
     } else {
