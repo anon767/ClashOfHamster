@@ -80,8 +80,6 @@ function calculateMovingObjects(event) {
     for (var i in stage.moving) {
         if (stage.moving[i] != null && stage.moving[i].y < stage.canvas.height) {
             collision.applyGravity(stage.moving[i], stage, event);
-            var nextposx = stage.moving[i].x + stage.moving[i].xvel;
-            var nextposy = stage.moving[i].y + stage.moving[i].yvel;
             stage.moving[i].x = stage.moving[i].x + stage.moving[i].xvel;
             stage.moving[i].y = stage.moving[i].y + stage.moving[i].yvel;
             //console.log(stage.moving[i].y);
