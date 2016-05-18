@@ -10,6 +10,7 @@ var Player = function () {
         img.src = queue.getResult("player").src;
         this.ContainerO = new createjs.Container();
         this.ContainerO.maxHealth = 100;
+        this.ContainerO.lasthit = -1;
         this.ContainerO.PlayerO = new createjs.Shape();
         this.TextO = new createjs.Text(name, "12px Arial", "darkblue");
         this.ContainerO.damageTracker = new createjs.Text("", "12px Arial", "red");
