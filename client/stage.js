@@ -15,7 +15,7 @@ var Stage = function () {
             || document.body.clientWidth;
     stage.innerWidth = (tempWidth < stage.size) ? tempWidth : stage.size;
     stage.canvas.width = window.innerWidth;
-    stage.canvas.height = 400;
+    stage.canvas.height = window.innerHeight < 400 ? window.innerHeight : 400;
     stage.background = (new Background()).create(stage);
     stage.mouseEnabled = false;
     stage.snapToPixelEnabled = true; //seems like lagging out the game but idk
@@ -25,6 +25,7 @@ var Stage = function () {
                 || document.body.clientWidth;
         stage.canvas.width = tempWidth;
         stage.innerWidth = (tempWidth < stage.size) ? tempWidth : stage.size;
+        stage.canvas.height = window.innerHeight < 400 ? window.innerHeight : 400;
     };
     return stage;
 };
