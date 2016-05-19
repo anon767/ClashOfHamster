@@ -12,8 +12,8 @@ var Player = function () {
         this.ContainerO.maxHealth = 100;
         this.ContainerO.lasthit = -1;
         this.ContainerO.PlayerO = new createjs.Shape();
-        this.TextO = new createjs.Text(name, "12px Arial", "darkblue");
-        this.ContainerO.damageTracker = new createjs.Text("", "12px Arial", "red");
+        this.TextO = new createjs.Text(name, "13px Arial", "#171369");
+        this.ContainerO.damageTracker = new createjs.Text("", "12px Arial", "#B33646");
         this.ContainerO.damageTracker.yvel = 0;
         this.ContainerO.damageTracker.x = 15;
         this.ContainerO.damageTracker.xvel = 0;
@@ -86,7 +86,7 @@ var Player = function () {
             this.damageTracker.x = 15;
             this.damageTracker.y = 15;
             this.damageTracker.text = x;
-            this.damageTracker.yvel = -10;
+            this.damageTracker.yvel = -5;
             createjs.Tween.get(this.damageTracker).to({alpha: 0.4}, 500);
         };
         this.ContainerO.update = function (socketO) {
@@ -223,8 +223,8 @@ var Player = function () {
         this.ContainerO.regX = 0;
         this.ContainerO.snapToPixel = true;
         this.ContainerO.regY = 0;
-        this.TextO.x = -5;
-        this.TextO.y = 7;
+        this.TextO.x = 15;
+        this.TextO.y = -5;
         this.TextO.textBaseline = "alphabetic";
         this.ContainerO.addChild(this.ContainerO.PlayerO, this.TextO, this.ContainerO.damageTracker);
         this.ContainerO.y = y;
