@@ -46,7 +46,7 @@ var Collision = function () {
                         objecta.bottomCallBack(objectb);
                     }
                     if (objectb.id === mePlayer.id) {
-                        mePlayer.hit(1);
+                        mePlayer.hit(1,objecta.playerId);
                     }
                     this.cls(0, objecta);
                 }
@@ -56,7 +56,7 @@ var Collision = function () {
                         objecta.leftCallBack(objectb);
                     }
                     if (objectb.id === mePlayer.id) {
-                        mePlayer.hit(1);
+                        mePlayer.hit(1,objecta.playerId);
                     }
                 }
                 if (objecta.x > objectb.x + objectb.width) {
@@ -65,7 +65,7 @@ var Collision = function () {
                         objecta.rightCallBack(objectb);
                     }
                     if (objectb.id === mePlayer.id) {
-                        mePlayer.hit(0);
+                        mePlayer.hit(0,objecta.playerId);
                     }
                 }
                 if (objecta.y > objectb.y + objectb.height) {
@@ -73,7 +73,7 @@ var Collision = function () {
                         objecta.topCallBack(objectb);
                     }
                     if (objectb.id === mePlayer.id) {
-                        mePlayer.hit(0);
+                        mePlayer.hit(0,objecta.playerId);
                     }
                     this.cls(3, objecta);
                 }

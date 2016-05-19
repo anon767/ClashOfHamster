@@ -65,7 +65,7 @@ function wsOnClose($clientID, $status) {
     $Server->log("$ip ($clientID) has disconnected.");
 
     foreach ($Server->wsClients as $id => $client) {
-        $Server->wsSend($id, JSON_ENCODE(array("3" => $clientID)));
+        $Server->wsSend($id, JSON_ENCODE(array("3" => array("id" => $clientID,"by" => "-1"))));
     }
 }
 

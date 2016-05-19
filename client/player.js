@@ -1,4 +1,4 @@
-/* global createjs, left, queue */
+/* global createjs, left, queue, socketObject */
 
 //player speed is currently 20*velocity, check the collission file
 
@@ -85,7 +85,14 @@ var Player = function () {
         };
         this.ContainerO.update = function (socketO) {
             if (this.health <= 0) {
-                socketO.send(JSON.stringify({3: this.socketId}));
+                socketO.send(JSON.stringify({
+                    3:
+                            {
+                                "id": this.socketId,
+                                "by": this.lasthit
+                            }
+                }));
+                socketObject.socket.close();
                 $('dead').show();
                 $('#dead').dialog({
                     autoOpen: true,
@@ -165,12 +172,13 @@ var Player = function () {
         this.ContainerO.height = 47;
         this.ContainerO.socketId = id;
         this.ContainerO.yvel = yvel;
-        this.ContainerO.hit = function (dir) {
+        this.ContainerO.hit = function (dir, by) {
             if (dir) {
                 this.xvel += 25;
             } else {
                 this.xvel -= 25;
             }
+            this.lasthit = by;
             this.damageTrackerUpdate("-10");
             this.yvel -= 25;
             this.health -= 10;

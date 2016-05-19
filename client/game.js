@@ -150,9 +150,16 @@ function Eventcallback(data) {
         mePlayer.initSend(socketObject);
     }
     if (data['3']) { //player dead
-        if (players[data['3']] != null) {
-            players[data['3']].remove(stage);
-            players[data['3']] = null; //remove
+        if (data['3']['by'] === mePlayer.socketId && typeof players[data['3']['id']] != undefined && players[data['3']['id']]) {
+            mePlayer.damageTrackerUpdate("you killed " + players[data['3']['id']].name);
+        } else if (typeof players[data['3']['by']] != undefined && typeof players[data['3']['id']] != undefined && players[data['3']['id']] !== null && players[data['3']['by']] !== null && data['3']['by'] != "-1") {
+            mePlayer.damageTrackerUpdate(players[data['3']['by']].name + " killed " + players[data['3']['id']].name);
+        } else if (typeof players[data['3']['id']] != undefined && players[data['3']['id']] && data['3']['by'] == "-1") {
+            mePlayer.damageTrackerUpdate(players[data['3']['id']].name + " had disconnect");
+        }
+        if (players[data['3']['id']] != null) {
+            players[data['3']['id']].remove(stage);
+            delete players[data['3']['id']]; //remove
         }
     }
 
