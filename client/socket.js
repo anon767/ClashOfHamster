@@ -12,7 +12,7 @@
 function Communication(Eventcallback) {
     var socket, send, compression, setCompression;
     this.compression = false;
-    this.socket = new WebSocket('ws://127.0.0.1:9300');
+    this.socket = new WebSocket('ws://localhost:9300');
     this.setCompression = function () {
         this.send(JSON.stringify({4: 1}));
         this.compression = true;

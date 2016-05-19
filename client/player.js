@@ -86,7 +86,7 @@ var Player = function () {
             this.damageTracker.x = 15;
             this.damageTracker.y = 15;
             this.damageTracker.text = x;
-            this.damageTracker.yvel = -10;
+            this.damageTracker.yvel = -5;
             createjs.Tween.get(this.damageTracker).to({alpha: 0.4}, 500);
         };
         this.ContainerO.update = function (socketO) {
