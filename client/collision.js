@@ -1,7 +1,7 @@
 
 
 var Collision = function () {
-    var move, cls, obstacleCollision, maxvel, moveStage, collide // Maximum velocity
+    var move, cls, obstacleCollision, maxvel, moveStage, collide; // Maximum velocity
     this.maxvel = 80;
 //when colliding witch obstacle -> bounce to other direction
     this.cls = function (clsdir, Player) {
@@ -46,7 +46,7 @@ var Collision = function () {
                         objecta.bottomCallBack(objectb);
                     }
                     if (objectb.id === mePlayer.id) {
-                        mePlayer.hit(1,objecta.playerId);
+                        mePlayer.hit(1, objecta.playerId);
                     }
                     this.cls(0, objecta);
                 }
@@ -56,7 +56,7 @@ var Collision = function () {
                         objecta.leftCallBack(objectb);
                     }
                     if (objectb.id === mePlayer.id) {
-                        mePlayer.hit(1,objecta.playerId);
+                        mePlayer.hit(1, objecta.playerId);
                     }
                 }
                 if (objecta.x > objectb.x + objectb.width) {
@@ -65,7 +65,7 @@ var Collision = function () {
                         objecta.rightCallBack(objectb);
                     }
                     if (objectb.id === mePlayer.id) {
-                        mePlayer.hit(0,objecta.playerId);
+                        mePlayer.hit(0, objecta.playerId);
                     }
                 }
                 if (objecta.y > objectb.y + objectb.height) {
@@ -73,7 +73,7 @@ var Collision = function () {
                         objecta.topCallBack(objectb);
                     }
                     if (objectb.id === mePlayer.id) {
-                        mePlayer.hit(0,objecta.playerId);
+                        mePlayer.hit(0, objecta.playerId);
                     }
                     this.cls(3, objecta);
                 }
@@ -120,17 +120,18 @@ var Collision = function () {
 
     };
     this.applyGravity = function (object, stage, event) {
+        
         //gravity
         if ((object.y + 50 < stage.canvas.height)) {
             object.yvel += Math.floor(2.5 * object.gravityCounter * event.delta / 1000);
-            object.gravityCounter += 3;
+            object.gravityCounter += object.gravityCounter < 150 ? 3 : 0;
         }
+
     };
 //add velocity and check colliding with ceiling,left,right,and bottom of stage
     this.move = function (left, right, up, down, Player, stage, event, jump) {
 
         if (up) {
-
             Player.yvel -= 1.15;
         } else {
             if (Player.yvel < 0) {
@@ -180,6 +181,8 @@ var Collision = function () {
         }
 
         this.obstacleCollision(Player, stage, nextposx, nextposy);
+        nextposx = Player.x + event.delta / 1000 * Player.xvel * 20;
+        nextposy = Player.y + event.delta / 1000 * Player.yvel * 20;
         this.stageCollision(nextposx, nextposy, Player);
 
         this.moveStage(-1 * event.delta / 1000 * Player.xvel * 15, stage, nextposx - Player.width);

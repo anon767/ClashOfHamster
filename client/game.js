@@ -77,6 +77,8 @@ function calculateBullets(evt) {
             var nextposy = stage.bullets[i].y + stage.bullets[i].yvel;
             collision.obstacleCollision(stage.bullets[i], stage, nextposx, nextposy);
             if (stage.bullets[i] != null) {
+                nextposx = stage.bullets[i].x + stage.bullets[i].xvel;
+                nextposy = stage.bullets[i].y + stage.bullets[i].yvel;
                 collision.stageCollision(nextposx, nextposy, stage.bullets[i]);
             }
             if (stage.bullets[i] != null) {
@@ -216,7 +218,7 @@ function mouseEvent(evt) {
 $(document).ready(function () {
 
     queue.loadManifest([
-        {id: "bg", src: "client/assets/img/background.jpg"},
+        {id: "bg", src: "client/assets/img/full-background2.png"},
         {id: "explosion", src: "client/assets/img/explosion.png"},
         {id: "player", src: "client/assets/img/playeranimation.png"},
         {id: "playerInfo", src: "client/assets/img/playerInfo.png"}

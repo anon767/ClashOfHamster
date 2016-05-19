@@ -34,7 +34,7 @@ var Player = function () {
         this.ContainerO.mouseEnabled = false;
         this.ContainerO.lastsend = "";
         this.ContainerO.bottomCallBack = function () {
-            this.gravityCounter = this.y !== 0 ? Math.floor(this.gravityCounter / 2) : 0;
+            this.gravityCounter = (this.y !== 0) ? Math.floor(this.gravityCounter / 2) : 0;
             this.resetJumpCounter();
         };
         this.ContainerO.topCallBack = function () {
