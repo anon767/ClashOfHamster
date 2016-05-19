@@ -134,6 +134,7 @@ function Eventcallback(data) {
         mePlayer = new Player().create(stage, username, 100, 100, 100, 0, 0, 0, data['id'], healthLabel, boostLabel); //create Player
 
         mePlayer.initSend(socketObject);
+        socketObject.setCompression();
     }
     if (data['0']) { //retrieved initial send (onjoin)
         if (players[data['0']['id']]) { //if there already was a bootstrap attempt for the player
@@ -149,8 +150,8 @@ function Eventcallback(data) {
     if (data['1']) { //update player
         if (players[data['1']['id']]) {
             players[data['1']['id']].setCoords(data['1']['x'], data['1']['y'], data['1']['dir']);
-            if (Math.floor(players[data['1']['id']].health - data['1']['health']) !== 0) {
-                players[data['1']['id']].damageTrackerUpdate(players[data['1']['id']].health - data['1']['health']);
+            if (Math.floor(players[data['1']['id']].health - data['1']['health']) > 0) {
+                players[data['1']['id']].damageTrackerUpdate(Math.floor(players[data['1']['id']].health - data['1']['health']));
             }
             players[data['1']['id']].health = data['1']['health'];
             players[data['1']['id']].healthLabel.update(players[data['1']['id']].health, mePlayer.maxHealth);
