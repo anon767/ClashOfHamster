@@ -218,7 +218,7 @@ $(document).ready(function () {
     queue.loadManifest([
         {id: "bg", src: "client/assets/img/background.jpg"},
         {id: "explosion", src: "client/assets/img/explosion.png"},
-        {id: "player", src: "client/assets/img/player.png"},
+        {id: "player", src: "client/assets/img/playeranimation.png"},
         {id: "playerInfo", src: "client/assets/img/playerInfo.png"}
     ]);
     queue.on("complete", handleComplete, this);

@@ -205,7 +205,7 @@ var Player = function () {
                 "stand": 0,
                 "run": [0, 4, true, 0.2]
             },
-            "images": ["client/assets/img/playeranimation.png"]
+            "images": [queue.getResult("player").src]
         });
 
         this.ContainerO.PlayerO = new createjs.Sprite(sprite, "stand");
