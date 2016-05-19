@@ -104,7 +104,7 @@ var Player = function () {
                             }
                 }));
                 socketObject.socket.close();
-                if (!$('#dead').is(":visible")) {
+                if (!$('#dead').is(":visible") && this.lasthit !== null) {
                     $('#dead').append("<h2>Killed By " + players[this.lasthit].name + "</h2>");
                 }
                 $('#dead').show();
