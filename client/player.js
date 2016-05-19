@@ -90,6 +90,11 @@ var Player = function () {
             createjs.Tween.get(this.damageTracker).to({alpha: 0.4}, 500);
         };
         this.ContainerO.update = function (socketO) {
+
+            if(this.health < this.maxHealth) {
+                this.health += 0.01;
+            }
+
             if (this.health <= 0) {
                 socketO.send(JSON.stringify({
                     3:
