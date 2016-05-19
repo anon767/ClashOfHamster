@@ -41,9 +41,15 @@ var Player = function () {
 
         };
         this.ContainerO.leftCallBack = function () {
+            if (!this.PlayerO.paused) {
+                this.PlayerO.gotoAndStop("stand");
+            }
 
         };
         this.ContainerO.rightCallBack = function () {
+            if (!this.PlayerO.paused) {
+                this.PlayerO.gotoAndStop("stand");
+            }
 
         };
         this.ContainerO.resetBoostTimer = function () {
@@ -187,7 +193,7 @@ var Player = function () {
         this.ContainerO.name = name;
         this.ContainerO.rotation = rotation;
         //this.ContainerO.PlayerO.graphics.beginBitmapFill(img).drawRect(0, 0, 44, 47);
-          var sprite = new createjs.SpriteSheet({
+        var sprite = new createjs.SpriteSheet({
             "frames": {
                 "width": 50,
                 "regX": 0,
@@ -196,8 +202,8 @@ var Player = function () {
                 "count": 5
             },
             "animations": {
-                "stand" : 0,
-                "run": [0, 4, true,0.2]
+                "stand": 0,
+                "run": [0, 4, true, 0.2]
             },
             "images": ["client/assets/img/playeranimation.png"]
         });
