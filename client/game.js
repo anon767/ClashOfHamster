@@ -149,7 +149,7 @@ function Eventcallback(data) {
     if (data['1']) { //update player
         if (players[data['1']['id']]) {
             players[data['1']['id']].setCoords(data['1']['x'], data['1']['y'], data['1']['dir']);
-            if (players[data['1']['id']].health - data['1']['health'] !== 0) {
+            if (Math.floor(players[data['1']['id']].health - data['1']['health']) !== 0) {
                 players[data['1']['id']].damageTrackerUpdate(players[data['1']['id']].health - data['1']['health']);
             }
             players[data['1']['id']].health = data['1']['health'];

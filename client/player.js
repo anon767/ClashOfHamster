@@ -224,7 +224,7 @@ var Player = function () {
         this.ContainerO.snapToPixel = true;
         this.ContainerO.regY = 0;
         this.TextO.x = 15;
-        this.TextO.y = -5;
+        this.TextO.y = -15;
         this.TextO.textBaseline = "alphabetic";
         this.ContainerO.addChild(this.ContainerO.PlayerO, this.TextO, this.ContainerO.damageTracker);
         this.ContainerO.y = y;
