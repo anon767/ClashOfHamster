@@ -19,17 +19,29 @@ function keyboardCheck(event) {
     }
     if (keyboard.keys[65] || keyboard.keys[37]) { // left
         mePlayer.getChildAt(0).scaleX = -1;
+        if (mePlayer.PlayerO.paused) {
+            mePlayer.PlayerO.gotoAndPlay("run");
+        }
         left = true;
     } else {
+        if (!mePlayer.PlayerO.paused && !right) {
+            mePlayer.PlayerO.gotoAndStop("stand");
+        }
         left = false;
     }
     if (keyboard.keys[68] || keyboard.keys[39]) { // right
+        if (mePlayer.PlayerO.paused) {
+            mePlayer.PlayerO.gotoAndPlay("run");
+        }
         mePlayer.getChildAt(0).scaleX = 1;
         right = true;
     } else {
+        if (!mePlayer.PlayerO.paused && !left) {
+            mePlayer.PlayerO.gotoAndStop("stand");
+        }
         right = false;
     }
-    if (keyboard.keys[83] ||  keyboard.keys[40]) { // down
+    if (keyboard.keys[83] || keyboard.keys[40]) { // down
         mePlayer.getChildAt(0).rotation = 10;
         down = true;
     } else {

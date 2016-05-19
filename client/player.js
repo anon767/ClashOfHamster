@@ -186,8 +186,23 @@ var Player = function () {
         this.ContainerO.health = health;
         this.ContainerO.name = name;
         this.ContainerO.rotation = rotation;
-        this.ContainerO.PlayerO.graphics.beginBitmapFill(img).drawRect(0, 0, 44, 47);
-        //this.PlayerO.graphics.beginFill("red").drawCircle(+20, +20, 10);
+        //this.ContainerO.PlayerO.graphics.beginBitmapFill(img).drawRect(0, 0, 44, 47);
+          var sprite = new createjs.SpriteSheet({
+            "frames": {
+                "width": 50,
+                "regX": 0,
+                "regY": 0,
+                "height": 50,
+                "count": 5
+            },
+            "animations": {
+                "stand" : 0,
+                "run": [0, 4, true,0.2]
+            },
+            "images": ["client/assets/img/playeranimation.png"]
+        });
+
+        this.ContainerO.PlayerO = new createjs.Sprite(sprite, "stand");
         this.ContainerO.y = y;
         this.ContainerO.x = x;
         this.ContainerO.PlayerO.y = 25;

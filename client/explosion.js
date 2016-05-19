@@ -1,4 +1,4 @@
-/* global createjs */
+/* global createjs, queue */
 
 //Explosion
 var Explosion = function () {
@@ -16,7 +16,7 @@ var Explosion = function () {
             "animations": {
                 "run": [0, 24, false]
             },
-            "images": ["client/assets/img/explosion.png"]
+            "images": [queue.getResult("explosion").src]
         });
 
         this.canvasO = new createjs.Sprite(sprite, "run");
