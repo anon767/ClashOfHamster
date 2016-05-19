@@ -225,8 +225,8 @@ $(document).ready(function () {
     function handleComplete() {
         socketObject = new Communication(Eventcallback); //reduce globals, parameterize callbacks
         stage = new Stage();
-        healthLabel = new StatusLabel().create(83, 38, "green", 120, 10, stage);
-        boostLabel = new StatusLabel().create(83, 50, "Yellow", 120, 10, stage);
+        healthLabel = new StatusLabel().create(94, 42, "green", 137, 13, stage);
+        boostLabel = new StatusLabel().create(94, 56, "Yellow", 137, 13, stage);
         window.addEventListener('resize', stage.resizeCanvas, false);
         //$(window).on("down",function(e){console.log("bla")});
         $(window).keydown(function (e) {

@@ -113,8 +113,8 @@ var Player = function () {
             }
             this.healthLabel.update(this.health, this.maxHealth);
             this.boostLabel.update(this.boostTimer, this.maxBoost);
-            this.healthLabel.x = -stage.x + 83;
-            this.boostLabel.x = -stage.x + 83;
+            this.healthLabel.x = -stage.x + 94;
+            this.boostLabel.x = -stage.x + 94;
             stage.playerInfo.x = -stage.x;
             var data = JSON.stringify({1: {
                     id: this.socketId,
