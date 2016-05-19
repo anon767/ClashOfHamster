@@ -137,26 +137,26 @@ function Eventcallback(data) {
        // socketObject.setCompression();
     }
     if (data['0']) { //retrieved initial send (onjoin)
-        if (players[data['0']['id']]) { //if there already was a bootstrap attempt for the player
-            players[data['0']['id']].remove(stage);
-            players[data['0']['id']] = null; //remove
+        if (players[data['0']['i']]) { //if there already was a bootstrap attempt for the player
+            players[data['0']['i']].remove(stage);
+            players[data['0']['i']] = null; //remove
         }
 
         var joinedPlayer = new Player(); //create a new player
         var hl = new StatusLabel().create(data['0']['x'], data['0']['y'], "green", 50, 5, stage);
-        players[data['0']['id']] = joinedPlayer.create(stage, data[0]['name'], data['0']['health'], data['0']['x'],
-                data['0']['y'], data['0']['rotation'], 0, 0, data['0']['id'], hl);
+        players[data['0']['i']] = joinedPlayer.create(stage, data[0]['n'], data['0']['h'], data['0']['x'],
+                data['0']['y'], data['0']['r'], 0, 0, data['0']['i'], hl);
     }
     if (data['1']) { //update player
-        if (players[data['1']['id']]) {
-            players[data['1']['id']].setCoords(data['1']['x'], data['1']['y'], data['1']['dir']);
-            if (Math.floor(players[data['1']['id']].health - data['1']['health']) > 1) {
-                players[data['1']['id']].damageTrackerUpdate(Math.floor(players[data['1']['id']].health - data['1']['health']));
+        if (players[data['1']['i']]) {
+            players[data['1']['i']].setCoords(data['1']['x'], data['1']['y'], data['1']['d']);
+            if (Math.ceil(players[data['1']['i']].health - data['1']['h']) > 1) {
+                players[data['1']['i']].damageTrackerUpdate(Math.ceil(players[data['1']['i']].health - data['1']['h']));
             }
-            players[data['1']['id']].health = data['1']['health'];
-            players[data['1']['id']].healthLabel.update(players[data['1']['id']].health, mePlayer.maxHealth);
-            players[data['1']['id']].healthLabel.x = data['1']['x'];
-            players[data['1']['id']].healthLabel.y = data['1']['y'] - 12;
+            players[data['1']['i']].health = data['1']['h'];
+            players[data['1']['i']].healthLabel.update(players[data['1']['i']].health, mePlayer.maxHealth);
+            players[data['1']['i']].healthLabel.x = data['1']['x'];
+            players[data['1']['i']].healthLabel.y = data['1']['y'] - 12;
         } else {
             socketObject.send(JSON.stringify({2: data['1']['id']})); //on missing player request initial sends
         }
@@ -219,7 +219,7 @@ function mouseEvent(evt) {
 $(document).ready(function () {
 
     queue.loadManifest([
-        {id: "bg", src: "client/assets/img/full-background2.png"},
+        {id: "bg", src: "client/assets/img/full-background.png"},
         {id: "explosion", src: "client/assets/img/explosion.png"},
         {id: "player", src: "client/assets/img/playeranimation.png"},
         {id: "playerInfo", src: "client/assets/img/playerInfo.png"}

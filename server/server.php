@@ -19,9 +19,11 @@ function wsOnMessage($clientID, $message, $messageLength, $binary, $Server) {
         $Server->wsClose($clientID);
         return;
     }
+      
     if (isset($Server->wsClients[$clientID][12]) && $Server->wsClients[$clientID][12] == 1) {
         $message = jSEND::getData($message);
     }
+  echo $message."\r\n";
     $jsmsg = json_decode($message, true);
     if (isset($jsmsg['4']) && $jsmsg['4'] == 1) {
         $Server->wsClients[$clientID][12] = true;

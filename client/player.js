@@ -122,12 +122,12 @@ var Player = function () {
             this.boostLabel.x = -stage.x + 94;
             stage.playerInfo.x = -stage.x;
             var data = JSON.stringify({1: {
-                    id: this.socketId,
-                    x: this.x,
-                    y: this.y,
-                    health: this.health,
-                    rotation: this.rotation,
-                    dir: this.PlayerO.scaleX
+                    i: this.socketId,
+                    x: Math.round(this.x),
+                    y: Math.round(this.y),
+                    h: Math.round(this.health),
+                    r: this.rotation,
+                    d: this.PlayerO.scaleX
                 }});
             if (data !== this.lastsend) {
                 socketO.send(data);
@@ -137,12 +137,12 @@ var Player = function () {
         this.ContainerO.initSend = function (socketO) {
             var data = JSON.stringify({
                 0: {
-                    id: this.socketId,
+                    i: this.socketId,
                     x: this.x,
                     y: this.y,
-                    rotation: this.rotation,
-                    health: this.health,
-                    name: this.name
+                    r: this.rotation,
+                    h: this.health,
+                    n: this.name
                 }});
             socketO.send(data);
         };
