@@ -28,7 +28,7 @@ and open the template in the editor.
                 var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
                 return results[1] || 0;
             }
-            var username = $.urlParam("user");
+            var username = decodeURIComponent($.urlParam("user"));
         </script>
         <script src="client/stage.js"></script>
         <script src="//code.createjs.com/tweenjs-0.6.2.min.js"></script>
