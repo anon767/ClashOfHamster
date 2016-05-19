@@ -203,7 +203,7 @@ var Player = function () {
             },
             "animations": {
                 "stand": 0,
-                "run": [0, 4, true, 0.2]
+                "run": [0, 4, true, 0.4]
             },
             "images": [queue.getResult("player").src]
         });
