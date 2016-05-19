@@ -134,7 +134,7 @@ function Eventcallback(data) {
         mePlayer = new Player().create(stage, username, 100, 100, 100, 0, 0, 0, data['id'], healthLabel, boostLabel); //create Player
 
         mePlayer.initSend(socketObject);
-        socketObject.setCompression();
+       // socketObject.setCompression();
     }
     if (data['0']) { //retrieved initial send (onjoin)
         if (players[data['0']['id']]) { //if there already was a bootstrap attempt for the player
