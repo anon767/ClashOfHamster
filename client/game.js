@@ -94,7 +94,7 @@ function calculateBullets(evt) {
 function calculateMovingObjects(event) {
     for (var i in stage.moving) {
         if (stage.moving[i] != null && stage.moving[i].y < stage.canvas.height) {
-            collision.applyGravity(stage.moving[i], stage, event);
+            collision.applyGravity(stage.moving[i], stage, event, 2.0);
             stage.moving[i].x = stage.moving[i].x + stage.moving[i].xvel;
             stage.moving[i].y = stage.moving[i].y + stage.moving[i].yvel;
             //console.log(stage.moving[i].y);
@@ -134,7 +134,7 @@ function Eventcallback(data) {
         mePlayer = new Player().create(stage, username, 100, 100, 100, 0, 0, 0, data['id'], healthLabel, boostLabel); //create Player
 
         mePlayer.initSend(socketObject);
-       // socketObject.setCompression();
+        // socketObject.setCompression();
     }
     if (data['0']) { //retrieved initial send (onjoin)
         if (players[data['0']['i']]) { //if there already was a bootstrap attempt for the player

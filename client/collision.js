@@ -119,12 +119,14 @@ var Collision = function () {
         }
 
     };
-    this.applyGravity = function (object, stage, event) {
-        
+    this.applyGravity = function (object, stage, event, slow) {
+        if (slow == null) {
+            slow = 0;
+        }
         //gravity
         if ((object.y + 50 < stage.canvas.height)) {
             object.yvel += Math.floor(2.5 * object.gravityCounter * event.delta / 1000);
-            object.gravityCounter += object.gravityCounter < 150 ? 3 : 0;
+            object.gravityCounter += object.gravityCounter < 150 ? 3 - slow : 0;
         }
 
     };
