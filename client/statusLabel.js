@@ -22,13 +22,13 @@ var StatusLabel = function () {
         this.canvasO.update = function(value, maxValue){
             var scalar = 1/maxValue * value;
             this.scaleX = scalar;
-            if(this.color === "green" || this.color === "red" || this.color === "yellow") {
+            if(this.color === "#76B852" || this.color === "#FF0000" || this.color === "#F2FF00") {
                 if (scalar <= 0.5 && scalar > 0.2) {
-                    newColor = "yellow";
+                    newColor = "#F2FF00";
                 } else if (scalar <= 0.2) {
-                    newColor = "red";
+                    newColor = "#FF0000";
                 } else {
-                    newColor = "green";
+                    newColor = "#76B852";
                 }
 
                 if (this.color != newColor) {
