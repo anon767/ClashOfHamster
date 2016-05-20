@@ -165,7 +165,7 @@ var Collision = function () {
             }
         }
         if (jump && Player.yvel === 0) {
-            Player.yvel -= 40;
+            Player.yvel -= 30;
         }
 
         if (!up && !jump) {

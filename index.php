@@ -15,7 +15,7 @@ and open the template in the editor.
         <div class="login-page">
             <div class="form">
                 <form class="login-form" method="GET" action="game.php">
-                    <input type="text" name="user" placeholder="username"/>
+                    <input type="text" maxlength=20 name="user" placeholder="username"/>
                     <button>login</button>
                 </form>
             </div>

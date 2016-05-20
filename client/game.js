@@ -3,6 +3,7 @@ var stage, timeCircle, socketObject, keyboard = new Keyboard(), collision, mePla
 var up = false, left = false, right = false, down = false, jump = false;
 var players = [null, null, null, null, null, null]; //allocate some space for players
 var queue = new createjs.LoadQueue(false);
+var canshoot = true;
 /**
  * moves when direction is set
  * @returns {undefined}
@@ -199,21 +200,27 @@ function Eventcallback(data) {
  * @returns {undefined}
  */
 function mouseEvent(evt) {
-    var x = mePlayer.x + 22;
-    var y = mePlayer.y + 23;
-    var b = new Bullet().create(x, y, "black", mePlayer.socketId, stage, evt.stageX - stage.x, evt.stageY);
-    if (evt.stageX - stage.x < mePlayer.x) {
-        mePlayer.PlayerO.scaleX = -1;
-    } else if (evt.stageX - stage.x > mePlayer.x) {
-        mePlayer.PlayerO.scaleX = 1;
+    if (canshoot) {
+        var x = mePlayer.x + 22;
+        var y = mePlayer.y + 23;
+        var b = new Bullet().create(x, y, "black", mePlayer.socketId, stage, evt.stageX - stage.x, evt.stageY);
+        if (evt.stageX - stage.x < mePlayer.x) {
+            mePlayer.PlayerO.scaleX = -1;
+        } else if (evt.stageX - stage.x > mePlayer.x) {
+            mePlayer.PlayerO.scaleX = 1;
+        }
+        socketObject.send(JSON.stringify({6: {
+                id: mePlayer.socketId,
+                x: x,
+                y: y,
+                tox: evt.stageX + -1 * stage.x,
+                toy: evt.stageY
+            }}));
+        canshoot = false;
+          setTimeout(function() {
+            canshoot = true;
+    }, 500);
     }
-    socketObject.send(JSON.stringify({6: {
-            id: mePlayer.socketId,
-            x: x,
-            y: y,
-            tox: evt.stageX + -1 * stage.x,
-            toy: evt.stageY
-        }}));
 }
 
 $(document).ready(function () {
