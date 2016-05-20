@@ -187,16 +187,21 @@ var Player = function () {
         this.ContainerO.height = 47;
         this.ContainerO.socketId = id;
         this.ContainerO.yvel = yvel;
-        this.ContainerO.hit = function (dir, by) {
+        this.ContainerO.hit = function (dir, by, yhit) {
             if (dir) {
                 this.xvel += 25;
             } else {
                 this.xvel -= 25;
             }
             this.lasthit = by;
-            this.damageTrackerUpdate("-10");
+            var damage = Math.floor(7*(this.y - this.height) / yhit);
+            this.damageTrackerUpdate(damage);
             this.yvel -= 25;
-            this.health -= 10;
+            if (this.health - damage > 0) {
+                this.health -= damage;
+            } else {
+                this.health = 0;
+            }
         };
         this.ContainerO.health = health;
         this.ContainerO.name = name;

@@ -1,5 +1,7 @@
 
 
+/* global mePlayer */
+
 var Collision = function () {
     var move, cls, obstacleCollision, maxvel, moveStage, collide; // Maximum velocity
     this.maxvel = 80;
@@ -46,7 +48,7 @@ var Collision = function () {
                         objecta.bottomCallBack(objectb);
                     }
                     if (objectb.id === mePlayer.id) {
-                        mePlayer.hit(1, objecta.playerId);
+                        mePlayer.hit(1, objecta.playerId, objecta.y);
                     }
                     this.cls(0, objecta);
                 }
@@ -56,7 +58,7 @@ var Collision = function () {
                         objecta.leftCallBack(objectb);
                     }
                     if (objectb.id === mePlayer.id) {
-                        mePlayer.hit(1, objecta.playerId);
+                        mePlayer.hit(1, objecta.playerId, objecta.y);
                     }
                 }
                 if (objecta.x > objectb.x + objectb.width) {
@@ -65,7 +67,7 @@ var Collision = function () {
                         objecta.rightCallBack(objectb);
                     }
                     if (objectb.id === mePlayer.id) {
-                        mePlayer.hit(0, objecta.playerId);
+                        mePlayer.hit(0, objecta.playerId, objecta.y);
                     }
                 }
                 if (objecta.y > objectb.y + objectb.height) {
@@ -73,7 +75,7 @@ var Collision = function () {
                         objecta.topCallBack(objectb);
                     }
                     if (objectb.id === mePlayer.id) {
-                        mePlayer.hit(0, objecta.playerId);
+                        mePlayer.hit(0, objecta.playerId, objecta.y);
                     }
                     this.cls(3, objecta);
                 }
