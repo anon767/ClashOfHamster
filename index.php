@@ -39,7 +39,7 @@ and open the template in the editor.
                         <input type="text" maxlength=20 name="user" id="user" placeholder="username"/>
                         <button>login</button>
 
-                    <p class="link"
+                    <p class="link" style="cursor: pointer"
                         onclick="hide('login-page'); toggle('registration-page'); return false">Registration</p>
             </form>
             </div>
@@ -55,7 +55,7 @@ and open the template in the editor.
                         <input name="mail" id="mail" type="email" required placeholder="email"/>
                         <button>Registrieren</button>
                     <!--VORLÄUFIG EIN LINK ZURÜCK ZUM LOGIN -->
-                    <p class="link"
+                    <p class="link" style="cursor: pointer "
                        onclick="hide('registration-page'); toggle('login-page'); return false">zurück zum login</p>
                 </div>
             </form>
