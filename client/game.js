@@ -79,7 +79,7 @@ function calculateBullets(evt) {
             }
 
             if (stage.bullets[i] !== null) {
-                collision.applyGravity(stage.bullets[i], stage, evt, 2.0);
+                collision.applyGravity(stage.bullets[i], stage, evt, 1.5);
             }
             var nextposx = stage.bullets[i].x + stage.bullets[i].xvel;
             var nextposy = stage.bullets[i].y + stage.bullets[i].yvel;

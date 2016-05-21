@@ -200,7 +200,7 @@ var Player = function () {
                 this.xvel -= 25;
             }
             this.lasthit = by;
-            var damage = Math.floor(7 * (this.y - this.height) / yhit);
+            var damage = Math.floor(8 * (this.y - this.height) / yhit);
             this.damageTrackerUpdate(damage);
             this.yvel -= 25;
 
