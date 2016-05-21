@@ -98,24 +98,24 @@ var Collision = function () {
         if (nextposy - object.height < 0) {
             this.cls(3, object);
             if (typeof object.topCallBack == 'function') {
-                object.topCallBack();
+                object.topCallBack(null);
             }
         }
         if (nextposx + object.width > stage.size) {
             this.cls(1, object);
             if (typeof object.leftCallBack == 'function') {
-                object.leftCallBack();
+                object.leftCallBack(null);
             }
         }
         if (nextposx - object.width < 0) {
             this.cls(2, object);
             if (typeof object.rightCallBack == 'function') {
-                object.rightCallBack();
+                object.rightCallBack(null);
             }
         }
         if (nextposy + object.height > stage.canvas.height) {
             if (typeof object.bottomCallBack == 'function') {
-                object.bottomCallBack();
+                object.bottomCallBack(null);
             }
             this.cls(0, object);
         }

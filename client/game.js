@@ -74,19 +74,27 @@ function calculateBullets(evt) {
         if (stage.bullets[i] != null) {
             stage.bullets[i].timer += 1;
             if (stage.bullets[i].timer < 10) {
-                stage.bullets[i].xvel += evt.delta / 1000 * (stage.bullets[i].tox - stage.bullets[i].startX)/4;
-                stage.bullets[i].yvel += evt.delta / 1000 * (stage.bullets[i].toy - stage.bullets[i].startY)/4;
+                stage.bullets[i].xvel += evt.delta / 1000 * (stage.bullets[i].tox - stage.bullets[i].startX) / 4;
+                stage.bullets[i].yvel += evt.delta / 1000 * (stage.bullets[i].toy - stage.bullets[i].startY) / 4;
             }
             var nextposx = stage.bullets[i].x + stage.bullets[i].xvel;
             var nextposy = stage.bullets[i].y + stage.bullets[i].yvel;
-            collision.applyGravity(stage.bullets[i], stage, evt, 0.0)
-            collision.obstacleCollision(stage.bullets[i], stage, nextposx, nextposy);
-            if (stage.bullets[i] != null) {
+            if (stage.bullets[i] !== null) {
+                collision.applyGravity(stage.bullets[i], stage, evt, 2.0);
+            }
+            if (typeof stage.bullets[i] !== "undefined") {
+                collision.obstacleCollision(stage.bullets[i], stage, nextposx, nextposy);
+            }
+            if (typeof stage.bullets[i] !== "undefined" && stage.bullets[i] !== null && stage.bullets[i].timer > 50) {
+                stage.bullets[i].explode();
+            }
+            if (typeof stage.bullets[i] !== "undefined" && stage.bullets[i] != null) {
+
                 nextposx = stage.bullets[i].x + stage.bullets[i].xvel;
                 nextposy = stage.bullets[i].y + stage.bullets[i].yvel;
                 collision.stageCollision(nextposx, nextposy, stage.bullets[i]);
             }
-            if (stage.bullets[i] != null) {
+            if (typeof stage.bullets[i] !== "undefined" && stage.bullets[i] != null) {
                 stage.bullets[i].x = stage.bullets[i].x + stage.bullets[i].xvel;
                 stage.bullets[i].y = stage.bullets[i].y + stage.bullets[i].yvel;
             }

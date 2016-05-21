@@ -11,6 +11,7 @@ var Player = function () {
         this.ContainerO = new createjs.Container();
         this.ContainerO.maxHealth = 100;
         this.ContainerO.lasthit = -1;
+        this.ContainerO.type = "player";
         this.ContainerO.PlayerO = new createjs.Shape();
         this.TextO = new createjs.Text(name, "13px Arial", "#171369");
         this.ContainerO.damageTracker = new createjs.Text("", "12px Arial", "darkred");

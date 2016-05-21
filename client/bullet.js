@@ -14,22 +14,22 @@ var Bullet = function () {
         this.canvasO.startY = y;
         this.canvasO.timer = 0;
         this.canvasO.bottomCallBack = function (object) {
-            if (this.timer > 50) {
+            if (this.timer > 50 || (object !== null && object.type === "player")) {
                 this.explode();
             }
         };
         this.canvasO.topCallBack = function (object) {
-            if (this.timer > 50) {
+            if (this.timer > 50 || (object !== null && object.type === "player")) {
                 this.explode();
             }
         };
         this.canvasO.leftCallBack = function (object) {
-            if (this.timer > 50) {
+            if (this.timer > 50 || (object !== null && object.type === "player")) {
                 this.explode();
             }
         };
         this.canvasO.rightCallBack = function (object) {
-            if (this.timer > 50) {
+            if (this.timer > 50 || (object !== null && object.type === "player")) {
                 this.explode();
             }
         };
