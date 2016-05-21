@@ -105,7 +105,12 @@ var Player = function () {
                 }));
                 socketObject.socket.close();
                 if (!$('#dead').is(":visible") && this.lasthit !== null) {
-                    $('#dead').append("<h2>Killed By " + players[this.lasthit].name + "</h2>");
+                    if (this.lasthit === this.socketId) {
+                        $('#dead').append("<h2> you killed yourself</h2>");
+                    } else {
+                        $('#dead').append("<h2>Killed By " + players[this.lasthit].name + "</h2>");
+                    }
+
                 }
                 $('#dead').show();
 
@@ -194,14 +199,12 @@ var Player = function () {
                 this.xvel -= 25;
             }
             this.lasthit = by;
-            var damage = Math.floor(7*(this.y - this.height) / yhit);
+            var damage = Math.floor(7 * (this.y - this.height) / yhit);
             this.damageTrackerUpdate(damage);
             this.yvel -= 25;
-            if (this.health - damage > 0) {
-                this.health -= damage;
-            } else {
-                this.health = 0;
-            }
+
+            this.health -= damage;
+
         };
         this.ContainerO.health = health;
         this.ContainerO.name = name;
