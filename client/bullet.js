@@ -12,17 +12,26 @@ var Bullet = function () {
         this.canvasO.yvel = 0;
         this.canvasO.startX = x;
         this.canvasO.startY = y;
+        this.canvasO.timer = 0;
         this.canvasO.bottomCallBack = function (object) {
-            this.explode();
+            if (this.timer > 50) {
+                this.explode();
+            }
         };
         this.canvasO.topCallBack = function (object) {
-            this.explode();
+            if (this.timer > 50) {
+                this.explode();
+            }
         };
         this.canvasO.leftCallBack = function (object) {
-            this.explode();
+            if (this.timer > 50) {
+                this.explode();
+            }
         };
         this.canvasO.rightCallBack = function (object) {
-            this.explode();
+            if (this.timer > 50) {
+                this.explode();
+            }
         };
         this.canvasO.graphics.beginFill(color).drawCircle(0, 0, width, height);
         this.canvasO.regX = 0;
@@ -34,14 +43,16 @@ var Bullet = function () {
         this.canvasO.height = height;
         this.canvasO.color = color;
         this.canvasO.stage = stage;
+        this.canvasO.gravityCounter = 0;
         this.canvasO.explode = function () {
             (new Explosion()).create(this.x, this.y, this.playerId, stage);
-            delete stage.nonBlocking[this.id] ;
-            delete stage.bullets[this.id] ;
+            delete stage.nonBlocking[this.id];
+            delete stage.bullets[this.id];
             stage.removeChild(this);
         };
         this.canvasO.y = y;
         this.canvasO.snapToPixel = true;
+
         stage.addChild(this.canvasO);
         stage.bullets[this.canvasO.id] = this.canvasO;
         stage.nonBlocking[this.canvasO.id] = this.canvasO;

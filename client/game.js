@@ -72,10 +72,14 @@ function keyboardCheck(event) {
 function calculateBullets(evt) {
     for (var i in stage.bullets) {
         if (stage.bullets[i] != null) {
-            stage.bullets[i].xvel += evt.delta / 1000 * (stage.bullets[i].tox - stage.bullets[i].startX);
-            stage.bullets[i].yvel += evt.delta / 1000 * (stage.bullets[i].toy - stage.bullets[i].startY);
+            stage.bullets[i].timer += 1;
+            if (stage.bullets[i].timer < 10) {
+                stage.bullets[i].xvel += evt.delta / 1000 * (stage.bullets[i].tox - stage.bullets[i].startX)/4;
+                stage.bullets[i].yvel += evt.delta / 1000 * (stage.bullets[i].toy - stage.bullets[i].startY)/4;
+            }
             var nextposx = stage.bullets[i].x + stage.bullets[i].xvel;
             var nextposy = stage.bullets[i].y + stage.bullets[i].yvel;
+            collision.applyGravity(stage.bullets[i], stage, evt, 0.0)
             collision.obstacleCollision(stage.bullets[i], stage, nextposx, nextposy);
             if (stage.bullets[i] != null) {
                 nextposx = stage.bullets[i].x + stage.bullets[i].xvel;
@@ -217,9 +221,9 @@ function mouseEvent(evt) {
                 toy: evt.stageY
             }}));
         canshoot = false;
-          setTimeout(function() {
+        setTimeout(function () {
             canshoot = true;
-    }, 500);
+        }, 500);
     }
 }
 
@@ -236,7 +240,7 @@ $(document).ready(function () {
         socketObject = new Communication(Eventcallback); //reduce globals, parameterize callbacks
         stage = new Stage();
         healthLabel = new StatusLabel().create(94, 42, "#76B852", 137, 13, stage);
-        boostLabel = new StatusLabel().create(94, 56, "#B700FF", 137, 13, stage);
+        boostLabel = new StatusLabel().create(94, 56, "#ffd699", 137, 13, stage);
         window.addEventListener('resize', stage.resizeCanvas, false);
         //$(window).on("down",function(e){console.log("bla")});
         $(window).keydown(function (e) {
