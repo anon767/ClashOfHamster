@@ -5,6 +5,9 @@
   padding: 8% 0 0;
   margin: auto;
 }
+.link {
+  color: #76B852;
+}
 .form {
   position: relative;
   z-index: 1;
