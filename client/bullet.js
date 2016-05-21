@@ -11,25 +11,27 @@ var Bullet = function () {
         this.canvasO.xvel = 0;
         this.canvasO.yvel = 0;
         this.canvasO.startX = x;
+        this.canvasO.maxTime = 75;
         this.canvasO.startY = y;
         this.canvasO.timer = 0;
+        this.canvasO.accelerationTime = 10;
         this.canvasO.bottomCallBack = function (object) {
-            if (this.timer > 50 || (object !== null && object.type === "player")) {
+            if (this.timer > this.maxTime || (object !== null && object.type === "player")) {
                 this.explode();
             }
         };
         this.canvasO.topCallBack = function (object) {
-            if (this.timer > 50 || (object !== null && object.type === "player")) {
+            if (this.timer > this.maxTime || (object !== null && object.type === "player")) {
                 this.explode();
             }
         };
         this.canvasO.leftCallBack = function (object) {
-            if (this.timer > 50 || (object !== null && object.type === "player")) {
+            if (this.timer > this.maxTime || (object !== null && object.type === "player")) {
                 this.explode();
             }
         };
         this.canvasO.rightCallBack = function (object) {
-            if (this.timer > 50 || (object !== null && object.type === "player")) {
+            if (this.timer > this.maxTime || (object !== null && object.type === "player")) {
                 this.explode();
             }
         };
