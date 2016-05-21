@@ -77,11 +77,12 @@ function calculateBullets(evt) {
                 stage.bullets[i].xvel += evt.delta / 1000 * (stage.bullets[i].tox - stage.bullets[i].startX) / 4;
                 stage.bullets[i].yvel += evt.delta / 1000 * (stage.bullets[i].toy - stage.bullets[i].startY) / 4;
             }
-            var nextposx = stage.bullets[i].x + stage.bullets[i].xvel;
-            var nextposy = stage.bullets[i].y + stage.bullets[i].yvel;
+
             if (stage.bullets[i] !== null) {
                 collision.applyGravity(stage.bullets[i], stage, evt, 2.0);
             }
+            var nextposx = stage.bullets[i].x + stage.bullets[i].xvel;
+            var nextposy = stage.bullets[i].y + stage.bullets[i].yvel;
             if (typeof stage.bullets[i] !== "undefined") {
                 collision.obstacleCollision(stage.bullets[i], stage, nextposx, nextposy);
             }
