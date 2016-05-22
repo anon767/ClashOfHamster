@@ -193,14 +193,14 @@ var Player = function () {
         this.ContainerO.height = 47;
         this.ContainerO.socketId = id;
         this.ContainerO.yvel = yvel;
-        this.ContainerO.hit = function (dir, by, yhit) {
+        this.ContainerO.hit = function (dir, objecta) {
             if (dir) {
                 this.xvel += 25;
             } else {
                 this.xvel -= 25;
             }
-            this.lasthit = by;
-            var damage = Math.floor(12 * (this.y - this.height) / yhit);
+            this.lasthit = objecta.playerId;
+            var damage = Math.floor(objecta.timer/3 * (this.y - this.height) / objecta.y);
             this.damageTrackerUpdate(damage);
             this.yvel -= 25;
 
