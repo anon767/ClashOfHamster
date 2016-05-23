@@ -86,6 +86,12 @@ var Player = function () {
             this.damageTracker.gravityCounter = 0;
             this.damageTracker.x = 15;
             this.damageTracker.y = 15;
+            if(x.length > 5){
+                if($("#status > div").size() > 5){
+                    $("#status").html("");
+                }
+                $("#status").prepend("<div class=\"statusmsg\">" +x + "</div>");
+            }
             this.damageTracker.text = x;
             this.damageTracker.yvel = -10;
             createjs.Tween.get(this.damageTracker).to({alpha: 0.4}, 1500);

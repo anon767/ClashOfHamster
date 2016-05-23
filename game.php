@@ -33,7 +33,6 @@ and open the template in the editor.
         <script src="client/stage.js"></script>
         <script src="//code.createjs.com/tweenjs-0.6.2.min.js"></script>
         <script src="//code.createjs.com/preloadjs-0.6.2.min.js"></script>
-
         <script src="client/lib/jsend.js"></script>
         <script src="client/lib/virtualJoystick.js"></script>
         <script src="//code.createjs.com/easeljs-0.8.2.min.js"></script>
@@ -51,6 +50,7 @@ and open the template in the editor.
         <script src="client/game.js"></script>
         <script src="client/playerInfo.js"></script>
         <div id="dead" style="text-align:center;font-size:12px;display:none;"><img style="width:100px!important;" src="client/assets/img/icons/dead.png"></div>
+        <div id ="status"></div>
     </body>
 
 </html>

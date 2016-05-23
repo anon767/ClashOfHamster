@@ -110,3 +110,7 @@ body {
     background-color:lightgreen!important;
     border:none!important;
 }
+#status {
+    position:fixed;
+    top:400px;
+}
