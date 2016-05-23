@@ -189,7 +189,7 @@ var Collision = function () {
         nextposy = Player.y + event.delta / 1000 * Player.yvel * 20;
         this.stageCollision(nextposx, nextposy, Player);
 
-        this.moveStage(-1 * event.delta / 1000 * Player.xvel * 3.25 * stage.size/stage.innerWidth, stage, nextposx - Player.width);
+        this.moveStage(-1 * event.delta / 1000 * Player.xvel * Math.abs(Player.xvel-14) * stage.innerWidth/stage.size, stage, nextposx - Player.width);
         Player.x += (event.delta / 1000 * Player.xvel * 20);
         Player.y += (event.delta / 1000 * Player.yvel * 20);
     }
