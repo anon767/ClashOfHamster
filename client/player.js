@@ -111,7 +111,6 @@ var Player = function () {
                     } else {
                         $('#dead').append("<h2>Killed By " + players[this.lasthit].name + "</h2>");
                     }
-
                 }
                 $('#dead').show();
 
@@ -203,9 +202,7 @@ var Player = function () {
             var damage = Math.floor(objecta.timer/3 * (this.y - this.height) / objecta.y);
             this.damageTrackerUpdate(damage);
             this.yvel -= 25;
-
             this.health -= damage;
-
         };
         this.ContainerO.health = health;
         this.ContainerO.name = name;

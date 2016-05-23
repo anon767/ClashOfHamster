@@ -14,7 +14,7 @@ var Explosion = function () {
                 "count": 25
             },
             "animations": {
-                "run": [0, 24, false]
+                "run": [0, 24, false,1.2]
             },
             "images": [queue.getResult("explosion").src]
         });

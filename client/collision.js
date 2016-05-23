@@ -29,7 +29,7 @@ var Collision = function () {
      */
     this.moveStage = function (x, stage, nextx) {
         var xNew = stage.x + x;
-        if (nextx > (stage.innerWidth * 2 - stage.size) / 2 && xNew <= 0) { //only move stage if its between size
+        if (nextx > (0)  && xNew <= 0) { //only move stage if its between size
             stage.x = xNew;
             stage.background.x = stage.background.x - x + x * 0.1;
         } else if (xNew > 0 || (nextx < 100 && stage.x !== 0)) { //if stage.x is above 0 for what reason ever: reset it
@@ -189,7 +189,7 @@ var Collision = function () {
         nextposy = Player.y + event.delta / 1000 * Player.yvel * 20;
         this.stageCollision(nextposx, nextposy, Player);
 
-        this.moveStage(-1 * event.delta / 1000 * Player.xvel * 15, stage, nextposx - Player.width);
+        this.moveStage(-1 * event.delta / 1000 * Player.xvel * 3.25 * stage.size/stage.innerWidth, stage, nextposx - Player.width);
         Player.x += (event.delta / 1000 * Player.xvel * 20);
         Player.y += (event.delta / 1000 * Player.yvel * 20);
     }
