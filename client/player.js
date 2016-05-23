@@ -214,16 +214,17 @@ var Player = function () {
                 "regX": 0,
                 "regY": 0,
                 "height": 50,
-                "count": 5
+                "count": 8
             },
             "animations": {
                 "stand": 0,
-                "run": [0, 4, true, 0.4]
+                "run": [0, 4, true, 0.4],
+                "breath": [5,7,true,0.1]
             },
             "images": [queue.getResult("player").src]
         });
 
-        this.ContainerO.PlayerO = new createjs.Sprite(sprite, "stand");
+        this.ContainerO.PlayerO = new createjs.Sprite(sprite, "breath");
         this.ContainerO.y = y;
         this.ContainerO.x = x;
         this.ContainerO.PlayerO.y = 25;
