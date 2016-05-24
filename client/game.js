@@ -239,7 +239,7 @@ function mouseEvent(evt) {
 $(document).ready(function () {
 
     queue.loadManifest([
-        {id: "bg", src: "client/assets/img/full-background2.png"},
+        {id: "bg", src: "client/assets/img/background.jpg"},
         {id: "explosion", src: "client/assets/img/explosion.png"},
         {id: "player", src: "client/assets/img/playeranimation.png"},
         {id: "playerInfo", src: "client/assets/img/playerInfo.png"}

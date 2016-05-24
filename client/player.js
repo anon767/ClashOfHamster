@@ -12,6 +12,7 @@ var Player = function () {
         this.ContainerO.maxHealth = 100;
         this.ContainerO.lasthit = -1;
         this.ContainerO.type = "player";
+        this.ContainerO.speed = 12;
         this.ContainerO.PlayerO = new createjs.Shape();
         this.TextO = new createjs.Text(name, "13px Arial", "#171369");
         this.ContainerO.damageTracker = new createjs.Text("", "12px Arial", "darkred");
@@ -21,7 +22,7 @@ var Player = function () {
         this.ContainerO.damageTracker.y = 15;
         this.ContainerO.damageTracker.gravityCounter = 0;
         this.ContainerO.gravityCounter = 0;
-        this.ContainerO.maxBoost = 500;
+        this.ContainerO.maxBoost = 600;
         this.ContainerO.stage = stage;
         this.ContainerO.gravityCounter = 1;
         if (healthLabel) {
@@ -225,7 +226,7 @@ var Player = function () {
             "animations": {
                 "stand": 0,
                 "run": [0, 4, true, 0.4],
-                "breath": [5,7,true,0.1]
+                "breath": [5,7,true,0.08]
             },
             "images": [queue.getResult("player").src]
         });
