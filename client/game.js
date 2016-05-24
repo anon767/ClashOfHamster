@@ -217,7 +217,7 @@ function mouseEvent(evt) {
     if (canshoot) {
         var x = mePlayer.x + 22;
         var y = mePlayer.y + 23;
-        var b = new Bullet().create(x, y, "black", mePlayer.socketId, stage, evt.stageX - stage.x, evt.stageY);
+        new Bullet().create(x, y, "black", mePlayer.socketId, stage, evt.stageX - stage.x, evt.stageY);
         if (evt.stageX - stage.x < mePlayer.x) {
             mePlayer.PlayerO.scaleX = -1;
         } else if (evt.stageX - stage.x > mePlayer.x) {
@@ -243,6 +243,7 @@ $(document).ready(function () {
         {id: "bg", src: "client/assets/img/background.jpg"},
         {id: "explosion", src: "client/assets/img/explosion.png"},
         {id: "player", src: "client/assets/img/playeranimation.png"},
+        {id: "grenade", src: "client/assets/img/grenadelauncher.png"},
         {id: "playerInfo", src: "client/assets/img/playerInfo.png"}
     ]);
     queue.on("complete", handleComplete, this);

@@ -127,12 +127,9 @@ var Collision = function () {
         }
 
         //gravity
-        //event.delta/1000 should be smaller than 0.1
-        //problem is: if you switch the tab the browser throttles every animation from other tabs to 1 fps
-        //the eventdelta multiplied to our gravity would fuck the hamster to the sky
-        if ((object.y + 50 < stage.canvas.height) && event.delta/1000 < 0.1) { 
-                object.yvel += Math.floor(2.5 * object.gravityCounter * event.delta / 1000);
-                object.gravityCounter += object.gravityCounter < 150 ? 3 - slow : 0;
+        if ((object.y + 50 < stage.canvas.height)) {
+            object.yvel += Math.floor(0.05 * object.gravityCounter);
+            object.gravityCounter += object.gravityCounter < 150 ? 3 - slow : 0;
         }
 
     };

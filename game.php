@@ -14,14 +14,14 @@ and open the template in the editor.
     <body style="overflow: hidden">
 
         <canvas id="stage" height="400" style="position:absolute; left: 0px; top: 0px;"></canvas>
-     
+
         <script
             src="//code.jquery.com/jquery-1.12.3.min.js"
             integrity="sha256-aaODHAgvwQW1bFOGXMeX+pC4PZIPsvn2h1sArYOhgXQ="
         crossorigin="anonymous"></script>
-           <script src="//code.jquery.com/ui/1.12.0-rc.2/jquery-ui.min.js"></script>
+        <script src="//code.jquery.com/ui/1.12.0-rc.2/jquery-ui.min.js"></script>
 
-<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.0-rc.2/themes/smoothness/jquery-ui.css" />
+        <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.0-rc.2/themes/smoothness/jquery-ui.css" />
         <link rel="stylesheet" href="client/assets/css/style.css">
         <script>
             $.urlParam = function (name) {
@@ -49,6 +49,7 @@ and open the template in the editor.
         <script src="client/background.js"></script>
         <script src="client/game.js"></script>
         <script src="client/playerInfo.js"></script>
+        <script src="client/weapon.js"></script>
         <div id="dead" style="text-align:center;font-size:12px;display:none;"><img style="width:100px!important;" src="client/assets/img/icons/dead.png"></div>
         <div id ="status"></div>
     </body>
