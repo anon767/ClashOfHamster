@@ -19,21 +19,11 @@ function wsOnMessage($clientID, $message, $messageLength, $binary, $Server) {
         $Server->wsClose($clientID);
         return;
     }
-      
-    if (isset($Server->wsClients[$clientID][12]) && $Server->wsClients[$clientID][12] == 1) {
-        $message = jSEND::getData($message);
-    }
-  echo $message."\r\n";
-    $jsmsg = json_decode($message, true);
-    if (isset($jsmsg['4']) && $jsmsg['4'] == 1) {
-        $Server->wsClients[$clientID][12] = true;
-        $Server - log($clientID . " set compression to " . $Server->wsClients[$clientID][12]);
-    } else {
+
 //Send the message to everyone but the person who said it
-        foreach ($Server->wsClients as $id => &$client) {
-            if ($id != $clientID) {
-                $Server->wsSend($id, $message);
-            }
+    foreach ($Server->wsClients as $id => &$client) {
+        if ($id != $clientID) {
+            $Server->wsSend($id, $message);
         }
     }
 }
@@ -69,7 +59,7 @@ function wsOnClose($clientID, $status) {
     $Server->log("$ip ($clientID) has disconnected.");
 
     foreach ($Server->wsClients as $id => $client) {
-        $Server->wsSend($id, JSON_ENCODE(array("3" => array("id" => $clientID,"by" => "-1"))));
+        $Server->wsSend($id, JSON_ENCODE(array("3" => array("id" => $clientID, "by" => "-1"))));
     }
 }
 

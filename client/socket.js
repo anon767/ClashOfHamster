@@ -24,9 +24,6 @@ function Communication(Eventcallback) {
         Eventcallback(s.data);
     };
     this.send = function (data) {
-        if (this.compression) {
-            data = $.jSEND(data);
-        }
         this.socket.send(data);
     };
 }
