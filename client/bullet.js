@@ -11,6 +11,7 @@ var Bullet = function () {
         this.canvasO.xvel = 0;
         this.canvasO.yvel = 0;
         this.canvasO.startX = x;
+        this.canvasO.type = "bullet";
         this.canvasO.maxTime = 75;
         this.canvasO.startY = y;
         this.canvasO.timer = 0;

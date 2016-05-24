@@ -12,6 +12,7 @@ var Block = function () {
         this.canvasO.regY = 0;
         this.canvasO.x = x;
         this.canvasO.mouseEnabled = false;
+        this.canvasO.type = "block";
         this.canvasO.width = width;
         this.canvasO.height = height;
         this.canvasO.color = color;
