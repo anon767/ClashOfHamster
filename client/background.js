@@ -1,4 +1,4 @@
-/* global createjs */
+/* global createjs, queue */
 
 //Background
 var Background = function () {

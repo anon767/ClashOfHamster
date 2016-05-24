@@ -87,7 +87,7 @@ var Collision = function () {
     this.obstacleCollision = function (Player, stage, nextposx, nextposy) {
         for (var i in stage.blocking) { //for instead of foreach 
             var rect = stage.blocking[i]; //faster than getChild();
-            if (Player != null && rect != undefined && Player.id !== rect.id) {
+            if (Player != null && Player.id !== rect.id) {
                 this.collide(Player, nextposx, nextposy, rect);
             }
         }
@@ -174,8 +174,6 @@ var Collision = function () {
         if (!up && !jump) {
             this.applyGravity(Player, stage, event);
         }
-        var nextposx = Player.x + event.delta / 1000 * Player.xvel * Player.speed;
-        var nextposy = Player.y + event.delta / 1000 * Player.yvel * Player.speed;
 
         // Velocity limiter:
         if (Player.xvel > this.maxvel || Player.xvel < this.maxvel * -1) {
@@ -184,14 +182,11 @@ var Collision = function () {
         if (Player.yvel > this.maxvel || Player.yvel < this.maxvel * -1) {
             (Player.yvel > 0) ? Player.yvel = this.maxvel : Player.yvel = this.maxvel * -1;
         }
-        nextposx = Player.x + event.delta / 1000 * Player.xvel * Player.speed;
-        nextposy = Player.y + event.delta / 1000 * Player.yvel * Player.speed;
-        this.obstacleCollision(Player, stage, nextposx, nextposy);
-        nextposx = Player.x + event.delta / 1000 * Player.xvel * Player.speed;
-        nextposy = Player.y + event.delta / 1000 * Player.yvel * Player.speed;
-        this.stageCollision(nextposx, nextposy, Player);
+      
+        this.obstacleCollision(Player, stage, Player.x + event.delta / 1000 * Player.xvel * Player.speed, Player.y + event.delta / 1000 * Player.yvel * Player.speed);
+        this.stageCollision(Player.x + event.delta / 1000 * Player.xvel * Player.speed, Player.y + event.delta / 1000 * Player.yvel * Player.speed, Player);
 
-        this.moveStage(-1 * event.delta / 1000 * Player.xvel * Player.speed, stage, nextposx - Player.width);
+        this.moveStage(-1 * event.delta / 1000 * Player.xvel * Player.speed, stage, (Player.x + event.delta / 1000 * Player.xvel * Player.speed) - Player.width);
         Player.x += (event.delta / 1000 * Player.xvel * Player.speed);
         Player.y += (event.delta / 1000 * Player.yvel * Player.speed);
     }

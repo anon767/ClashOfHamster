@@ -1,4 +1,4 @@
-/* global createjs */
+/* global createjs, username */
 var stage, timeCircle, socketObject, keyboard = new Keyboard(), collision, mePlayer, mouse, healthLabel, boostLabel;
 var up = false, left = false, right = false, down = false, jump = false;
 var players = [null, null, null, null, null, null]; //allocate some space for players
@@ -98,6 +98,9 @@ function calculateBullets(evt) {
             continue;
         }
         collision.stageCollision(stage.bullets[i].x + stage.bullets[i].xvel, stage.bullets[i].y + stage.bullets[i].yvel, stage.bullets[i]);
+        if (typeof stage.bullets[i] == "undefined" || stage.bullets[i] == null) {
+            continue;
+        }
         stage.bullets[i].x = stage.bullets[i].x + stage.bullets[i].xvel;
         stage.bullets[i].y = stage.bullets[i].y + stage.bullets[i].yvel;
     }
@@ -121,14 +124,11 @@ function calculateMovingObjects(event) {
  * @returns {undefined}
  */
 function tick(event) {
-    if (mePlayer) {
 //always give event as param, needed for interpolation event.delta
-        calculateBullets(event);
-        calculateMovingObjects(event);
-        keyboardCheck(event);
-        mePlayer.update(socketObject);
-
-    }
+    calculateBullets(event);
+    calculateMovingObjects(event);
+    keyboardCheck(event);
+    mePlayer.update(socketObject);
     stage.update(event);
 }
 
@@ -138,15 +138,13 @@ function tick(event) {
  * @returns {Number}
  */
 function Eventcallback(data) {
-    if (data === null) {
-        return 0;
-    }
+
 
     data = $.parseJSON(data); //parse
     if (data['id']) { //retrieve unique ID for identification in network
 
-        mePlayer = new Player().create(stage, username, 100, 100, 100, 0, 0, 0, data['id'], healthLabel, boostLabel); //create Player
-
+        mePlayer = (new Player()).create(stage, username, 100, 100, 100, 0, 0, 0, data['id'], healthLabel, boostLabel); //create Player
+        createjs.Ticker.on("tick", tick);
         mePlayer.initSend(socketObject);
         // socketObject.setCompression();
     }
@@ -203,7 +201,7 @@ function Eventcallback(data) {
         }
     }
     if (data['6']) {
-        new Bullet().create(data['6']['x'], data['6']['y'], "black", data['6']['id'], stage, data['6']['tox'], data['6']['toy']);
+        (new Bullet()).create(data['6']['x'], data['6']['y'], "black", data['6']['id'], stage, data['6']['tox'], data['6']['toy']);
     }
 
 }
@@ -217,7 +215,7 @@ function mouseEvent(evt) {
     if (canshoot) {
         var x = mePlayer.x + 22;
         var y = mePlayer.y + 23;
-        new Bullet().create(x, y, "black", mePlayer.socketId, stage, evt.stageX - stage.x, evt.stageY);
+        (new Bullet()).create(x, y, "black", mePlayer.socketId, stage, evt.stageX - stage.x, evt.stageY);
         if (evt.stageX - stage.x < mePlayer.x) {
             mePlayer.PlayerO.scaleX = -1;
         } else if (evt.stageX - stage.x > mePlayer.x) {
@@ -263,7 +261,7 @@ $(document).ready(function () {
         mouse = new Mouse();
         mouse.setMouse(stage, mouseEvent);
         collision = new Collision();
-        createjs.Ticker.on("tick", tick);
-        createjs.Ticker.setFPS(75); //smooth performance
+
+        createjs.Ticker.setFPS(70); //smooth performance
     }
 });
