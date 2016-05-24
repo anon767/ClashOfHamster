@@ -127,6 +127,7 @@ function tick(event) {
         calculateMovingObjects(event);
         keyboardCheck(event);
         mePlayer.update(socketObject);
+
     }
     stage.update(event);
 }
@@ -159,7 +160,7 @@ function Eventcallback(data) {
         var hl = new StatusLabel().create(data['0']['x'], data['0']['y'], "#76B852", 50, 5, stage);
         players[data['0']['i']] = joinedPlayer.create(stage, data[0]['n'], data['0']['h'], data['0']['x'],
                 data['0']['y'], data['0']['r'], 0, 0, data['0']['i'], hl);
-                mePlayer.damageTrackerUpdate(data[0]['n'] + " joined the game");
+        mePlayer.damageTrackerUpdate(data[0]['n'] + " joined the game");
     }
     if (data['1']) { //update player
         if (players[data['1']['i']]) {
