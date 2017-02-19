@@ -10,18 +10,13 @@ var Stage = function () {
             || document.body.clientWidth;
     stage.innerWidth = (tempWidth < stage.size) ? tempWidth : stage.size;
     stage.canvas.width = window.innerWidth;
-    stage.canvas.height = window.innerHeight < 400 ? window.innerHeight : 400;
+
     stage.background = (new Background()).create(stage);
     stage.playerInfo = (new PlayerInfo()).create(stage);
     stage.mouseEnabled = true;
     stage.snapToPixelEnabled = true; //seems like lagging out the game but idk
     stage.resizeCanvas = function () {
-        var tempWidth = window.innerWidth
-                || document.documentElement.clientWidth
-                || document.body.clientWidth;
-        stage.canvas.width = tempWidth;
-        stage.innerWidth = (tempWidth < stage.size) ? tempWidth : stage.size;
-        stage.canvas.height = window.innerHeight < 400 ? window.innerHeight : 400;
+
     };
     return stage;
 };

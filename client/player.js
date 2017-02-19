@@ -22,7 +22,7 @@ var Player = function () {
         this.ContainerO.damageTracker.y = 15;
         this.ContainerO.damageTracker.gravityCounter = 0;
         this.ContainerO.gravityCounter = 0;
-        this.ContainerO.maxBoost = 600;
+        this.ContainerO.maxBoost = 800;
         this.ContainerO.stage = stage;
         this.ContainerO.gravityCounter = 1;
         if (healthLabel) {
@@ -87,11 +87,11 @@ var Player = function () {
             this.damageTracker.gravityCounter = 0;
             this.damageTracker.x = 15;
             this.damageTracker.y = 15;
-            if(x.length > 5){
-                if($("#status > div").size() > 5){
+            if (x.length > 5) {
+                if ($("#status > div").size() > 5) {
                     $("#status").html("");
                 }
-                $("#status").prepend("<div class=\"statusmsg\">" +x + "</div>");
+                $("#status").prepend("<div class=\"statusmsg\">" + x + "</div>");
             }
             this.damageTracker.text = x;
             this.damageTracker.yvel = -10;
@@ -105,11 +105,10 @@ var Player = function () {
 
             if (this.health <= 0) {
                 socketO.send(JSON.stringify({
-                    3:
-                            {
-                                "id": this.socketId,
-                                "by": this.lasthit
-                            }
+                    3: {
+                        "id": this.socketId,
+                        "by": this.lasthit
+                    }
                 }));
                 socketObject.socket.close();
                 if (!$('#dead').is(":visible") && this.lasthit !== null) {
@@ -127,7 +126,7 @@ var Player = function () {
                     draggable: true,
                     title: "You are Dead!",
                     close: function () {
-                        location.href = "./index.php";
+                        location.href = "./index.html";
                     }
                 });
 
@@ -137,14 +136,16 @@ var Player = function () {
             this.healthLabel.x = -stage.x + 94;
             this.boostLabel.x = -stage.x + 94;
             stage.playerInfo.x = -stage.x;
-            var data = JSON.stringify({1: {
+            var data = JSON.stringify({
+                1: {
                     i: this.socketId,
                     x: Math.round(this.x),
                     y: Math.round(this.y),
                     h: Math.round(this.health),
                     r: this.rotation,
                     d: this.PlayerO.scaleX
-                }});
+                }
+            });
             if (data !== this.lastsend) {
                 socketO.send(data);
                 this.lastsend = data;
@@ -159,13 +160,18 @@ var Player = function () {
                     r: this.rotation,
                     h: this.health,
                     n: this.name
-                }});
+                }
+            });
             socketO.send(data);
         };
         this.ContainerO.setCoords = function (x, y, dir) {
             this.PlayerO.scaleX = dir;
-            if (this.y - y < 0) {
+            if (this.y - y > 0) {
                 this.particleUpdate();
+            } else {
+                for (i = 0; i < this.ps.particles.length; i++) {
+                    this.ps.particles[i].dispose(stage);
+                }
             }
             this.x = x;
             this.y = y;
@@ -184,7 +190,7 @@ var Player = function () {
             this.ps.velocityY = {min: -2, max: 2};
             this.ps.velocityX = {min: -2, max: 2};
             this.ps.radius = {min: 3, max: 8};
-            this.ps.count = 450;
+            this.ps.count = 200;
             this.ps.startColor = {
                 min: new RGBA(230, 50, 0, 255),
                 max: new RGBA(255, 230, 0, 255)
@@ -206,7 +212,7 @@ var Player = function () {
                 this.xvel -= 25;
             }
             this.lasthit = objecta.playerId;
-            var damage = Math.floor(objecta.timer/3 * (this.y - this.height) / objecta.y);
+            var damage = Math.floor(objecta.timer / 3 * (this.y - this.height) / objecta.y);
             this.damageTrackerUpdate(damage);
             this.yvel -= 25;
             this.health -= damage;
@@ -226,7 +232,7 @@ var Player = function () {
             "animations": {
                 "stand": 0,
                 "run": [0, 4, true, 0.4],
-                "breath": [5,7,true,0.08]
+                "breath": [5, 7, true, 0.08]
             },
             "images": [queue.getResult("player").src]
         });

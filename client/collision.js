@@ -20,12 +20,12 @@ var Collision = function () {
             Player.yvel = (Player.yvel < -4) ? Math.round(Player.yvel * -0.5) : 0;
         }
     };
+
     /**
-     * moves "camera" by moving the stage to opposite direction the player walks
-     * @param {type} x
-     * @param {type} stage
-     * @param {type} nextx
-     * @returns {undefined}
+     * moves camera
+     * @param x
+     * @param stage
+     * @param nextx
      */
     this.moveStage = function (x, stage, nextx) {
         var xNew = stage.x + x;
