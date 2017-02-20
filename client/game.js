@@ -83,8 +83,8 @@ function calculateBullets(evt) {
 
         stage.bullets[i].timer += 1;
         if (stage.bullets[i].timer < stage.bullets[i].accelerationTime) {
-            stage.bullets[i].xvel += evt.delta / 1000 * (stage.bullets[i].tox - stage.bullets[i].startX) / 4;
-            stage.bullets[i].yvel += evt.delta / 1000 * (stage.bullets[i].toy - stage.bullets[i].startY) / 4;
+            stage.bullets[i].xvel +=  (stage.bullets[i].tox - stage.bullets[i].startX) / 200;
+            stage.bullets[i].yvel +=  (stage.bullets[i].toy - stage.bullets[i].startY) / 200;
         }
         collision.applyGravity(stage.bullets[i], stage, evt, 1.5);
         if (stage.bullets[i] === undefined || stage.bullets[i] == null) {
