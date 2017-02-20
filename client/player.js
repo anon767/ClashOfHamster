@@ -136,13 +136,15 @@ var Player = function () {
             this.healthLabel.x = -stage.x + 94;
             this.boostLabel.x = -stage.x + 94;
             stage.playerInfo.x = -stage.x;
+
+        };
+        this.ContainerO.sendUpdate = function(socketO){
             var data = JSON.stringify({
                 1: {
                     i: this.socketId,
                     x: Math.round(this.x),
                     y: Math.round(this.y),
                     h: Math.round(this.health),
-                    r: this.rotation,
                     d: this.PlayerO.scaleX
                 }
             });

@@ -125,10 +125,16 @@ function calculateMovingObjects(event) {
  * @param {type} event
  * @returns {undefined}
  */
+var updatetick = Math.round(100/30);
+var updatei = 0;
 function tick(event) {
     calculateBullets(event);
     calculateMovingObjects(event);
     keyboardCheck(event);
+    if(updatei===0){
+        mePlayer.sendUpdate(socketObject);
+    }else
+        updatei = (updatei+1)%updatetick;
     mePlayer.update(socketObject);
     stage.update(event);
 }
@@ -203,7 +209,6 @@ function Eventcallback(data) {
     } else if (data['6']) {
         (new Bullet()).create(data['6']['x'], data['6']['y'], "black", data['6']['id'], stage, data['6']['tox'], data['6']['toy']);
     }
-
 }
 
 /**
