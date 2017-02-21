@@ -5,6 +5,7 @@ var players = [null, null, null, null, null, null]; //allocate some space for pl
 var queue = new createjs.LoadQueue(false);
 var canshoot = true;
 var isMobile = false;
+var adjust;
 /**
  * moves when direction is set
  * @returns {undefined}
@@ -125,16 +126,16 @@ function calculateMovingObjects(event) {
  * @param {type} event
  * @returns {undefined}
  */
-var updatetick = Math.round(100/30);
+var updatetick = 10;
 var updatei = 0;
 function tick(event) {
     calculateBullets(event);
     calculateMovingObjects(event);
     keyboardCheck(event);
-    if(updatei===0){
+    if (updatei === 0) {
         mePlayer.sendUpdate(socketObject);
-    }else
-        updatei = (updatei+1)%updatetick;
+    } else
+        updatei = (updatei + 1) % updatetick;
     mePlayer.update(socketObject);
     stage.update(event);
 }
@@ -165,15 +166,21 @@ function Eventcallback(data) {
             data['0']['y'], data['0']['r'], 0, 0, data['0']['i'], hl);
         mePlayer.damageTrackerUpdate(data[0]['n'] + " joined the game");
     } else if (data['1']) { //update player
-        if (players[data['1']['i']]) {
-            players[data['1']['i']].setCoords(data['1']['x'], data['1']['y'], data['1']['d']);
-            if (Math.ceil(players[data['1']['i']].health - data['1']['h']) > 1) {
-                players[data['1']['i']].damageTrackerUpdate(Math.ceil(players[data['1']['i']].health - data['1']['h']));
+        var params = data['1'].split(",");
+        var id = parseInt(params[0]);
+        var x = parseInt(params[1]);
+        var y = parseInt(params[2]);
+        var h = parseInt(params[3]);
+        var d = parseInt(params[4]);
+        if (players[id]) {
+            players[id].setCoords(x, y, d);
+            if (Math.ceil(players[id].health - h) > 1) {
+                players[id].damageTrackerUpdate(Math.ceil(players[id].health - h));
             }
-            players[data['1']['i']].health = data['1']['h'];
-            players[data['1']['i']].healthLabel.update(players[data['1']['i']].health, mePlayer.maxHealth);
-            players[data['1']['i']].healthLabel.x = data['1']['x'];
-            players[data['1']['i']].healthLabel.y = data['1']['y'] - 12;
+            players[id].health = h;
+            players[id].healthLabel.update(players[id].health, mePlayer.maxHealth);
+            players[id].healthLabel.x = x;
+            players[id].healthLabel.y = y - 12;
         } else {
             socketObject.send(JSON.stringify({2: data['1']['id']})); //on missing player request initial sends
         }
@@ -201,7 +208,7 @@ function Eventcallback(data) {
             var o = data['5'][i];
             b.create(parseFloat(o['x']), parseFloat(o['y']), "#C2826D", parseFloat(o['w']), parseFloat(o['h']), stage);
         }
-        var adjust = (window.innerHeight - stage.height) > 0 ? 0 : window.innerHeight - stage.height;
+        adjust = (window.innerHeight - stage.height) > 0 ? 0 : window.innerHeight - stage.height;
         stage.y = adjust;
         healthLabel.y -= adjust;
         boostLabel.y -= adjust;
@@ -232,13 +239,13 @@ function mouseEvent(evt) {
                 x: x,
                 y: y,
                 tox: evt.stageX + -1 * stage.x,
-                toy: evt.stageY
+                toy: evt.stageY - 1 * stage.y
             }
         }));
         canshoot = false;
         setTimeout(function () {
             canshoot = true;
-        }, 500);
+        }, 600);
     }
 }
 
@@ -286,6 +293,6 @@ $(document).ready(function () {
         }
         mouse = new Mouse();
         mouse.setMouse(stage, mouseEvent);
-        createjs.Ticker.setFPS(55); //smooth performance
+        createjs.Ticker.setFPS(65);
     }
 });

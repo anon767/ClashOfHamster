@@ -45,7 +45,6 @@ var Bullet = function () {
         this.canvasO.width = width;
         this.canvasO.height = height;
         this.canvasO.color = color;
-        this.canvasO.stage = stage;
         this.canvasO.gravityCounter = 0;
         this.canvasO.explode = function () {
             (new Explosion()).create(this.x, this.y, this.playerId, stage);

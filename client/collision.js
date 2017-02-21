@@ -1,5 +1,3 @@
-
-
 /* global mePlayer */
 
 var Collision = function () {
@@ -27,7 +25,7 @@ var Collision = function () {
      * @param stage
      * @param nextx
      */
-    this.moveStage = function (x, stage, nextx) {
+    this.moveStage = function (x, stage, nextx, y, nexty) {
         var xNew = stage.x + x;
         if (nextx > (stage.innerWidth) / 2 && xNew <= 0) { //only move stage if its between size
             stage.x = xNew;
@@ -36,13 +34,22 @@ var Collision = function () {
             stage.x = 0;
             stage.background.x = 0;
         }
+        var yNew = stage.y + y;
+        if (nexty < window.innerHeight / 2 && yNew >= (window.innerHeight - stage.height)) { //only move stage if its between size
+            stage.y = yNew;
+            stage.background.y = stage.background.y + y - y * 0.1;
+        } else if (yNew > (window.innerHeight)) { //if stage.x is above 0 for what reason ever: reset it
+            stage.y = adjust;
+            stage.background.y = -160;
+        }
+
     };
     this.collide = function (objecta, nextposx, nextposy, objectb) {
         if (objecta && objectb) {
             if (nextposy + objecta.height > objectb.y &&
-                    nextposx + objecta.width > objectb.x &&
-                    nextposx < objectb.x + objectb.width &&
-                    nextposy < objectb.y + objectb.height) {
+                nextposx + objecta.width > objectb.x &&
+                nextposx < objectb.x + objectb.width &&
+                nextposy < objectb.y + objectb.height) {
                 if (objecta.y + objecta.height < objectb.y) {
                     if (typeof objecta.bottomCallBack == 'function') {
                         objecta.bottomCallBack(objectb);
@@ -95,7 +102,7 @@ var Collision = function () {
 
 
     this.stageCollision = function (nextposx, nextposy, object) {
-        if (nextposy - object.height < 0) {
+        if (nextposy - object.height < ((window.innerHeight - stage.height) < 0 ? (window.innerHeight - stage.height) : -60)) {
             this.cls(3, object);
             if (typeof object.topCallBack == 'function') {
                 object.topCallBack(null);
@@ -113,7 +120,7 @@ var Collision = function () {
                 object.rightCallBack(null);
             }
         }
-        if (nextposy + object.height > stage.canvas.height) {
+        if (nextposy + object.height > stage.height) {
             if (typeof object.bottomCallBack == 'function') {
                 object.bottomCallBack(null);
             }
@@ -182,11 +189,11 @@ var Collision = function () {
         if (Player.yvel > this.maxvel || Player.yvel < this.maxvel * -1) {
             (Player.yvel > 0) ? Player.yvel = this.maxvel : Player.yvel = this.maxvel * -1;
         }
-      
+
         this.obstacleCollision(Player, stage, Player.x + event.delta / 1000 * Player.xvel * Player.speed, Player.y + event.delta / 1000 * Player.yvel * Player.speed);
         this.stageCollision(Player.x + event.delta / 1000 * Player.xvel * Player.speed, Player.y + event.delta / 1000 * Player.yvel * Player.speed, Player);
 
-        this.moveStage(-1 * event.delta / 1000 * Player.xvel * Player.speed, stage, (Player.x + event.delta / 1000 * Player.xvel * Player.speed) - Player.width);
+        this.moveStage(-1 * event.delta / 1000 * Player.xvel * Player.speed, stage, (Player.x + event.delta / 1000 * Player.xvel * Player.speed) - Player.width, -1 * event.delta / 1000 * Player.yvel * Player.speed, (Player.y - event.delta / 1000 * Player.yvel * Player.speed) - Player.height);
         Player.x += (event.delta / 1000 * Player.xvel * Player.speed);
         Player.y += (event.delta / 1000 * Player.yvel * Player.speed);
     };

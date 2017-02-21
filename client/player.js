@@ -138,15 +138,9 @@ var Player = function () {
             stage.playerInfo.x = -stage.x;
 
         };
-        this.ContainerO.sendUpdate = function(socketO){
+        this.ContainerO.sendUpdate = function (socketO) {
             var data = JSON.stringify({
-                1: {
-                    i: this.socketId,
-                    x: Math.round(this.x),
-                    y: Math.round(this.y),
-                    h: Math.round(this.health),
-                    d: this.PlayerO.scaleX
-                }
+                1: this.socketId + "," + Math.round(this.x) + "," + Math.round(this.y) + "," + Math.round(this.health) + "," + this.PlayerO.scaleX
             });
             if (data !== this.lastsend) {
                 socketO.send(data);

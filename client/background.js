@@ -4,11 +4,11 @@
 var Background = function () {
     var create, canvasO;
     this.create = function (stage) {
-        var img = new Image(1215, 608);
+        var img = new Image(1215, 792);
         img.src = queue.getResult("bg").src;
         this.canvasO =  new createjs.Shape();
         this.canvasO.x = 0;
-        this.canvasO.y = -160;
+        this.canvasO.y = -350;
         this.canvasO.tickEnabled = false;
         this.canvasO.graphics.beginBitmapFill(img, 'repeat').drawRect(0,0, stage.canvas.width*4, stage.canvas.height*4);
         stage.addChild(this.canvasO);
