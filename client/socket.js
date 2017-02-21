@@ -27,7 +27,7 @@ function Communication(Eventcallback, onopencallback) {
         }
         if (s.data === "8") {
             this.pong = Date.now();
-            this.latency = 1+(this.pong - this.ping)/5000;
+            this.latency = 1+(this.pong - this.ping)/10000;
             return;
         }
         Eventcallback(s.data);

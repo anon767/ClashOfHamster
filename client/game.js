@@ -68,7 +68,9 @@ function keyboardCheck(event) {
             mePlayer.PlayerO.gotoAndPlay("breath");
         }
     }
+
     collision.move(left, right, up, down, mePlayer, stage, event, jump);
+    mePlayer.sendUpdate(socketObject);
 }
 
 
@@ -119,6 +121,7 @@ function calculateMovingObjects(event) {
             stage.moving[i].y = stage.moving[i].y + stage.moving[i].yvel;
         }
     }
+    mePlayer.sendUpdate(socketObject);
 }
 
 /**
@@ -131,7 +134,6 @@ function tick(event) {
     calculateBullets(event);
     calculateMovingObjects(event);
     keyboardCheck(event);
-    mePlayer.sendUpdate(socketObject);
     if (pingi === 0) {
         socketObject.getLatency();
         pingi = 10;

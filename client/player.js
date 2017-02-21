@@ -140,7 +140,7 @@ var Player = function () {
         };
         this.ContainerO.sendUpdate = function (socketO) {
             var data = JSON.stringify({
-                1: this.socketId + "," + Math.round(this.x) + "," + Math.round(this.y) + "," + Math.round(this.health) + "," + this.PlayerO.scaleX
+                1: this.socketId + "," + this.x + "," + this.y + "," + Math.round(this.health) + "," + this.PlayerO.scaleX
             });
             if (data !== this.lastsend) {
                 socketO.send(data);
@@ -170,7 +170,7 @@ var Player = function () {
                 }
             }
             this.x = this.x + (x - this.x) * socketObject.socket.latency;
-            this.y = this.y + (y - this.y)  * socketObject.socket.latency;
+            this.y = this.y + (y - this.y) * socketObject.socket.latency;
         };
         this.ContainerO.move = function (x, y) {
             this.x += x;
