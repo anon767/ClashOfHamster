@@ -8,21 +8,24 @@ and open the template in the editor.
 <head>
     <title>Clash of Hamsters</title>
     <meta charset="utf-8">
-
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport"
+          content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi"
+          content="width=device-width, height=device-height"/>
+    <meta http-equiv="Content-Security-Policy"
+          content="default-src *; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' 'unsafe-eval'">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="msapplication-tap-highlight" content="no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
 </head>
 <body style="overflow: hidden">
 
 <canvas id="stage" height="400" style="position:absolute; left: 0px; top: 0px;"></canvas>
+<script type="text/javascript" src="client/lib/jquery.js"></script>
+<script type="text/javascript" src="client/lib/jquery-UI.js"></script>
 
-<script
-        src="//code.jquery.com/jquery-1.12.3.min.js"
-        integrity="sha256-aaODHAgvwQW1bFOGXMeX+pC4PZIPsvn2h1sArYOhgXQ="
-        crossorigin="anonymous"></script>
-<script src="//code.jquery.com/ui/1.12.0-rc.2/jquery-ui.min.js"></script>
-
-<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.0-rc.2/themes/smoothness/jquery-ui.css"/>
+<link rel="stylesheet" href="client/assets/css/jquery-ui.css"/>
 <link rel="stylesheet" href="client/assets/css/style.css">
+
 <script>
     $.urlParam = function (name) {
         var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
@@ -33,11 +36,11 @@ and open the template in the editor.
 </script>
 <script type="text/javascript" src="cordova.js"></script>
 <script src="client/stage.js"></script>
-<script src="//code.createjs.com/tweenjs-0.6.2.min.js"></script>
-<script src="//code.createjs.com/preloadjs-0.6.2.min.js"></script>
+<script src="client/lib/tween.js"></script>
+<script src="client/lib/preload.js"></script>
 <script src="client/lib/jsend.js"></script>
 <script src="client/lib/virtualJoystick.js"></script>
-<script src="//code.createjs.com/easeljs-0.8.2.min.js"></script>
+<script src="client/lib/easeljs.js"></script>
 <script src="client/explosion.js"></script>
 <script src="client/socket.js"></script>
 <script src="client/mouse.js"></script>
@@ -54,7 +57,9 @@ and open the template in the editor.
 <script src="client/weapon.js"></script>
 <div id="dead" style="text-align:center;font-size:12px;display:none;"><img style="width:100px!important;"
                                                                            src="client/assets/img/icons/dead.png"></div>
+<div id="joystick" ></div>
 <div id="status"></div>
+
 </body>
 
 </html>

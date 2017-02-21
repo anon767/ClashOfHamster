@@ -9,7 +9,7 @@ set_time_limit(0);
 require_once 'lib/websocket.php';
 require_once 'lib/gameroom.php';
 $gamerooms = [];
-$map = array("0" => array("width" => 2500,"height" => "400"),
+$map = array("0" => array("width" => 2500,"height" => 400),
     1 => array("x" => "150", "y" => "350", "w" => "150", "h" => "13"),
     2 => array("x" => "250", "y" => "70", "w" => "50", "h" => "13"),
     3 => array("x" => "450", "y" => "150", "w" => "50", "h" => "12"),

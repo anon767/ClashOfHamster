@@ -140,3 +140,14 @@ body {
     position:fixed;
     top:400px;
 }
+#joystick{
+  margin-top:200px;
+  width:150px;
+  height:120px;
+  overflow	: hidden;
+  -webkit-user-select	: none;
+  -moz-user-select	: none;
+}
+#joystick canvas {
+  position:fixed!important;
+}

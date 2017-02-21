@@ -64,7 +64,7 @@ var Player = function () {
         };
         this.ContainerO.addBoost = function () {
             if (this.boostTimer < this.maxBoost) {
-                this.boostTimer += 1;
+                this.boostTimer += 3;
             }
         };
         this.ContainerO.jump = function () {

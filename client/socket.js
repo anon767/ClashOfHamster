@@ -11,7 +11,7 @@
  */
 function Communication(Eventcallback,onopencallback) {
     var socket, send;
-    this.socket = new WebSocket('ws://localhost:9300');
+    this.socket = new WebSocket('ws://irc.thecout.com:9300');
  
     this.socket.onopen = function () {
       onopencallback();
