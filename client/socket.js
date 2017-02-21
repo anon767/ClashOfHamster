@@ -9,21 +9,33 @@
  * 5 retrieve map details
  * 6 retrieve bullet information
  */
-function Communication(Eventcallback,onopencallback) {
+function Communication(Eventcallback, onopencallback) {
     var socket, send;
+
     this.socket = new WebSocket('ws://irc.thecout.com:9300');
- 
+    this.socket.latency = 1;
+    this.socket.ping = 1;
+    this.socket.pong = 1;
     this.socket.onopen = function () {
-      onopencallback();
+        onopencallback();
     };
     this.socket.onmessage = function (s) {
-        if(s.data === "logoff:exceeded"){
+        if (s.data === "logoff:exceeded") {
             alert("There are too many Hamster on the Server, try another!");
             location.href = "index.html";
             return;
         }
+        if (s.data === "8") {
+            this.pong = Date.now();
+            this.latency = 1+(this.pong - this.ping)/5000;
+            return;
+        }
         Eventcallback(s.data);
     };
+    this.getLatency = function () {
+        this.socket.ping = Date.now();
+        socketObject.send("8");
+    }
     this.send = function (data) {
         this.socket.send(data);
     };

@@ -37,6 +37,10 @@ function wsOnMessage($clientID, $message, $messageLength, $binary, $Server)
             init($clientID, $Server, $gamerooms[$s]);
             return;
         }
+        if($message === "8"){
+            $Server->wsSend($clientID, "8");
+            return;
+        }
 
         if ($messageLength == 0) {
             $Server->wsClose($clientID);

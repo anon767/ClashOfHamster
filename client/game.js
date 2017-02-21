@@ -126,16 +126,18 @@ function calculateMovingObjects(event) {
  * @param {type} event
  * @returns {undefined}
  */
-var updatetick = 10;
-var updatei = 0;
+var pingi = 0;
 function tick(event) {
     calculateBullets(event);
     calculateMovingObjects(event);
     keyboardCheck(event);
-    if (updatei === 0) {
-        mePlayer.sendUpdate(socketObject);
-    } else
-        updatei = (updatei + 1) % updatetick;
+    mePlayer.sendUpdate(socketObject);
+    if (pingi === 0) {
+        socketObject.getLatency();
+        pingi = 10;
+    }
+    else
+        pingi--;
     mePlayer.update(socketObject);
     stage.update(event);
 }
@@ -143,6 +145,7 @@ function tick(event) {
 function OnOpen() {
     socketObject.send("7:" + server);
 }
+
 /**
  * retrieve server information and parses
  * @param {type} data

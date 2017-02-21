@@ -169,8 +169,8 @@ var Player = function () {
                     this.ps.particles[i].dispose(stage);
                 }
             }
-            this.x = x;
-            this.y = y;
+            this.x = this.x + (x - this.x) * socketObject.socket.latency;
+            this.y = this.y + (y - this.y)  * socketObject.socket.latency;
         };
         this.ContainerO.move = function (x, y) {
             this.x += x;
