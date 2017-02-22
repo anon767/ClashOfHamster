@@ -4,8 +4,6 @@
   "description": "hamster server",
   "main": "server.js",
   "dependencies": {
-    "bufferutil": "^2.0.1",
-    "utf-8-validate": "^3.0.1",
     "websocket": "^1.0.24",
     "ws": "^2.1.0"
   },

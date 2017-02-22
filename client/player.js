@@ -3,6 +3,7 @@
 //player speed is currently 20*velocity, check the collission file
 
 //Player class is actually abstract, modify the canvasO!
+var respawn = 5;
 var Player = function () {
     var ContainerO;
     this.create = function (stage, name, health, x, y, rotation, xvel, yvel, id, healthLabel, boostLabel) {
@@ -121,6 +122,15 @@ var Player = function () {
                         $('#dead').append("<h2>Killed By " + players[this.lasthit].name + "</h2>");
                     }
                 }
+                $("#dead").append("You respawn in <span id='timespawn'></span> seconds");
+
+                setInterval(function () {
+                    console.log(respawn);
+                    respawn -= 1;
+                    $("#timespawn").html(respawn);
+                    if (respawn <= 0)
+                        location.reload();
+                }, 1000);
                 $('#dead').show();
 
                 storage.addDeaths();
@@ -212,7 +222,7 @@ var Player = function () {
                 this.xvel -= 25;
             }
             this.lasthit = objecta.playerId;
-            var damage = Math.floor(2*(objecta.timer / 3 * (this.y - this.height) / objecta.y));
+            var damage = Math.floor(1.5 * (objecta.timer / 3 * (this.y - this.height) / objecta.y));
             this.damageTrackerUpdate(damage);
             this.yvel -= 25;
             this.health -= damage;

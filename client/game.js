@@ -6,6 +6,7 @@ var queue = new createjs.LoadQueue(false);
 var canshoot = true;
 var isMobile = false;
 var adjust;
+var posrange = [[100, 100], [2300, 100]];
 /**
  * moves when direction is set
  * @returns {undefined}
@@ -130,6 +131,7 @@ function calculateMovingObjects(event) {
  * @returns {undefined}
  */
 var pingi = 0;
+
 function tick(event) {
     if (!createjs.Ticker.getPaused()) {
         calculateBullets(event);
@@ -158,7 +160,11 @@ function OnOpen() {
 function Eventcallback(data) {
     data = $.parseJSON(data); //parse
     if (data['id']) { //retrieve unique ID for identification in network
-        mePlayer = (new Player()).create(stage, username, 100, 100, 100, 0, 0, 0, data['id'], healthLabel, boostLabel); //create Player
+        var pos = posrange[Math.floor(Math.random()*posrange.length)];
+        if(pos[0] > window.innerWidth/2)
+            stage.x -= Math.abs(window.innerWidth/2-pos[0]);
+        stage.background.x = stage.background.x - pos[0] + pos[0] * 0.1;
+        mePlayer = (new Player()).create(stage, username, 100, pos[0], pos[1], 0, 0, 0, data['id'], healthLabel, boostLabel); //create Player
         createjs.Ticker.on("tick", tick);
         mePlayer.initSend(socketObject);
         // socketObject.setCompression();

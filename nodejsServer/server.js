@@ -23,7 +23,7 @@ function init(client, id, gameroom, wss) {
     client.send(JSON.stringify({"id": id}));
     client.send(JSON.stringify({"5": gameroom.getMap()}));
     wss.clients.forEach(function each(c) {
-        if (c !== client && client.readyState === WebSocket.OPEN) {
+        if (c && c !== client && c.readyState === WebSocket.OPEN) {
             c.send(JSON.stringify({2: id}));
         }
     });
@@ -49,20 +49,21 @@ wss.on('connection', function connection(ws) {
             return;
         }
         ws.gameroom.getClients().forEach(function each(client) {
-            if (client !== ws && client.readyState === WebSocket.OPEN) {
+            if (client && client !== ws && client.readyState === WebSocket.OPEN) {
                 client.send(data);
             }
         });
 
     });
     ws.on('close', function close() {
+        var id = ws._ultron.id;
         if (ws.gameroom) {
-            ws.gameroom.removeClient(ws._ultron.id);
+            ws.gameroom.removeClient(id);
         }
         console.log("player disconnected");
         wss.clients.forEach(function each(client) {
-            if (client !== ws && client.readyState === WebSocket.OPEN) {
-                client.send(JSON.stringify({3: {id: ws._ultron.id, by: -1}}));
+            if (client && client !== ws && client.readyState === WebSocket.OPEN) {
+                client.send(JSON.stringify({3: {id: id, by: -1}}));
             }
         });
     });

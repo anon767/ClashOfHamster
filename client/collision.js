@@ -32,7 +32,7 @@ var Collision = function () {
             stage.background.x = stage.background.x - x + x * 0.1;
         } else if (xNew > 0 || (nextx < 100 && stage.x !== 0)) { //if stage.x is above 0 for what reason ever: reset it
             stage.x = 0;
-            stage.background.x = 0;
+            //stage.background.x = 0;
         }
         var yNew = stage.y + y;
         if (nexty < window.innerHeight / 2 && yNew >= (window.innerHeight - stage.height)) { //only move stage if its between size
