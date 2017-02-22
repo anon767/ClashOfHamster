@@ -48,7 +48,7 @@ wss.on('connection', function connection(ws) {
             ws.send("8");
             return;
         }
-        gamerooms[s].getClients().forEach(function each(client) {
+        ws.gameroom.getClients().forEach(function each(client) {
             if (client !== ws && client.readyState === WebSocket.OPEN) {
                 client.send(data);
             }
@@ -56,7 +56,6 @@ wss.on('connection', function connection(ws) {
 
     });
     ws.on('close', function close() {
-        console.log(ws._ultron.id);
         if (ws.gameroom) {
             ws.gameroom.removeClient(ws._ultron.id);
         }
