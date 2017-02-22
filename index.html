@@ -8,30 +8,18 @@ and open the template in the editor.
 <head>
     <title>Clash of Hamsters</title>
     <meta charset="utf-8">
-    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" content="width=device-width, height=device-height"/>
-    <meta http-equiv="Content-Security-Policy" content="default-src *; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' 'unsafe-eval'">
+    <meta name="viewport"
+          content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi"
+          content="width=device-width, height=device-height"/>
+    <meta http-equiv="Content-Security-Policy"
+          content="default-src *; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' 'unsafe-eval'">
     <meta name="format-detection" content="telephone=no">
     <meta name="msapplication-tap-highlight" content="no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <link rel="stylesheet" href="client/assets/css/style.css">
 
-    <script>
-        function toggle(id) {
-            if (document.getElementById) {
-                var mydiv = document.getElementById(id);
-                mydiv.style.display = (mydiv.style.display == 'block' ? 'none' : 'block');
-            }
-        }
-    </script>
-    <!-- Only Hide Lock -->
-    <script>
-        function hide(id) {
-            if (document.getElementById) {
-                var mydiv = document.getElementById(id);
-                mydiv.style.display = (mydiv.style.display = 'none');
-            }
-        }
-    </script>
+
+
 
 </head>
 <body style="overflow: hidden">
@@ -40,11 +28,11 @@ and open the template in the editor.
 <div class="locker" id="login-page">
     <div class="form">
         <form class="login-form" method="GET" action="game.html">
-            <input type="text" maxlength=20 name="user" id="user" placeholder="username"/>
+            <input type="text" maxlength=20 name="user" id="user" placeholder="username" required/>
             <select name="server">
-                <option value="0">Server 1</option>
-                <option value="1">Server 2</option>
-                <option value="2">Server 3</option>
+                <option value="0">Gameroom 1 4Chan</option>
+                <option value="1">Gameroom 2 Pr0gramm</option>
+                <option value="2">Gameroom 3</option>
             </select>
             <button>login</button>
 
@@ -54,24 +42,24 @@ and open the template in the editor.
     </div>
 </div>
 
-<div class="locker" id="registration-page" style="display:none">
-    <form method="post" action="#">
-        <div class="form">
-            <h3>Registrieren</h3>
-            <input name="username_register" id="username_register" type="text" maxlength="20" required
-                   pattern="[a-zA-Z0-9]{3,}" placeholder="username"/>
-            <input name="pw_register" id="pw_register" type="password" required pattern="{6,}" placeholder="passwort"/>
-            <input name="pw_repeate_register" id="pw_repeate_register" type="password" required pattern="{6,}"
-                   placeholder="passwort wiederholen"/>
-            <input name="mail" id="mail" type="email" required placeholder="email"/>
-            <button>Registrieren</button>
-            <!--VORLÄUFIG EIN LINK ZURÜCK ZUM LOGIN -->
-            <p class="link" style="cursor: pointer "
-               onclick="hide('registration-page'); toggle('login-page'); return false">zurück zum login</p>
-        </div>
-    </form>
+<div class="locker" id="info">
+    <b>Hi <span id="usercall"></span></b><br>
+    Please recommend the game and join the <a href="https://kiwiirc.com/client/irc.thecout.com/?nick=hamster|?&theme=cli#clashofhamster">Chat</a>!
+
 </div>
 <script type="text/javascript" src="cordova.js"></script>
+<script>
+    if (typeof(Storage) !== "undefined") {
+        if (localStorage.getItem("name")) {
+            document.getElementById("user").value = localStorage.getItem("name");
+            document.getElementById("usercall").innerHTML = (localStorage.getItem("name") + " you scored " + localStorage.getItem("kills") + " points");
+        }else{
+            document.getElementById("usercall").innerHTML = "guest";
+        }
+    }else{
+        document.getElementById("usercall").innerHTML = "guest";
+    }
+</script>
 </body>
 
 </html>

@@ -36,6 +36,7 @@ class gameroom
     public function removeClient($id)
     {
         $this->clients[$id] = null;
+        unset($this->clients[$id]);
     }
 
 }

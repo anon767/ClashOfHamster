@@ -22,7 +22,7 @@ and open the template in the editor.
 <canvas id="stage" height="400" style="position:absolute; left: 0px; top: 0px;"></canvas>
 <script type="text/javascript" src="client/lib/jquery.js"></script>
 <script type="text/javascript" src="client/lib/jquery-UI.js"></script>
-
+<script src="client/sessionstorage.js"></script>
 <link rel="stylesheet" href="client/assets/css/jquery-ui.css"/>
 <link rel="stylesheet" href="client/assets/css/style.css">
 
@@ -33,6 +33,9 @@ and open the template in the editor.
     }
     var username = decodeURIComponent($.urlParam("user"));
     var server = decodeURIComponent($.urlParam("server"));
+    var storage = new storage();
+    storage.setname(username);
+    storage.addLogins();
 </script>
 <script type="text/javascript" src="cordova.js"></script>
 <script src="client/stage.js"></script>
@@ -57,7 +60,7 @@ and open the template in the editor.
 <script src="client/weapon.js"></script>
 <div id="dead" style="text-align:center;font-size:12px;display:none;"><img style="width:100px!important;"
                                                                            src="client/assets/img/icons/dead.png"></div>
-<div id="joystick" ></div>
+<div id="joystick"></div>
 <div id="status"></div>
 
 </body>

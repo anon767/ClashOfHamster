@@ -12,10 +12,10 @@ var Player = function () {
         this.ContainerO.maxHealth = 100;
         this.ContainerO.lasthit = -1;
         this.ContainerO.type = "player";
-        this.ContainerO.speed = 12;
+        this.ContainerO.speed = 5;
         this.ContainerO.PlayerO = new createjs.Shape();
         this.TextO = new createjs.Text(name, "13px Arial", "#171369");
-        this.ContainerO.damageTracker = new createjs.Text("", "12px Arial", "darkred");
+        this.ContainerO.damageTracker = new createjs.Text("", "22px Arial", "darkred");
         this.ContainerO.damageTracker.yvel = 0;
         this.ContainerO.damageTracker.x = 15;
         this.ContainerO.damageTracker.xvel = 0;
@@ -88,10 +88,12 @@ var Player = function () {
             this.damageTracker.x = 15;
             this.damageTracker.y = 15;
             if (x.length > 5) {
-                if ($("#status > div").size() > 5) {
+                if ($("#status > div").size() > 7) {
                     $("#status").html("");
                 }
                 $("#status").prepend("<div class=\"statusmsg\">" + x + "</div>");
+                if (x.indexOf("you killed") !== -1)
+                    storage.addKills();
             }
             this.damageTracker.text = x;
             this.damageTracker.yvel = -10;
@@ -104,6 +106,7 @@ var Player = function () {
             }
 
             if (this.health <= 0) {
+                createjs.Ticker.setPaused(true);
                 socketO.send(JSON.stringify({
                     3: {
                         "id": this.socketId,
@@ -120,6 +123,7 @@ var Player = function () {
                 }
                 $('#dead').show();
 
+                storage.addDeaths();
                 $('#dead').dialog({
                     autoOpen: true,
                     modal: true,
@@ -208,7 +212,7 @@ var Player = function () {
                 this.xvel -= 25;
             }
             this.lasthit = objecta.playerId;
-            var damage = Math.floor(objecta.timer / 3 * (this.y - this.height) / objecta.y);
+            var damage = Math.floor(2*(objecta.timer / 3 * (this.y - this.height) / objecta.y));
             this.damageTrackerUpdate(damage);
             this.yvel -= 25;
             this.health -= damage;

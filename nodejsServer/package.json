@@ -1,0 +1,17 @@
+{
+  "name": "hamsternodejs",
+  "version": "1.0.0",
+  "description": "hamster server",
+  "main": "server.js",
+  "dependencies": {
+    "websocket": "^1.0.24",
+    "ws": "^2.1.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "",
+  "license": "ISC"
+}

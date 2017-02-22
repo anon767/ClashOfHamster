@@ -8,6 +8,7 @@ set_time_limit(0);
 // include the web sockets server script (the server is started at the far bottom of this file)
 require_once 'lib/websocket.php';
 require_once 'lib/gameroom.php';
+
 $gamerooms = [];
 $map = array("0" => array("width" => 2500, "height" => 400),
     1 => array("x" => "150", "y" => "350", "w" => "150", "h" => "13"),

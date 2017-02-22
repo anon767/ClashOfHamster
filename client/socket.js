@@ -12,13 +12,16 @@
 function Communication(Eventcallback, onopencallback) {
     var socket, send;
 
-    this.socket = new WebSocket('ws://irc.thecout.com:9300');
+    this.socket = new WebSocket('ws://localhost:9300');
     this.socket.latency = 1;
     this.socket.ping = 1;
     this.socket.pong = 1;
     this.socket.onopen = function () {
         onopencallback();
     };
+    this.socket.onerror = function (e) {
+        console.log("error occured ", e);
+    }
     this.socket.onmessage = function (s) {
         if (s.data === "logoff:exceeded") {
             alert("There are too many Hamster on the Server, try another!");
@@ -27,7 +30,7 @@ function Communication(Eventcallback, onopencallback) {
         }
         if (s.data === "8") {
             this.pong = Date.now();
-            this.latency = 1+(this.pong - this.ping)/10000;
+            this.latency = 1 + (this.pong - this.ping) / 10000;
             return;
         }
         Eventcallback(s.data);

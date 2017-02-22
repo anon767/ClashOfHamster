@@ -131,17 +131,19 @@ function calculateMovingObjects(event) {
  */
 var pingi = 0;
 function tick(event) {
-    calculateBullets(event);
-    calculateMovingObjects(event);
-    keyboardCheck(event);
-    if (pingi === 0) {
-        socketObject.getLatency();
-        pingi = 10;
+    if (!createjs.Ticker.getPaused()) {
+        calculateBullets(event);
+        calculateMovingObjects(event);
+        keyboardCheck(event);
+        if (pingi === 0) {
+            socketObject.getLatency();
+            pingi = 10;
+        }
+        else
+            pingi--;
+        mePlayer.update(socketObject);
+        stage.update(event);
     }
-    else
-        pingi--;
-    mePlayer.update(socketObject);
-    stage.update(event);
 }
 
 function OnOpen() {
