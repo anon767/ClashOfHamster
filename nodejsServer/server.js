@@ -34,7 +34,7 @@ wss.on('connection', function connection(ws) {
     console.log("connected");
     ws.on('message', function incoming(data) {
         if (data[0] === "7") {
-            var s = data[2];
+            var s = parseInt(data[2]);
             if (!gamerooms[s])
                 s = 0;
             ws.gameroom = gamerooms[s];
@@ -48,7 +48,7 @@ wss.on('connection', function connection(ws) {
             ws.send("8");
             return;
         }
-        wss.clients.forEach(function each(client) {
+        gamerooms[s].getClients().forEach(function each(client) {
             if (client !== ws && client.readyState === WebSocket.OPEN) {
                 client.send(data);
             }
