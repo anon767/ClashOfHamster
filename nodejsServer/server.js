@@ -33,33 +33,39 @@ function init(client, id, gameroom, wss) {
 wss.on('connection', function connection(ws) {
     console.log("connected");
     ws.on('message', function incoming(data) {
-        if (data[0] === "7") {
-            var s = parseInt(data[2]);
-            if (!gamerooms[s])
-                s = 0;
-            ws.gameroom = gamerooms[s];
-            if (gamerooms[s].countClients() > 6)
-                ws.send("logoff:exceeded");
-            gamerooms[s].addClient(ws, ws._ultron.id);
-            init(ws, ws._ultron.id, gamerooms[s], wss);
-            return;
-        }
-        if (data === "8") {
-            ws.send("8");
-            return;
-        }
-        ws.gameroom.getClients().forEach(function each(client) {
-            if (client && client !== ws && client.readyState === WebSocket.OPEN) {
-                client.send(data);
+            if (data[0] === "7") {
+                var s = parseInt(data[2]);
+                if (!gamerooms[s])
+                    s = 0;
+                ws.gameroom = gamerooms[s];
+                if (gamerooms[s].countClients() > 6)
+                    ws.send("logoff:exceeded");
+                gamerooms[s].addClient(ws, ws._ultron.id);
+                init(ws, ws._ultron.id, gamerooms[s], wss);
+                return;
             }
-        });
+            if (data === "8") {
+                ws.send("8");
+                return;
+            }
+            var response = JSON.parse(data);
+            if (response[1]) {
+                var responseparam = response[1].split(",");
+                if (responseparam[3] > 200)
+                    ws.send("gtfo");
+            }
+            ws.gameroom.getClients().forEach(function each(client) {
+                if (client && client !== ws && client.readyState === WebSocket.OPEN) {
+                    client.send(data);
+                }
+            });
 
-    });
+        }
+    );
     ws.on('close', function close() {
         var id = ws._ultron.id;
-        if (ws.gameroom) {
-            ws.gameroom.removeClient(id);
-        }
+        ws.gameroom.removeClient(id);
+
 
         console.log("player disconnected");
         wss.clients.forEach(function each(client) {

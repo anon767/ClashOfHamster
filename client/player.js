@@ -225,7 +225,7 @@ var Player = function () {
                 this.xvel -= 25;
             }
             this.lasthit = objecta.playerId;
-            var damage = Math.floor(1.5 * (objecta.timer / 3 * (this.y - this.height) / objecta.y));
+            var damage = Math.abs(Math.floor(1.5 * (objecta.timer / 3 * (this.y - this.height) / objecta.y)));
             this.damageTrackerUpdate(damage);
             this.yvel -= 25;
             this.health -= damage;

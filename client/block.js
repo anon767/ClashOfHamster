@@ -3,11 +3,17 @@
 //Block class is actually abstract modify the canvasO object!
 var Block = function () {
     var create, canvasO;
-    this.create = function (x, y, color, width, height, stage) {
+    this.create = function (x, y, color, width, height, stage, isBlock) {
         this.canvasO = new createjs.Shape();
+
         this.canvasO.graphics.beginFill(color);
         this.canvasO.graphics.setStrokeStyle(2);
         this.canvasO.graphics.drawRect(0, 0, width, height);
+        if (isBlock) {
+            var img = new Image(1215, 792);
+            img.src = queue.getResult("brick").src;
+            this.canvasO.graphics.beginBitmapFill(img, 'repeat').drawRect(0, 0, width, height);
+        }
         this.canvasO.regX = 0;
         this.canvasO.regY = 0;
         this.canvasO.x = x;
@@ -23,5 +29,6 @@ var Block = function () {
         stage.addChild(this.canvasO);
         stage.blocking[this.canvasO.id] = this.canvasO;
         return this.canvasO;
-    };
+    }
+    ;
 };

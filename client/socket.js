@@ -12,7 +12,7 @@
 function Communication(Eventcallback, onopencallback) {
     var socket, send;
 
-    this.socket = new WebSocket('ws://irc.thecout.com:9300');
+    this.socket = new WebSocket('ws://localhost:9300');
     this.socket.latency = 1;
     this.socket.ping = 1;
     this.socket.pong = 1;
@@ -38,6 +38,10 @@ function Communication(Eventcallback, onopencallback) {
 
             this.latency = 1 + (this.pong - this.ping) / 10000;
             return;
+        }
+        if(s.data === "gtfo"){
+            alert("nope nope get out of here you little skid");
+            location.href = "index.html";
         }
         Eventcallback(s.data);
     };

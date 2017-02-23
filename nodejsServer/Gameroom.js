@@ -16,12 +16,13 @@ var Gameroom = function (id, map) {
         var i = 0;
         var c = this.getClients();
         for (j = 0; j < c.length; j++)
-            if (c[j])
+            if (typeof c[j] != "undefined" && c[j] !== null)
                 i++;
         return i;
     }
     self.removeClient = function (id) {
         this.clients[id] = null;
+        delete this.clients[id];
     }
 
 };

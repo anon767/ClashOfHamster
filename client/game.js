@@ -221,7 +221,7 @@ function Eventcallback(data) {
         for (var i = 1; i < amount; ++i) {
             var b = new Block();
             var o = data['5'][i];
-            b.create(parseFloat(o['x']), parseFloat(o['y']), "#C2826D", parseFloat(o['w']), parseFloat(o['h']), stage);
+            b.create(parseFloat(o['x']), parseFloat(o['y']), "#C2826D", parseFloat(o['w']), parseFloat(o['h']), stage, true);
         }
         adjust = (window.innerHeight - stage.height) > 0 ? 0 : window.innerHeight - stage.height;
         stage.y = adjust;
@@ -271,7 +271,8 @@ $(document).ready(function () {
         {id: "explosion", src: "client/assets/img/explosion.png"},
         {id: "player", src: "client/assets/img/playeranimation.png"},
         {id: "grenade", src: "client/assets/img/grenadelauncher.png"},
-        {id: "playerInfo", src: "client/assets/img/playerInfo.png"}
+        {id: "playerInfo", src: "client/assets/img/playerInfo.png"},
+        {id: "brick", src: "client/assets/img/bricks.jpg"}
     ]);
     queue.on("complete", handleComplete, this);
     function handleComplete() {
