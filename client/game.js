@@ -1,5 +1,5 @@
 /* global createjs, username */
-var joystick, stage = null, timeCircle, socketObject, keyboard = new Keyboard(), collision, mePlayer, mouse, healthLabel, boostLabel;
+var joystick, stage = null, timeCircle, socketObject, keyboard = new Keyboard(), collision, mePlayer = null, mouse, healthLabel, boostLabel;
 var up = false, left = false, right = false, down = false, jump = false;
 var players = [null, null, null, null, null, null]; //allocate some space for players
 var queue = new createjs.LoadQueue(false);
@@ -149,7 +149,8 @@ function tick(event) {
 }
 
 function OnOpen() {
-    socketObject.send("7:" + server);
+    if (!mePlayer)
+        socketObject.send("7:" + server);
 }
 
 /**

@@ -22,7 +22,6 @@ var Gameroom = function (id, map) {
     }
     self.removeClient = function (id) {
         this.clients[id] = null;
-        this.clients.splice(id, 1);
     }
 
 };
