@@ -139,7 +139,7 @@ function tick(event) {
         keyboardCheck(event);
         if (pingi === 0) {
             socketObject.getLatency();
-            pingi = 10;
+            pingi = 100;
         }
         else
             pingi--;
@@ -160,10 +160,11 @@ function OnOpen() {
 function Eventcallback(data) {
     data = $.parseJSON(data); //parse
     if (data['id']) { //retrieve unique ID for identification in network
-        var pos = posrange[Math.floor(Math.random()*posrange.length)];
-        if(pos[0] > window.innerWidth/2)
-            stage.x -= Math.abs(window.innerWidth/2-pos[0]);
-        stage.background.x = stage.background.x - pos[0] + pos[0] * 0.1;
+        var pos = posrange[Math.floor(Math.random() * posrange.length)];
+        if (pos[0] > window.innerWidth / 2) {
+            stage.x -= Math.abs(window.innerWidth / 2 - pos[0]);
+            stage.background.x = stage.background.x - stage.x + stage.x * 0.1;
+        }
         mePlayer = (new Player()).create(stage, username, 100, pos[0], pos[1], 0, 0, 0, data['id'], healthLabel, boostLabel); //create Player
         createjs.Ticker.on("tick", tick);
         mePlayer.initSend(socketObject);

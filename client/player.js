@@ -150,6 +150,9 @@ var Player = function () {
             this.healthLabel.x = -stage.x + 94;
             this.boostLabel.x = -stage.x + 94;
             stage.playerInfo.x = -stage.x;
+            stage.playerInfo.y =-stage.y;
+            this.healthLabel.y = -stage.y + 42;
+            this.boostLabel.y = -stage.y + 56;
 
         };
         this.ContainerO.sendUpdate = function (socketO) {

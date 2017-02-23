@@ -12,7 +12,7 @@
 function Communication(Eventcallback, onopencallback) {
     var socket, send;
 
-    this.socket = new WebSocket('ws://localhost:9300');
+    this.socket = new WebSocket('ws://irc.thecout.com:9300');
     this.socket.latency = 1;
     this.socket.ping = 1;
     this.socket.pong = 1;
@@ -30,6 +30,12 @@ function Communication(Eventcallback, onopencallback) {
         }
         if (s.data === "8") {
             this.pong = Date.now();
+            if ((this.pong - this.ping) > 2000) {
+                alert("You have a too slow Connection, try again later!");
+                location.href = "index.html";
+                return;
+            }
+
             this.latency = 1 + (this.pong - this.ping) / 10000;
             return;
         }

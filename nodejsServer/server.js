@@ -18,7 +18,7 @@ gamerooms.push(new Gameroom(1, map))
 gamerooms.push(new Gameroom(2, map))
 const wss = new WebSocket.Server({perMessageDeflate: false, port: 9300});
 console.log("started");
-// Broadcast to all.
+
 function init(client, id, gameroom, wss) {
     client.send(JSON.stringify({"id": id}));
     client.send(JSON.stringify({"5": gameroom.getMap()}));
@@ -38,7 +38,7 @@ wss.on('connection', function connection(ws) {
             if (!gamerooms[s])
                 s = 0;
             ws.gameroom = gamerooms[s];
-            if (gamerooms[s].length > 6)
+            if (gamerooms[s].countClients() > 6)
                 ws.send("logoff:exceeded");
             gamerooms[s].addClient(ws, ws._ultron.id);
             init(ws, ws._ultron.id, gamerooms[s], wss);
@@ -60,6 +60,7 @@ wss.on('connection', function connection(ws) {
         if (ws.gameroom) {
             ws.gameroom.removeClient(id);
         }
+
         console.log("player disconnected");
         wss.clients.forEach(function each(client) {
             if (client && client !== ws && client.readyState === WebSocket.OPEN) {

@@ -12,9 +12,17 @@ var Gameroom = function (id, map) {
     self.getMap = function () {
         return this.map;
     };
+    self.countClients = function () {
+        var i = 0;
+        var c = this.getClients();
+        for (j = 0; j < c.length; j++)
+            if (c[j])
+                i++;
+        return i;
+    }
     self.removeClient = function (id) {
         this.clients[id] = null;
-        delete this.clients[id];
+        this.clients.splice(id, 1);
     }
 
 };
