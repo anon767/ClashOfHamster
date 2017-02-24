@@ -64,7 +64,8 @@ wss.on('connection', function connection(ws) {
     );
     ws.on('close', function close() {
         var id = ws._ultron.id;
-        ws.gameroom.removeClient(id);
+        if (typeof ws.gameroom != "undefined" && ws.gameroom)
+            ws.gameroom.removeClient(id);
 
 
         console.log("player disconnected");
