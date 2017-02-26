@@ -35,10 +35,8 @@ var Explosion = function () {
         this.canvasO.snapToPixel = true;
         this.canvasO.mystage.addChild(this.canvasO);
         this.canvasO.on("animationend", function () {
-            delete this.mystage.nonBlocking[this.id];
             this.mystage.removeChild(this);
         });
-        this.canvasO.mystage.nonBlocking[this.canvasO.id] = this.canvasO;
         return this.canvasO;
     };
 };

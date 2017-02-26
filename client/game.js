@@ -1,54 +1,74 @@
 /* global createjs, username */
+var Engine = Matter.Engine,
+    Render = Matter.Render,
+    Runner = Matter.Runner,
+    Events = Matter.Events,
+    render = null,
+    MouseConstraint = Matter.MouseConstraint,
+    MouseMatter = Matter.Mouse,
+    World = Matter.World,
+    Bodies = Matter.Bodies;
+var engine = Engine.create({
+        enableSleeping: true
+    }),
+    world = engine.world;
 var joystick, stage = null, timeCircle, socketObject, keyboard = new Keyboard(), collision, mePlayer = null, mouse, healthLabel, boostLabel;
 var up = false, left = false, right = false, down = false, jump = false;
 var players = [null, null, null, null, null, null]; //allocate some space for players
 var queue = new createjs.LoadQueue(false);
 var canshoot = true;
+var objects = [];
 var isMobile = false;
 var adjust;
-var posrange = [[100, 100], [2300, 100]];
+var lastTick = null;
+var posrange = [[100, 100], [2000, 100]];
 /**
  * moves when direction is set
  * @returns {undefined}
  * @param {type} event
  */
 function keyboardCheck(event) {
+    var x = 0, y = 0;
     if ((keyboard.keys[87] || keyboard.keys[38] || (isMobile && joystick.up())) && mePlayer.boostTimer > 0) { // up
         up = true;
-        mePlayer.getChildAt(0).rotation = 10;
+        y = -mePlayer.speedY;
+        mePlayer.blockRender.PlayerO.rotation = 10;
         mePlayer.boost();
     } else {
         up = false;
         mePlayer.addBoost();
     }
     if (keyboard.keys[65] || keyboard.keys[37] || (isMobile && joystick.left())) { // left
-        mePlayer.getChildAt(0).scaleX = -1;
-        if (mePlayer.PlayerO._animation.name !== "run") {
-            mePlayer.PlayerO.gotoAndPlay("run");
+        x = -mePlayer.speedX;
+        mePlayer.blockRender.PlayerO.scaleX = -1;
+        if (mePlayer.blockRender.PlayerO._animation.name !== "run") {
+            mePlayer.blockRender.PlayerO.gotoAndPlay("run");
         }
         left = true;
     } else {
         left = false;
     }
     if (keyboard.keys[68] || keyboard.keys[39] || (isMobile && joystick.right())) { // right
-        if (mePlayer.PlayerO._animation.name !== "run") {
-            mePlayer.PlayerO.gotoAndPlay("run");
+        x = mePlayer.speedX;
+        if (mePlayer.blockRender.PlayerO._animation.name !== "run") {
+            mePlayer.blockRender.PlayerO.gotoAndPlay("run");
         }
 
-        mePlayer.getChildAt(0).scaleX = 1;
+        mePlayer.blockRender.PlayerO.scaleX = 1;
         right = true;
     } else {
 
         right = false;
     }
     if (keyboard.keys[83] || keyboard.keys[40] || (isMobile && joystick.down())) { // down
-        mePlayer.getChildAt(0).rotation = 10;
+        y = mePlayer.speedY;
+        mePlayer.blockRender.PlayerO.rotation = 10;
         down = true;
     } else {
         down = false;
     }
     if (!up && !down) {
-        mePlayer.getChildAt(0).rotation = 0;
+        mePlayer.blockRender.PlayerO.rotation = 0;
         if (mePlayer.ps !== null && mePlayer.ps.particles.length > 0) {
             for (i = 0; i < mePlayer.ps.particles.length; i++)
                 mePlayer.ps.particles[i].dispose(stage);
@@ -58,70 +78,21 @@ function keyboardCheck(event) {
             mePlayer.particleUpdate();
         }
     }
-    if (keyboard.keys[32] && mePlayer.jumpCounter === 0) { //space for Jump
+    if (keyboard.keys[32] && !jump) { //space for Jump
         jump = true;
-        mePlayer.jump();
-    } else {
-        jump = false;
+        y = -mePlayer.speedY * 20;
+        window.setTimeout(function () {
+            jump = false;
+        }, mePlayer.jumpTime);
     }
+
     if (!right && !left) {
-        if (mePlayer.PlayerO._animation.name !== "breath") {
-            mePlayer.PlayerO.gotoAndPlay("breath");
+        if (mePlayer.blockRender.PlayerO._animation.name !== "breath") {
+            mePlayer.blockRender.PlayerO.gotoAndPlay("breath");
         }
     }
+    mePlayer.move(x, y);
 
-    collision.move(left, right, up, down, mePlayer, stage, event, jump);
-    mePlayer.sendUpdate(socketObject);
-}
-
-
-/**
- *
- * @returns {undefined}
- */
-function calculateBullets(evt) {
-    for (var i in stage.bullets) {
-        if (stage.bullets[i] === undefined || stage.bullets[i] == null) {
-            continue;
-        }
-
-        stage.bullets[i].timer += 1;
-        if (stage.bullets[i].timer < stage.bullets[i].accelerationTime) {
-            stage.bullets[i].xvel += (stage.bullets[i].tox - stage.bullets[i].startX) / 200;
-            stage.bullets[i].yvel += (stage.bullets[i].toy - stage.bullets[i].startY) / 200;
-        }
-        collision.applyGravity(stage.bullets[i], stage, evt, 1.5);
-        if (stage.bullets[i] === undefined || stage.bullets[i] == null) {
-            continue;
-        }
-        collision.obstacleCollision(stage.bullets[i], stage, stage.bullets[i].x + stage.bullets[i].xvel, stage.bullets[i].y + stage.bullets[i].yvel);
-        if (stage.bullets[i] === undefined || stage.bullets[i] == null) {
-            continue;
-        }
-        if (stage.bullets[i].timer > stage.bullets[i].maxTime) {
-            stage.bullets[i].explode();
-        }
-        if (stage.bullets[i] === undefined || stage.bullets[i] == null) {
-            continue;
-        }
-        collision.stageCollision(stage.bullets[i].x + stage.bullets[i].xvel, stage.bullets[i].y + stage.bullets[i].yvel, stage.bullets[i]);
-        if (stage.bullets[i] === undefined || stage.bullets[i] == null) {
-            continue;
-        }
-        stage.bullets[i].x = stage.bullets[i].x + stage.bullets[i].xvel;
-        stage.bullets[i].y = stage.bullets[i].y + stage.bullets[i].yvel;
-    }
-
-}
-
-function calculateMovingObjects(event) {
-    for (var i in stage.moving) {
-        if (stage.moving[i] != null && stage.moving[i].y < stage.canvas.height) {
-            collision.applyGravity(stage.moving[i], stage, event, 2.0);
-            stage.moving[i].x = stage.moving[i].x + stage.moving[i].xvel;
-            stage.moving[i].y = stage.moving[i].y + stage.moving[i].yvel;
-        }
-    }
     mePlayer.sendUpdate(socketObject);
 }
 
@@ -133,18 +104,29 @@ function calculateMovingObjects(event) {
 var pingi = 0;
 
 function tick(event) {
+    event.delta = event.timestamp - lastTick;
     if (!createjs.Ticker.getPaused()) {
-        calculateBullets(event);
-        calculateMovingObjects(event);
         keyboardCheck(event);
+        for (var i = 0; i < objects.length; i++) {
+            if (objects[i].type === "player") {
+                objects[i].blockRender.x = objects[i].blockPhysics.position.x;
+                objects[i].blockRender.y = objects[i].blockPhysics.position.y;
+            } else {
+                objects[i].blockRender.x = objects[i].blockPhysics.position.x;
+                objects[i].blockRender.y = objects[i].blockPhysics.position.y;
+                objects[i].blockRender.rotation = objects[i].blockPhysics.angle / 0.0174533; //Radian to Degree
+            }
+        }
         if (pingi === 0) {
             socketObject.getLatency();
             pingi = 100;
         }
         else
             pingi--;
+        mePlayer.sendUpdate(socketObject);
         mePlayer.update(socketObject);
         stage.update(event);
+        lastTick = event.timestamp;
     }
 }
 
@@ -164,10 +146,15 @@ function Eventcallback(data) {
         var pos = posrange[Math.floor(Math.random() * posrange.length)];
         if (pos[0] > window.innerWidth / 2) {
             stage.x -= Math.abs(window.innerWidth / 2 - pos[0]);
-            stage.background.x = stage.background.x - stage.x + stage.x * 0.1;
+            //    stage.background.x = stage.background.x - stage.x + stage.x * 0.1;
         }
-        mePlayer = (new Player()).create(stage, username, 100, pos[0], pos[1], 0, 0, 0, data['id'], healthLabel, boostLabel); //create Player
-        createjs.Ticker.on("tick", tick);
+        var runner = Runner.create();
+        Runner.run(runner, engine);
+
+        mePlayer = new Player(username, 100, pos[0], pos[1], 0, 0, 0, data['id'], healthLabel, boostLabel); //create Player
+        Matter.Events.on(engine, 'tick', function (event) {
+            tick(event);
+        });
         mePlayer.initSend(socketObject);
         // socketObject.setCompression();
     } else if (data['0']) { //retrieved initial send (onjoin)
@@ -175,16 +162,17 @@ function Eventcallback(data) {
             players[data['0']['i']].remove(stage);
             players[data['0']['i']] = null; //remove
         }
-        var joinedPlayer = new Player(); //create a new player
-        var hl = new StatusLabel().create(data['0']['x'], data['0']['y'], "#76B852", 50, 5, stage);
-        players[data['0']['i']] = joinedPlayer.create(stage, data[0]['n'], data['0']['h'], data['0']['x'],
-            data['0']['y'], data['0']['r'], 0, 0, data['0']['i'], hl);
+
+        var hl = new StatusLabel().create(0, -30, "#76B852", 50, 5, stage);
+        var joinedPlayer = new Player(data[0]['n'], data['0']['h'], data['0']['x'],
+            data['0']['y'], data['0']['r'], 0, 0, data['0']['i'], hl); //create a new player
+        players[data['0']['i']] = joinedPlayer;
         mePlayer.damageTrackerUpdate(data[0]['n'] + " joined the game");
     } else if (data['1']) { //update player
         var params = data['1'].split(",");
         var id = parseInt(params[0]);
-        var x = parseInt(params[1]);
-        var y = parseInt(params[2]);
+        var x = parseFloat(params[1]);
+        var y = parseFloat(params[2]);
         var h = parseInt(params[3]);
         var d = parseInt(params[4]);
         if (players[id]) {
@@ -194,8 +182,8 @@ function Eventcallback(data) {
             }
             players[id].health = h;
             players[id].healthLabel.update(players[id].health, mePlayer.maxHealth);
-            players[id].healthLabel.x = x;
-            players[id].healthLabel.y = y - 12;
+            //players[id].healthLabel.x = x;
+            //players[id].healthLabel.y = y - 50;
         } else {
             socketObject.send(JSON.stringify({2: data['1']['id']})); //on missing player request initial sends
         }
@@ -219,9 +207,9 @@ function Eventcallback(data) {
         stage.canvas.height = (stage.height);
         var amount = data['5'].length;
         for (var i = 1; i < amount; ++i) {
-            var b = new Block();
             var o = data['5'][i];
-            b.create(parseFloat(o['x']), parseFloat(o['y']), "#C2826D", parseFloat(o['w']), parseFloat(o['h']), stage, true);
+            var b = new Block(parseFloat(o['x']), parseFloat(o['y']), "#C2826D", parseFloat(o['w']), parseFloat(o['h']), stage, true,
+                {isStatic: true});
         }
         adjust = (window.innerHeight - stage.height) > 0 ? 0 : window.innerHeight - stage.height;
         stage.y = adjust;
@@ -229,7 +217,8 @@ function Eventcallback(data) {
         boostLabel.y -= adjust;
         stage.playerInfo.y -= adjust;
     } else if (data['6']) {
-        (new Bullet()).create(data['6']['x'], data['6']['y'], "black", data['6']['id'], stage, data['6']['tox'], data['6']['toy']);
+        var b = new Bullet(data['6']['x'], data['6']['y'], "black", data['6']['id'], data['6']['tox'], data['6']['toy']);
+        b.move();
     }
 }
 
@@ -240,21 +229,21 @@ function Eventcallback(data) {
  */
 function mouseEvent(evt) {
     if (canshoot) {
-        var x = mePlayer.x + 22;
-        var y = mePlayer.y + 23;
-        (new Bullet()).create(x, y, "black", mePlayer.socketId, stage, evt.stageX - stage.x, evt.stageY);
-        if (evt.stageX - stage.x < mePlayer.x) {
-            mePlayer.PlayerO.scaleX = -1;
-        } else if (evt.stageX - stage.x > mePlayer.x) {
-            mePlayer.PlayerO.scaleX = 1;
+        var x = mePlayer.blockRender.x;
+        var y = mePlayer.blockRender.y;
+
+        if (evt.stageX - stage.x < mePlayer.blockRender.x) {
+            mePlayer.blockRender.PlayerO.scaleX = -1;
+        } else if (evt.stageX - stage.x > mePlayer.blockRender.x) {
+            mePlayer.blockRender.PlayerO.scaleX = 1;
         }
         socketObject.send(JSON.stringify({
             6: {
                 id: mePlayer.socketId,
                 x: x,
                 y: y,
-                tox: evt.stageX + -1 * stage.x,
-                toy: evt.stageY - 1 * stage.y
+                tox: (evt.stageX - 1 * stage.x),
+                toy: (evt.stageY - 1 * stage.y)
             }
         }));
         canshoot = false;
@@ -263,6 +252,25 @@ function mouseEvent(evt) {
         }, 600);
     }
 }
+
+
+Matter.Events.on(engine, 'collisionStart', function (e) {
+    e.pairs.forEach(function (f) {
+        if ((f.bodyA.label === "bullet")) {
+            if (f.bodyB.label === "player" && f.bodyB.socketId !== f.bodyA.socketId) {
+                if (f.bodyB.socketId === mePlayer.socketId)
+                    mePlayer.hit(f.bodyA);
+                f.bodyA.blockRender.explode();
+            }
+        } else if ((f.bodyB.label === "bullet")) {
+            if (f.bodyA.label === "player" && f.bodyA.socketId !== f.bodyB.socketId) {
+                if (f.bodyA.socketId === mePlayer.socketId)
+                    mePlayer.hit(f.bodyB);
+                f.bodyB.blockRender.explode();
+            }
+        }
+    });
+});
 
 $(document).ready(function () {
     if (window.StatusBar) window.StatusBar.hide();
@@ -276,14 +284,23 @@ $(document).ready(function () {
     ]);
     queue.on("complete", handleComplete, this);
     function handleComplete() {
-        socketObject = new Communication(Eventcallback, OnOpen); //reduce globals, parameterize callbacks
         stage = new Stage();
+        socketObject = new Communication(Eventcallback, OnOpen); //reduce globals, parameterize callbacks
+
         healthLabel = new StatusLabel().create(94, 42, "#76B852", 137, 13, stage);
         boostLabel = new StatusLabel().create(94, 56, "#ffd699", 137, 13, stage);
 
         window.addEventListener('resize', stage.resizeCanvas, false);
 
-
+        render = Render.create({
+            element: document.body,
+            engine: engine,
+            options: {
+                width: 2500,
+                height: 600,
+                showAngleIndicator: true
+            }
+        });
         collision = new Collision();
 
         if (/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|ipad|iris|kindle|Android|Silk|lge |maemo|midp|mmp|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i.test(navigator.userAgent)

@@ -6,12 +6,20 @@ var map = [{"width": 2500, "height": 400}, {"x": "150", "y": "350", "w": "150", 
     "y": "70",
     "w": "50",
     "h": "13"
-}, {"x": "450", "y": "150", "w": "50", "h": "12"}, {"x": "550", "y": "150", "w": "50", "h": "15"}, {
+}, {"x": "0", "y": "400", "w": "5500", "h": "32"}, {"x": "450", "y": "150", "w": "50", "h": "12"}, {
+    "x": "550",
+    "y": "150",
+    "w": "50",
+    "h": "15"
+}, {
     "x": "750",
     "y": "150",
     "w": "50",
     "h": "15"
-}, {"x": "950", "y": "250", "w": "600", "h": "20"}, {"x": "1350", "y": "150", "w": "900", "h": "15"}];
+}, {"x": "950", "y": "250", "w": "600", "h": "20"}, {"x": "1350", "y": "150", "w": "900", "h": "15"},
+    {"x": "0", "y": "0", "w": "5000", "h": "30"}, {"x": "0", "y": "0", "w": "30", "h": "800"},
+    {"x": "2500", "y": "0", "w": "60", "h": "800"}
+];
 var gamerooms = [];
 gamerooms.push(new Gameroom(0, map))
 gamerooms.push(new Gameroom(1, map))
@@ -51,8 +59,18 @@ wss.on('connection', function connection(ws) {
             var response = JSON.parse(data);
             if (response[1]) {
                 var responseparam = response[1].split(",");
-                if (responseparam[3] > 200)
+                if (responseparam[3] > 200) {
                     ws.send("gtfo");
+                    return;
+                }
+            }
+            if (response[6]) {
+                ws.gameroom.getClients().forEach(function each(client) {
+                    if (client && client.readyState === WebSocket.OPEN) {
+                        client.send(data);
+                    }
+                });
+                return;
             }
             ws.gameroom.getClients().forEach(function each(client) {
                 if (client && client !== ws && client.readyState === WebSocket.OPEN) {

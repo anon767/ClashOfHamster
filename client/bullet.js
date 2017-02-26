@@ -1,63 +1,63 @@
 /* global createjs */
 
 //Bullet
-var Bullet = function () {
-    var create, canvasO;
-    this.create = function (x, y, color, id, stage, tox, toy) {
-        var width = 4, height = 4;
-        this.canvasO = new createjs.Shape();
-        this.canvasO.tox = tox;
-        this.canvasO.toy = toy;
-        this.canvasO.xvel = 0;
-        this.canvasO.yvel = 0;
-        this.canvasO.startX = x;
-        this.canvasO.type = "bullet";
-        this.canvasO.maxTime = 75;
-        this.canvasO.startY = y;
-        this.canvasO.timer = 0;
-        this.canvasO.accelerationTime = 10;
-        this.canvasO.bottomCallBack = function (object) {
-            if (this.timer > this.maxTime || (object !== null && object.type === "player")) {
-                this.explode();
-            }
-        };
-        this.canvasO.topCallBack = function (object) {
-            if (this.timer > this.maxTime || (object !== null && object.type === "player")) {
-                this.explode();
-            }
-        };
-        this.canvasO.leftCallBack = function (object) {
-            if (this.timer > this.maxTime || (object !== null && object.type === "player")) {
-                this.explode();
-            }
-        };
-        this.canvasO.rightCallBack = function (object) {
-            if (this.timer > this.maxTime || (object !== null && object.type === "player")) {
-                this.explode();
-            }
-        };
-        this.canvasO.graphics.beginFill(color).drawCircle(0, 0, width, height);
-        this.canvasO.regX = 0;
-        this.canvasO.regY = 0;
-        this.canvasO.playerId = id;
-        this.canvasO.x = x;
-        this.canvasO.mouseEnabled = false;
-        this.canvasO.width = width;
-        this.canvasO.height = height;
-        this.canvasO.color = color;
-        this.canvasO.gravityCounter = 0;
-        this.canvasO.explode = function () {
-            (new Explosion()).create(this.x, this.y, this.playerId, stage);
-            delete stage.nonBlocking[this.id];
-            delete stage.bullets[this.id];
-            stage.removeChild(this);
-        };
-        this.canvasO.y = y;
-        this.canvasO.snapToPixel = true;
-
-        stage.addChild(this.canvasO);
-        stage.bullets[this.canvasO.id] = this.canvasO;
-        stage.nonBlocking[this.canvasO.id] = this.canvasO;
-        return this.canvasO;
+var Bullet = function (x, y, color, id, tox, toy) {
+    var create, blockRender;
+    var width = 4, height = 4;
+    this.blockPhysics = new Bodies.circle(x, y, (width + height) / 2, {
+        friction: 0,
+        restitution: 1,
+        inertia: Infinity,
+        mass: 1
+    });
+    this.blockPhysics.label = "bullet";
+    this.blockRender = new createjs.Shape();
+    this.blockRender.tox = tox;
+    this.blockRender.toy = toy;
+    this.blockPhysics.blockRender = this.blockRender;
+    this.blockRender.xvel = 0;
+    this.blockRender.yvel = 0;
+    this.blockRender.on("tick", function (event) {
+        this.timer += 1;
+        if (this.timer > this.maxTime) {
+            this.explode();
+        }
+    });
+    this.blockRender.startX = x;
+    this.blockRender.type = "bullet";
+    this.blockRender.maxTime = 75;
+    this.blockRender.startY = y;
+    this.blockRender.timer = 0;
+    this.blockRender.accelerationTime = 10;
+    this.blockRender.graphics.beginFill(color).drawCircle(0, 0, width, height);
+    this.blockRender.regX = 0;
+    this.blockRender.regY = 0;
+    this.blockRender.playerId = id;
+    this.blockRender.x = x;
+    this.blockRender.mouseEnabled = false;
+    this.blockRender.width = width;
+    this.blockPhysics.socketId = id;
+    this.blockRender.height = height;
+    this.blockRender.color = color;
+    this.blockRender.gravityCounter = 0;
+    this.blockRender.explode = function () {
+        (new Explosion()).create(this.x, this.y, this.playerId, stage);
+        stage.removeChild(this);
+        Matter.World.remove(engine.world, [this.blockPhysics]);
     };
+    this.move = function () {
+        Matter.Body.applyForce(this.blockPhysics, this.blockPhysics.position, {
+            x: Math.min(5,parseFloat(this.blockRender.tox - this.blockRender.startX)/6500),
+            y: Math.min(5,parseFloat(this.blockRender.toy - this.blockRender.startY)/6500)
+        })
+    };
+    this.blockRender.blockPhysics = this.blockPhysics;
+    this.blockRender.y = y;
+    this.blockRender.snapToPixel = true;
+    this.blockPhysics.timer = this.blockRender.timer;
+    stage.addChild(this.blockRender);
+    World.add(world, this.blockPhysics);
+    objects.push(this);
+    return this;
+
 };
