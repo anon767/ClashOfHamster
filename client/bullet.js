@@ -6,6 +6,7 @@ var Bullet = function (x, y, color, id, tox, toy) {
     var width = 4, height = 4;
     this.blockPhysics = new Bodies.circle(x, y, (width + height) / 2, {
         friction: 0,
+        frictionAir: 0,
         continuous: 2,
         restitution: 1,
         inertia: Infinity,
@@ -47,7 +48,7 @@ var Bullet = function (x, y, color, id, tox, toy) {
         Matter.World.remove(engine.world, [this.blockPhysics]);
     };
     this.move = function () {
-        var angle = (Math.random() - 0.5) * 0.1 + Math.atan2(-this.blockRender.startY + this.blockRender.toy, -this.blockRender.startX + this.blockRender.tox);
+        var angle = Math.atan2(-this.blockRender.startY + this.blockRender.toy, -this.blockRender.startX + this.blockRender.tox);
         Matter.Body.setAngle(this.blockPhysics, angle);
         //alert(angle);
         Matter.Body.setVelocity(this.blockPhysics, {

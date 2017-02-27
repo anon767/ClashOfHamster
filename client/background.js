@@ -11,7 +11,7 @@ var Background = function () {
         this.canvasO.x = 0;
         this.canvasO.y = -350;
         this.canvasO.tickEnabled = false;
-        this.canvasO.graphics.beginBitmapFill(img, 'repeat').drawRect(0,0, stage.canvas.width*4, stage.canvas.height*8);
+        this.canvasO.graphics.beginBitmapFill(img, 'repeat').drawRect(0,0, stage.size*4, stage.canvas.height*8);
         stage.addChild(this.canvasO);
         stage.nonBlocking[this.canvasO.id] = this.canvasO;
         return this.canvasO;
