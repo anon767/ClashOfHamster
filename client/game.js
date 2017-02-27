@@ -7,7 +7,8 @@ var Engine = Matter.Engine,
     MouseConstraint = Matter.MouseConstraint,
     MouseMatter = Matter.Mouse,
     World = Matter.World,
-    Bodies = Matter.Bodies;
+    Bodies = Matter.Bodies,
+    runner = null;
 var engine = Engine.create({
         enableSleeping: true
     }),
@@ -148,9 +149,9 @@ function Eventcallback(data) {
             stage.x -= Math.abs(window.innerWidth / 2 - pos[0]);
             //    stage.background.x = stage.background.x - stage.x + stage.x * 0.1;
         }
-        var runner = Runner.create();
+        runner = Runner.create();
         Runner.run(runner, engine);
-
+        runner.isFixed = true;
         mePlayer = new Player(username, 100, pos[0], pos[1], 0, 0, 0, data['id'], healthLabel, boostLabel); //create Player
         Matter.Events.on(engine, 'tick', function (event) {
             tick(event);

@@ -48,8 +48,8 @@ var Bullet = function (x, y, color, id, tox, toy) {
     };
     this.move = function () {
         Matter.Body.applyForce(this.blockPhysics, this.blockPhysics.position, {
-            x: Math.min(5,parseFloat(this.blockRender.tox - this.blockRender.startX)/6500),
-            y: Math.min(5,parseFloat(this.blockRender.toy - this.blockRender.startY)/6500)
+            x: parseFloat(this.blockRender.tox - this.blockRender.startX)/6500,
+            y: parseFloat(this.blockRender.toy - this.blockRender.startY)/6500
         })
     };
     this.blockRender.blockPhysics = this.blockPhysics;

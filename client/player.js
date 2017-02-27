@@ -90,12 +90,7 @@ var Player = function (name, health, x, y, rotation, xvel, yvel, id, healthLabel
 
         if (this.health <= 0) {
             createjs.Ticker.setPaused(true);
-            socketO.send(JSON.stringify({
-                3: {
-                    "id": this.socketId,
-                    "by": this.lasthit
-                }
-            }));
+            socketO.send('{"3": {"id": ' + this.socketId + ',"by": ' + this.lasthit + '}}');
             socketObject.socket.close();
             if (!$('#dead').is(":visible") && this.lasthit !== null) {
                 if (this.lasthit === this.socketId) {
@@ -138,10 +133,7 @@ var Player = function (name, health, x, y, rotation, xvel, yvel, id, healthLabel
 
     };
     this.sendUpdate = function (socketO) {
-
-        var data = JSON.stringify({
-            1: this.socketId + "," + this.blockRender.x + "," + this.blockRender.y + "," + Math.round(this.health) + "," + this.blockRender.PlayerO.scaleX
-        });
+        var data = '{"1":"' + this.socketId + "," + this.blockRender.x + "," + this.blockRender.y + "," + Math.round(this.health) + "," + this.blockRender.PlayerO.scaleX + '"}';
         if (data !== this.lastsend) {
             socketO.send(data)
         }
@@ -180,7 +172,7 @@ var Player = function (name, health, x, y, rotation, xvel, yvel, id, healthLabel
             y: y
         })
 
-            stage.moveStage();
+        stage.moveStage();
     };
     this.ps = null;
     this.addParticle = function () {
