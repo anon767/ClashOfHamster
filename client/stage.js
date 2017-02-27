@@ -18,9 +18,7 @@ var Stage = function () {
     $(window).bind('resize', function (e) {
         if (window.RT) clearTimeout(window.RT);
         window.RT = setTimeout(function () {
-            // alert("please dont resize window!");
-            //  location.href = "index.html";
-            /* false to get page from cache */
+            location.reload();
         }, 100);
     });
     stage.moveStage = function () {
@@ -31,7 +29,7 @@ var Stage = function () {
                     stage.background.x -= -1;
                 else
                     stage.background.x -= 1;
-                if (Math.abs(stage.background.x) >= Math.abs(stage.background.width))
+                if (Math.abs(stage.background.x) >= Math.abs(stage.background.width) || stage.background.x > 0)
                     stage.background.x = 0;
                 stage.x = xNew;
             }

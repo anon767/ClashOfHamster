@@ -1,6 +1,6 @@
 var Gameroom = require("./Gameroom.js");
-const WebSocket = require('ws');
-
+const WebSocket = require('uws');
+var id = 0;
 var map = [{"width": 2500, "height": 400}, {"x": "150", "y": "350", "w": "150", "h": "13"}, {
     "x": "250",
     "y": "70",
@@ -24,7 +24,7 @@ var gamerooms = [];
 gamerooms.push(new Gameroom(0, map))
 gamerooms.push(new Gameroom(1, map))
 gamerooms.push(new Gameroom(2, map))
-const wss = new WebSocket.Server({perMessageDeflate: false, port: 9300});
+const wss = new WebSocket.Server({port: 9300});
 console.log("started");
 
 function init(client, id, gameroom, wss) {
@@ -48,8 +48,10 @@ wss.on('connection', function connection(ws) {
                 ws.gameroom = gamerooms[s];
                 if (gamerooms[s].countClients() > 6)
                     ws.send("logoff:exceeded");
-                gamerooms[s].addClient(ws, ws._ultron.id);
-                init(ws, ws._ultron.id, gamerooms[s], wss);
+                ws.id = id;
+                gamerooms[s].addClient(ws, ws.id);
+                init(ws, ws.id, gamerooms[s], wss);
+                id++;
                 return;
             }
             if (data === "8") {
@@ -81,7 +83,7 @@ wss.on('connection', function connection(ws) {
         }
     );
     ws.on('close', function close() {
-        var id = ws._ultron.id;
+        var id = ws.id;
         if (typeof ws.gameroom != "undefined" && ws.gameroom)
             ws.gameroom.removeClient(id);
 

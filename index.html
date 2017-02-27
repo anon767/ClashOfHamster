@@ -19,36 +19,36 @@ and open the template in the editor.
     <link rel="stylesheet" href="client/assets/css/style.css">
 
 
-
-
 </head>
 <body style="overflow: hidden">
-<div class="lock" id="lock"
-     onclick="toggle('lock'); hide('registration-page'); return false"></div>
-<div class="locker" id="login-page">
-    <div class="form">
+<div class="containerPage">
 
-        <form class="login-form" method="GET" action="game.html">
-            <input type="text" maxlength=20 name="user" id="user" placeholder="username" required/>
-            <select name="server">
-                <option value="0">Gameroom 1 4Chan</option>
-                <option value="1">Gameroom 2 Pr0gramm</option>
-                <option value="2">Gameroom 3</option>
-            </select>
-            <button>login</button>
+    <div class="locker" id="login-page">
+        <div class="form">
 
-            <!--<p class="link" style="cursor: pointer"
-                onclick="hide('login-page'); toggle('registration-page'); return false">Registration</p>-->
-        </form>
+            <form class="login-form" method="GET" action="game.html">
+                <input type="text" maxlength=20 name="user" id="user" placeholder="username" required/>
+                <select name="server">
+                    <option value="0">Gameroom 1 4Chan</option>
+                    <option value="1">Gameroom 2 Pr0gramm</option>
+                    <option value="2">Gameroom 3</option>
+                </select>
+                <button>login</button>
+
+                <!--<p class="link" style="cursor: pointer"
+                    onclick="hide('login-page'); toggle('registration-page'); return false">Registration</p>-->
+            </form>
+        </div>
     </div>
-</div>
 
-<div class="locker" id="info">
-
-    <br>
-    <b>Hi <span id="usercall"></span></b><br>
-    Please recommend the game and join the <a href="https://kiwiirc.com/client/irc.thecout.com/?nick=hamster|?&theme=cli#clashofhamster">Chat</a>!<br>
-    Try the Android App! <a href="clashofhamster.apk"><img id="androidicon" width="30px" height="30px" src="client/assets/img/android-icon-3062.png"/></a>
+    <div class="locker" id="info">
+        <br>
+        <b>Hi <span id="usercall"></span></b><br>
+        Please recommend the game and join the <a
+            href="https://kiwiirc.com/client/irc.thecout.com/?nick=hamster|?&theme=cli#clashofhamster">Chat</a>!<br>
+        Try the Android App! <a href="clashofhamster.apk"><img id="androidicon" width="30px" height="30px"
+                                                               src="client/assets/img/android-icon-3062.png"/></a>
+    </div>
 </div>
 <script type="text/javascript" src="cordova.js"></script>
 <script>
@@ -56,10 +56,10 @@ and open the template in the editor.
         if (sessionStorage.getItem("name")) {
             document.getElementById("user").value = localStorage.getItem("name");
             document.getElementById("usercall").innerHTML = (localStorage.getItem("name") + " you scored " + localStorage.getItem("kills") + " points");
-        }else{
+        } else {
             document.getElementById("usercall").innerHTML = "guest";
         }
-    }else{
+    } else {
         document.getElementById("usercall").innerHTML = "guest";
     }
 </script>

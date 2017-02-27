@@ -104,7 +104,7 @@ function keyboardCheck(event) {
 var pingi = 0;
 
 function tick(event) {
-    event.delta = event.timestamp - lastTick;
+    event.delta = socketObject.socket.latency;
     if (!createjs.Ticker.getPaused()) {
         keyboardCheck(event);
         for (var i = 0; i < objects.length; i++) {
@@ -155,6 +155,7 @@ function Eventcallback(data) {
         Matter.Events.on(engine, 'tick', function (event) {
             tick(event);
         });
+
         mePlayer.initSend(socketObject);
         // socketObject.setCompression();
     } else if (data['0']) { //retrieved initial send (onjoin)
@@ -210,6 +211,8 @@ function Eventcallback(data) {
             var o = data['5'][i];
             var b = new Block(parseFloat(o['x']), parseFloat(o['y']), "#C2826D", parseFloat(o['w']), parseFloat(o['h']), stage, true,
                 {isStatic: true});
+            if (o['r'])
+                Matter.Body.rotate(b.blockPhysics, o['r']);
         }
         adjust = (window.innerHeight - stage.height) > 0 ? 0 : window.innerHeight - stage.height;
         stage.y = adjust;

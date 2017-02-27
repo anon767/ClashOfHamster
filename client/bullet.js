@@ -6,6 +6,7 @@ var Bullet = function (x, y, color, id, tox, toy) {
     var width = 4, height = 4;
     this.blockPhysics = new Bodies.circle(x, y, (width + height) / 2, {
         friction: 0,
+        continuous: 2,
         restitution: 1,
         inertia: Infinity,
         mass: 1

@@ -36,7 +36,7 @@ function Communication(Eventcallback, onopencallback) {
                 return;
             }
 
-            this.latency = 1 + (this.pong - this.ping) / 10000;
+            this.latency =this.pong - this.ping;
             return;
         }
         if(s.data === "gtfo"){

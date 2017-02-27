@@ -213,7 +213,6 @@ var Player = function (name, health, x, y, rotation, xvel, yvel, id, healthLabel
     this.socketId = id;
     this.blockRender.yvel = yvel;
     this.hit = function (objecta) {
-
         this.lasthit = objecta.socketId;
         var damage = Math.abs(Math.floor(1.5 * ( 10 * (this.blockRender.y - this.blockRender.height) / objecta.position.y)));
         this.damageTrackerUpdate(damage);
