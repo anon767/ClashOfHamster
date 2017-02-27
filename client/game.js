@@ -42,6 +42,7 @@ function keyboardCheck(event) {
     if (keyboard.keys[65] || keyboard.keys[37] || (isMobile && joystick.left())) { // left
         x = -mePlayer.speedX;
         mePlayer.blockRender.PlayerO.scaleX = -1;
+        mePlayer.setScale(-1);
         if (mePlayer.blockRender.PlayerO._animation.name !== "run") {
             mePlayer.blockRender.PlayerO.gotoAndPlay("run");
         }
@@ -55,7 +56,7 @@ function keyboardCheck(event) {
             mePlayer.blockRender.PlayerO.gotoAndPlay("run");
         }
 
-        mePlayer.blockRender.PlayerO.scaleX = 1;
+        mePlayer.setScale(1);
         right = true;
     } else {
 
@@ -156,8 +157,9 @@ function Eventcallback(data) {
         Matter.Events.on(engine, 'tick', function (event) {
             tick(event);
         });
-
+        stage.addEventListener("stagemousemove", mouseMove);
         mePlayer.initSend(socketObject);
+        new Weapon(mePlayer.blockRender);
         // socketObject.setCompression();
     } else if (data['0']) { //retrieved initial send (onjoin)
         if (players[data['0']['i']]) { //if there already was a bootstrap attempt for the player
@@ -233,28 +235,33 @@ function Eventcallback(data) {
  */
 function mouseEvent(evt) {
 
-    if (canshoot) {
-        var x = mePlayer.blockRender.x;
-        var y = mePlayer.blockRender.y;
+    if (mePlayer.blockRender.weapon && canshoot) {
 
         if (evt.stageX - stage.x < mePlayer.blockRender.x) {
-            mePlayer.blockRender.PlayerO.scaleX = -1;
+            mePlayer.setScale(-1);
         } else if (evt.stageX - stage.x > mePlayer.blockRender.x) {
-            mePlayer.blockRender.PlayerO.scaleX = 1;
+            mePlayer.setScale(1);
         }
+        var x = mePlayer.blockRender.x + mePlayer.blockRender.PlayerO.scaleX * 25;
+        var y = mePlayer.blockRender.y;
+
         socketObject.send(JSON.stringify({
             6: {
                 id: mePlayer.socketId,
                 x: x,
                 y: y,
                 tox: (evt.stageX - 1 * stage.x),
-                toy: (evt.stageY - 1 * stage.y)
+                toy: (evt.stageY - 1 * stage.y + adjust)
             }
         }));
+        Matter.Body.applyForce(mePlayer.blockPhysics, mePlayer.blockPhysics.position, {
+            x: -mePlayer.blockRender.PlayerO.scaleX * 0.004,
+            y: 0
+        })
         canshoot = false;
         setTimeout(function () {
             canshoot = true;
-        }, 600);
+        }, mePlayer.blockRender.weapon.cooldown);
     }
 }
 
@@ -276,6 +283,15 @@ Matter.Events.on(engine, 'collisionStart', function (e) {
         }
     });
 });
+var mouseMove = function () {
+    if (!mePlayer.blockRender.weapon)
+        return;
+    var rads = Math.atan2(stage.mouseY - 1 * stage.y - mePlayer.blockRender.y - mePlayer.blockRender.weapon.y, stage.mouseX - 1 * stage.x - mePlayer.blockRender.x + mePlayer.blockRender.weapon.x);
+    var angle = rads * (180 / Math.PI);
+    mePlayer.blockRender.weapon.scaleY = Math.abs(angle) > 90 ? -2 : 2;
+    mePlayer.blockRender.weapon.rotation = angle;
+};
+
 
 $(document).ready(function () {
     if (window.StatusBar) window.StatusBar.hide();
@@ -283,7 +299,7 @@ $(document).ready(function () {
         {id: "bg", src: "client/assets/img/background.jpg"},
         {id: "explosion", src: "client/assets/img/explosion.png"},
         {id: "player", src: "client/assets/img/playeranimation.png"},
-        {id: "grenade", src: "client/assets/img/grenadelauncher.png"},
+        {id: "grenadelauncher", src: "client/assets/img/grenadelauncher.png"},
         {id: "playerInfo", src: "client/assets/img/playerInfo.png"},
         {id: "brick", src: "client/assets/img/bricks.jpg"}
     ]);

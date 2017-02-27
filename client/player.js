@@ -27,6 +27,9 @@ var Player = function (name, health, x, y, rotation, xvel, yvel, id, healthLabel
     this.gravityCounter = 0;
     this.maxBoost = 800;
     this.gravityCounter = 1;
+    this.setScale = function (s) {
+        this.blockRender.PlayerO.scaleX = s;
+    }
     if (healthLabel) {
         this.healthLabel = healthLabel;
     }
@@ -133,7 +136,7 @@ var Player = function (name, health, x, y, rotation, xvel, yvel, id, healthLabel
 
     };
     this.sendUpdate = function (socketO) {
-        var data = '{"1":"' + this.socketId + "," + this.blockRender.x + "," + this.blockRender.y + "," + Math.round(this.health) + "," + this.blockRender.PlayerO.scaleX + '"}';
+        var data = '{"1":"' + this.socketId + "," + this.blockRender.x + "," + this.blockRender.y + "," + Math.round(this.health) + "," + this.blockRender.PlayerO.scaleX + "," + Math.ceil(this.blockRender.weapon.rotation) + '"}';
         if (data !== this.lastsend) {
             socketO.send(data)
         }

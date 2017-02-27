@@ -36,10 +36,10 @@ function Communication(Eventcallback, onopencallback) {
                 return;
             }
 
-            this.latency =this.pong - this.ping;
+            this.latency = this.pong - this.ping;
             return;
         }
-        if(s.data === "gtfo"){
+        if (s.data === "gtfo") {
             alert("nope nope get out of here you little skid");
             location.href = "index.html";
             return;

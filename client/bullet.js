@@ -19,6 +19,7 @@ var Bullet = function (x, y, color, id, tox, toy) {
     this.blockPhysics.blockRender = this.blockRender;
     this.blockRender.xvel = 0;
     this.blockRender.yvel = 0;
+    this.blockRender.maxTime = 75;
     this.blockRender.on("tick", function (event) {
         this.timer += 1;
         if (this.timer > this.maxTime) {
@@ -27,7 +28,6 @@ var Bullet = function (x, y, color, id, tox, toy) {
     });
     this.blockRender.startX = x;
     this.blockRender.type = "bullet";
-    this.blockRender.maxTime = 75;
     this.blockRender.startY = y;
     this.blockRender.timer = 0;
     this.blockRender.accelerationTime = 10;
@@ -50,12 +50,7 @@ var Bullet = function (x, y, color, id, tox, toy) {
     this.move = function () {
         var angle = Math.atan2(-this.blockRender.startY + this.blockRender.toy, -this.blockRender.startX + this.blockRender.tox);
         Matter.Body.setAngle(this.blockPhysics, angle);
-        //alert(angle);
-        Matter.Body.setVelocity(this.blockPhysics, {
-            x: 0,
-            y: 0
-        });
-        this.blockPhysics.force = {x: 0.07 * Math.cos(angle), y: 0.05 * Math.sin(angle)};
+        this.blockPhysics.force = {x: 0.06 * Math.cos(angle), y: 0.06 * Math.sin(angle)};
     };
     this.blockRender.blockPhysics = this.blockPhysics;
     this.blockRender.y = y;
