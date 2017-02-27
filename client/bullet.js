@@ -47,10 +47,14 @@ var Bullet = function (x, y, color, id, tox, toy) {
         Matter.World.remove(engine.world, [this.blockPhysics]);
     };
     this.move = function () {
-        Matter.Body.applyForce(this.blockPhysics, this.blockPhysics.position, {
-            x: parseFloat(this.blockRender.tox - this.blockRender.startX)/6500,
-            y: parseFloat(this.blockRender.toy - this.blockRender.startY)/6500
-        })
+        var angle = (Math.random() - 0.5) * 0.1 + Math.atan2(-this.blockRender.startY + this.blockRender.toy, -this.blockRender.startX + this.blockRender.tox);
+        Matter.Body.setAngle(this.blockPhysics, angle);
+        //alert(angle);
+        Matter.Body.setVelocity(this.blockPhysics, {
+            x: 0,
+            y: 0
+        });
+        this.blockPhysics.force = {x: 0.07 * Math.cos(angle), y: 0.05 * Math.sin(angle)};
     };
     this.blockRender.blockPhysics = this.blockPhysics;
     this.blockRender.y = y;

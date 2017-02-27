@@ -232,6 +232,7 @@ function Eventcallback(data) {
  * @returns {undefined}
  */
 function mouseEvent(evt) {
+
     if (canshoot) {
         var x = mePlayer.blockRender.x;
         var y = mePlayer.blockRender.y;
