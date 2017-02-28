@@ -1,3 +1,0 @@
-0:      ["GET", "/user/[i:id]", "user", "getUser"]
-1:      ["POST", "/user/[i:id]/[up|down|left|right:direction]/updateUser", "user", "updateUser"]
-2:      ["GET", "/", "home", "show"]
