@@ -178,7 +178,7 @@ body {
 #info {
     background: #ffffff none repeat scroll 0 0;
     box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
-    margin: 0 100px 100px;
+   /* margin: 0 100px 100px; */
     padding: 45px;
     position: relative;
     text-align: center;
