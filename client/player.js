@@ -95,12 +95,16 @@ var Player = function (name, health, x, y, rotation, xvel, yvel, id, healthLabel
             createjs.Ticker.setPaused(true);
             socketO.send('{"3": {"id": ' + this.socketId + ',"by": ' + this.lasthit + '}}');
             socketObject.socket.close();
-            if (!$('#dead').is(":visible") && this.lasthit !== null) {
-                if (this.lasthit === this.socketId) {
-                    $('#dead').append("<h2> you killed yourself</h2>");
-                } else {
-                    $('#dead').append("<h2>Killed By " + players[this.lasthit].name + "</h2>");
+            if (typeof players[this.lasthit] != "undefined") {
+                if (!$('#dead').is(":visible") && this.lasthit !== null) {
+                    if (this.lasthit === this.socketId) {
+                        $('#dead').append("<h2> you killed yourself</h2>");
+                    } else {
+                        $('#dead').append("<h2>Killed By " + players[this.lasthit].name + "</h2>");
+                    }
                 }
+            } else {
+                $('#dead').append("<h2>You died</h2>");
             }
             $("#dead").append("You respawn in <span id='timespawn'></span> seconds");
 

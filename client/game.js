@@ -1,4 +1,5 @@
 /* global createjs, username */
+"use strict";
 var Engine = Matter.Engine,
     Render = Matter.Render,
     Runner = Matter.Runner,
@@ -72,7 +73,7 @@ function keyboardCheck(event) {
     if (!up && !down) {
         mePlayer.blockRender.PlayerO.rotation = 0;
         if (mePlayer.ps !== null && mePlayer.ps.particles.length > 0) {
-            for (i = 0; i < mePlayer.ps.particles.length; i++)
+            for (var i = 0; i < mePlayer.ps.particles.length; i++)
                 mePlayer.ps.particles[i].dispose(stage);
         }
     } else if (up) {
@@ -106,16 +107,19 @@ function keyboardCheck(event) {
  */
 var pingi = 0;
 function refreshCanvas() {
-    "use strict";
+
     for (var i = 0; i < objects.length; i++) {
         objects[i].blockRender.x = objects[i].blockPhysics.position.x;
         objects[i].blockRender.y = objects[i].blockPhysics.position.y;
     }
 }
-function tick(event) {
+function tick() {
+
     if (!createjs.Ticker.getPaused()) {
-        mePlayer.sendUpdate(socketObject);
+
+        var event = {}
         event.delta = socketObject.socket.latency;
+        Runner.tick(runner, engine, event.delta);
         keyboardCheck(event);
         refreshCanvas();
         if (pingi == 0) {
@@ -128,6 +132,7 @@ function tick(event) {
         stage.update(event);
         mePlayer.sendUpdate(socketObject);
         lastTick = event.timestamp;
+        requestAnimationFrame(tick);
     }
 }
 
@@ -150,28 +155,28 @@ function Eventcallback(data) {
             //    stage.background.x = stage.background.x - stage.x + stage.x * 0.1;
         }
         runner = Runner.create();
-        Runner.run(runner, engine);
+        //Runner.run(runner, engine);
         runner.isFixed = true;
         mePlayer = new Player(username, 100, pos[0], pos[1], 0, 0, 0, data['id'], healthLabel, boostLabel); //create Player
-        Matter.Events.on(engine, 'tick', function (event) {
-            tick(event);
-        });
+        new Weapon(mePlayer.blockRender);
+        tick();
         stage.addEventListener("stagemousemove", mouseMove);
         mePlayer.initSend(socketObject);
-        new Weapon(mePlayer.blockRender);
         // socketObject.setCompression();
     } else if (data['0']) { //retrieved initial send (onjoin)
         if (players[data['0']['i']]) { //if there already was a bootstrap attempt for the player
             players[data['0']['i']].remove(stage);
             players[data['0']['i']] = null; //remove
+        } else {
+            mePlayer.damageTrackerUpdate(data[0]['n'] + " joined the game");
         }
 
         var hl = new StatusLabel().create(0, -30, "#76B852", 50, 5, stage);
         var joinedPlayer = new Player(data[0]['n'], data['0']['h'], data['0']['x'],
             data['0']['y'], data['0']['r'], 0, 0, data['0']['i'], hl); //create a new player
         players[data['0']['i']] = joinedPlayer;
-        new Weapon(players[data['0']['i']].blockRender);
-        mePlayer.damageTrackerUpdate(data[0]['n'] + " joined the game");
+        new Weapon(joinedPlayer.blockRender);
+
     } else if (data['1']) { //update player
         var params = data['1'].split(",");
         var id = parseInt(params[0]);

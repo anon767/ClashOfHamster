@@ -20,7 +20,7 @@ var Stage = function () {
     $(window).bind('resize', function (e) {
         if (window.RT) clearTimeout(window.RT);
         window.RT = setTimeout(function () {
-      //      location.reload();
+            location.reload();
         }, 100);
     });
     stage.moveStage = function () {
