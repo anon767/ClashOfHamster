@@ -93,9 +93,10 @@ function keyboardCheck(event) {
             mePlayer.blockRender.PlayerO.gotoAndPlay("breath");
         }
     }
+    mePlayer.sendUpdate(socketObject);
     mePlayer.move(x, y);
 
-    mePlayer.sendUpdate(socketObject);
+
 }
 
 /**
@@ -104,30 +105,28 @@ function keyboardCheck(event) {
  * @returns {undefined}
  */
 var pingi = 0;
-
+function refreshCanvas() {
+    "use strict";
+    for (var i = 0; i < objects.length; i++) {
+        objects[i].blockRender.x = objects[i].blockPhysics.position.x;
+        objects[i].blockRender.y = objects[i].blockPhysics.position.y;
+    }
+}
 function tick(event) {
-    event.delta = socketObject.socket.latency;
     if (!createjs.Ticker.getPaused()) {
+        mePlayer.sendUpdate(socketObject);
+        event.delta = socketObject.socket.latency;
         keyboardCheck(event);
-        for (var i = 0; i < objects.length; i++) {
-            if (objects[i].type === "player") {
-                objects[i].blockRender.x = objects[i].blockPhysics.position.x;
-                objects[i].blockRender.y = objects[i].blockPhysics.position.y;
-            } else {
-                objects[i].blockRender.x = objects[i].blockPhysics.position.x;
-                objects[i].blockRender.y = objects[i].blockPhysics.position.y;
-                objects[i].blockRender.rotation = objects[i].blockPhysics.angle / 0.0174533; //Radian to Degree
-            }
-        }
-        if (pingi === 0) {
+        refreshCanvas();
+        if (pingi == 0) {
             socketObject.getLatency();
-            pingi = 100;
+            pingi = 200;
         }
         else
             pingi--;
-        mePlayer.sendUpdate(socketObject);
         mePlayer.update(socketObject);
         stage.update(event);
+        mePlayer.sendUpdate(socketObject);
         lastTick = event.timestamp;
     }
 }
@@ -143,7 +142,7 @@ function OnOpen() {
  * @returns {Number}
  */
 function Eventcallback(data) {
-    data = $.parseJSON(data); //parse
+    data = JSON.parse(data); //parse
     if (data['id']) { //retrieve unique ID for identification in network
         var pos = posrange[Math.floor(Math.random() * posrange.length)];
         if (pos[0] > window.innerWidth / 2) {
@@ -171,6 +170,7 @@ function Eventcallback(data) {
         var joinedPlayer = new Player(data[0]['n'], data['0']['h'], data['0']['x'],
             data['0']['y'], data['0']['r'], 0, 0, data['0']['i'], hl); //create a new player
         players[data['0']['i']] = joinedPlayer;
+        new Weapon(players[data['0']['i']].blockRender);
         mePlayer.damageTrackerUpdate(data[0]['n'] + " joined the game");
     } else if (data['1']) { //update player
         var params = data['1'].split(",");
@@ -179,6 +179,7 @@ function Eventcallback(data) {
         var y = parseFloat(params[2]);
         var h = parseInt(params[3]);
         var d = parseInt(params[4]);
+        var a = parseInt(params[5]);
         if (players[id]) {
             players[id].setCoords(x, y, d);
             if (Math.ceil(players[id].health - h) > 1) {
@@ -186,6 +187,10 @@ function Eventcallback(data) {
             }
             players[id].health = h;
             players[id].healthLabel.update(players[id].health, mePlayer.maxHealth);
+
+            players[id].blockRender.weapon.rotation = a;
+            players[id].blockRender.weapon.scaleY = Math.abs(a) > 90 ? -2 : 2;
+
             //players[id].healthLabel.x = x;
             //players[id].healthLabel.y = y - 50;
         } else {

@@ -136,7 +136,7 @@ var Player = function (name, health, x, y, rotation, xvel, yvel, id, healthLabel
 
     };
     this.sendUpdate = function (socketO) {
-        var data = '{"1":"' + this.socketId + "," + this.blockRender.x + "," + this.blockRender.y + "," + Math.round(this.health) + "," + this.blockRender.PlayerO.scaleX + "," + Math.ceil(this.blockRender.weapon.rotation) + '"}';
+        var data = '{"1":"' + this.socketId + "," + this.blockPhysics.position.x + "," + this.blockPhysics.position.y + "," + Math.round(this.health) + "," + this.blockRender.PlayerO.scaleX + "," + Math.round(this.blockRender.weapon.rotation) + '"}';
         if (data !== this.lastsend) {
             socketO.send(data)
         }
@@ -157,15 +157,15 @@ var Player = function (name, health, x, y, rotation, xvel, yvel, id, healthLabel
     };
     this.setCoords = function (x, y, dir) {
         this.blockRender.PlayerO.scaleX = dir;
-        if (Math.floor(this.blockRender.y - y) > 0) {
+
+        Matter.Body.setPosition(this.blockPhysics, {x: x, y: y});
+        if (y < this.blockRender.y) {
             this.particleUpdate();
         } else {
             for (i = 0; i < this.ps.particles.length; i++) {
                 this.ps.particles[i].dispose(stage);
             }
         }
-
-        Matter.Body.setPosition(this.blockPhysics, {x: x, y: y});
         //Matter.Body.translate(this.blockPhysics, {x: x, y: y});
 
     };

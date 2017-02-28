@@ -12,13 +12,15 @@ var Stage = function () {
     stage.canvas.width = window.innerWidth;
 
     stage.background = (new Background()).create(stage);
+    stage.background2 = (new Background()).create(stage);
+    stage.background2.x = stage.size
     stage.playerInfo = (new PlayerInfo()).create(stage);
     stage.mouseEnabled = true;
     stage.snapToPixelEnabled = true; //seems like lagging out the game but idk
     $(window).bind('resize', function (e) {
         if (window.RT) clearTimeout(window.RT);
         window.RT = setTimeout(function () {
-            location.reload();
+      //      location.reload();
         }, 100);
     });
     stage.moveStage = function () {

@@ -12,7 +12,7 @@
 function Communication(Eventcallback, onopencallback) {
     var socket, send;
 
-    this.socket = new WebSocket('ws://localhost:9300');
+    this.socket = new WebSocket('ws://irc.thecout.com:9300');
     this.socket.latency = 1;
     this.socket.ping = 1;
     this.socket.pong = 1;

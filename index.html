@@ -53,7 +53,7 @@ and open the template in the editor.
 <script type="text/javascript" src="cordova.js"></script>
 <script>
     if (typeof(localStorage) !== "undefined") {
-        if (sessionStorage.getItem("name")) {
+        if (localStorage.getItem("name")) {
             document.getElementById("user").value = localStorage.getItem("name");
             document.getElementById("usercall").innerHTML = (localStorage.getItem("name") + " you scored " + localStorage.getItem("kills") + " points");
         } else {
