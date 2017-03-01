@@ -113,11 +113,9 @@ function refreshCanvas() {
         objects[i].blockRender.y = objects[i].blockPhysics.position.y;
     }
 }
+var event = {}
 function tick() {
-
     if (!createjs.Ticker.getPaused()) {
-
-        var event = {}
         event.delta = socketObject.socket.latency;
         Runner.tick(runner, engine, event.delta);
         keyboardCheck(event);
@@ -232,6 +230,7 @@ function Eventcallback(data) {
         healthLabel.y -= adjust;
         boostLabel.y -= adjust;
         stage.playerInfo.y -= adjust;
+        stage.background2.x = stage.size;
     } else if (data['6']) {
         var b = new Bullet(data['6']['x'], data['6']['y'], "black", data['6']['id'], data['6']['tox'], data['6']['toy']);
         b.move();
@@ -252,7 +251,7 @@ function mouseEvent(evt) {
         } else if (evt.stageX - stage.x > mePlayer.blockRender.x) {
             mePlayer.setScale(1);
         }
-        var x = mePlayer.blockRender.x + mePlayer.blockRender.PlayerO.scaleX * 25;
+        var x = mePlayer.blockRender.x + 35*mePlayer.blockRender.PlayerO.scaleX ;
         var y = mePlayer.blockRender.y;
 
         socketObject.send(JSON.stringify({
@@ -279,13 +278,13 @@ function mouseEvent(evt) {
 Matter.Events.on(engine, 'collisionStart', function (e) {
     e.pairs.forEach(function (f) {
         if ((f.bodyA.label === "bullet")) {
-            if (f.bodyB.label === "player" && f.bodyB.socketId !== f.bodyA.socketId) {
+            if (f.bodyB.label === "player") {
                 if (f.bodyB.socketId === mePlayer.socketId)
                     mePlayer.hit(f.bodyA);
                 f.bodyA.blockRender.explode();
             }
         } else if ((f.bodyB.label === "bullet")) {
-            if (f.bodyA.label === "player" && f.bodyA.socketId !== f.bodyB.socketId) {
+            if (f.bodyA.label === "player") {
                 if (f.bodyA.socketId === mePlayer.socketId)
                     mePlayer.hit(f.bodyB);
                 f.bodyB.blockRender.explode();

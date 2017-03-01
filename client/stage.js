@@ -13,7 +13,7 @@ var Stage = function () {
 
     stage.background = (new Background()).create(stage);
     stage.background2 = (new Background()).create(stage);
-    stage.background2.x = stage.size
+
     stage.playerInfo = (new PlayerInfo()).create(stage);
     stage.mouseEnabled = true;
     stage.snapToPixelEnabled = true; //seems like lagging out the game but idk
