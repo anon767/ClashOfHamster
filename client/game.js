@@ -251,8 +251,9 @@ function mouseEvent(evt) {
         } else if (evt.stageX - stage.x > mePlayer.blockRender.x) {
             mePlayer.setScale(1);
         }
-        var x = mePlayer.blockRender.x + 35*mePlayer.blockRender.PlayerO.scaleX ;
-        var y = mePlayer.blockRender.y;
+        var angle = mePlayer.blockRender.weapon.rotation / (180 / Math.PI);
+        var x = mePlayer.blockRender.x + 22*Math.cos(angle);
+        var y = mePlayer.blockRender.y + 27*Math.sin( angle);
 
         socketObject.send(JSON.stringify({
             6: {
@@ -297,6 +298,7 @@ var mouseMove = function () {
         return;
     var rads = Math.atan2(stage.mouseY - 1 * stage.y - mePlayer.blockRender.y - mePlayer.blockRender.weapon.y, stage.mouseX - 1 * stage.x - mePlayer.blockRender.x + mePlayer.blockRender.weapon.x);
     var angle = rads * (180 / Math.PI);
+    mePlayer.blockRender.PlayerO.scaleX = (stage.mouseX - 1 * stage.x  ) > mePlayer.blockRender.x ? 1 : -1;
     mePlayer.blockRender.weapon.scaleY = Math.abs(angle) > 90 ? -2 : 2;
     mePlayer.blockRender.weapon.rotation = angle;
 };
