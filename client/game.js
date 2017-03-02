@@ -252,8 +252,11 @@ function mouseEvent(evt) {
             mePlayer.setScale(1);
         }
         var angle = mePlayer.blockRender.weapon.rotation / (180 / Math.PI);
-        var x = mePlayer.blockRender.x + 22*Math.cos(angle);
-        var y = mePlayer.blockRender.y + 27*Math.sin( angle);
+        var multx = (mePlayer.blockPhysics.speed) > 1 ? (mePlayer.blockPhysics.speed) / 2 : 1;
+        var multy = (mePlayer.blockPhysics.speed) > 1 ? (mePlayer.blockPhysics.speed) / 3 : 1;
+
+        var x = mePlayer.blockRender.x + (multx) * 22 * Math.cos(angle);
+        var y = mePlayer.blockRender.y + (multy) * 27 * Math.sin(angle);
 
         socketObject.send(JSON.stringify({
             6: {
