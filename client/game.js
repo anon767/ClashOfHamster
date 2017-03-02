@@ -11,7 +11,7 @@ var Engine = Matter.Engine,
     Bodies = Matter.Bodies,
     runner = null;
 var engine = Engine.create({
-        enableSleeping: true
+        enableSleeping: false
     }),
     world = engine.world;
 var joystick, stage = null, timeCircle, socketObject, keyboard = new Keyboard(), collision, mePlayer = null, mouse, healthLabel, boostLabel;

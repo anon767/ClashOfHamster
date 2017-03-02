@@ -8,7 +8,7 @@ var Stage = function () {
     var tempWidth = window.innerWidth
         || document.documentElement.clientWidth
         || document.body.clientWidth;
-    stage.innerWidth = (tempWidth < stage.size) ? tempWidth : stage.size;
+    stage.innerWidth = tempWidth ;
     stage.canvas.width = window.innerWidth;
 
     stage.background = (new Background()).create(stage);
@@ -24,8 +24,8 @@ var Stage = function () {
         }, 100);
     });
     stage.moveStage = function () {
-        if (mePlayer.blockRender.x > (stage.innerWidth) / 2 && mePlayer.blockRender.x < stage.size - (stage.innerWidth / 2)) { //only move stage if its between size
-            var xNew = Math.floor(-mePlayer.blockRender.x + stage.innerWidth / 2);
+        if (mePlayer.blockRender.x > (stage.innerWidth*0.5)  && mePlayer.blockRender.x < stage.size - (stage.innerWidth*0.5 )) { //only move stage if its between size
+            var xNew = Math.floor(-mePlayer.blockRender.x + stage.innerWidth*0.5 );
             if (xNew > stage.x || xNew < stage.x && -stage.x < stage.size) {
                 if (Math.floor(xNew) < Math.floor(stage.x))
                     stage.background.x -= -1;
