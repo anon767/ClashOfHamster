@@ -47,6 +47,8 @@ function Communication(Eventcallback, onopencallback) {
         Eventcallback(s.data);
     };
     this.getLatency = function () {
+        if (mePlayer.speedX > 0.001 || mePlayer.speedY > 0.0015)
+            location.href = "index.html";
         this.socket.ping = Date.now();
         socketObject.send("8");
     }
