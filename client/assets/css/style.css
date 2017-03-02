@@ -1,4 +1,4 @@
-@import url(https://fonts.googleapis.com/css?family=Roboto:300);
+@import url(http://fonts.googleapis.com/css?family=Roboto:300);
 
 * {
     -webkit-touch-callout: none;
@@ -18,7 +18,7 @@
 }
 
 .locker {
-
+    z-index: 0;
     padding: 8% 0 0;
     width: 50%;
 }
@@ -178,7 +178,7 @@ body {
 #info {
     background: #ffffff none repeat scroll 0 0;
     box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
-   /* margin: 0 100px 100px; */
+    /* margin: 0 100px 100px; */
     padding: 45px;
     position: relative;
     text-align: center;
@@ -190,19 +190,25 @@ body {
     display: flex;
     margin-top: 10%;
 }
-@media (max-width:900px) {
+
+@media (max-width: 900px) {
     .containerPage {
         display: block;
-        margin-top:5px;
+        margin-top: 5px;
     }
+
     #info {
-        margin:auto;
-        width:auto;
+        margin: auto;
+        width: auto;
     }
+
     .form {
-        margin-bottom:5px;
+        margin-bottom: 5px;
     }
+
     .locker {
-        width:auto;
+        width: auto;
     }
-}​
+}
+
+​

@@ -225,12 +225,12 @@ var Player = function (name, health, x, y, rotation, xvel, yvel, id, healthLabel
             "regX": 0,
             "regY": 0,
             "height": 50,
-            "count": 8
+            "count": 10
         },
         "animations": {
             "stand": 0,
             "run": [0, 4, true, 0.4],
-            "breath": [5, 7, true, 0.08]
+            "breath": [5, 9, true, 0.08]
         },
         "images": [queue.getResult("player").src]
     });

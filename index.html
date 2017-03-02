@@ -24,28 +24,33 @@ and open the template in the editor.
             fill: "#555";
             rx: 5;
         }
+
         .letter {
             fill: #ccc;
             font-family: sans-serif;
             font-weight: bold;
             font-size: 40px;
         }
+
         .instructions {
             fill: #555;
             font-family: sans-serif;
             font-size: 40px;
         }
+
         .info {
             fill: #777;
             font-family: sans-serif;
             font-size: 15px;
         }
+
         .title {
             fill: #333;
             font-family: sans-serif;
             font-weight: bold;
             font-size: 100px;
         }
+
         body {
             margin: 0;
             background-color: #ddd;
@@ -73,7 +78,6 @@ and open the template in the editor.
         .foreground {
             z-index: 1;
         }
-
 
         /* svg classes */
 
@@ -107,6 +111,7 @@ and open the template in the editor.
         .intro {
 
             z-index: 2;
+            background: rgba(255,255,255,0.7);
         }
 
         #title {
@@ -129,7 +134,7 @@ and open the template in the editor.
             left: 10px;
         }
 
-        #keysright{
+        #keysright {
             position: absolute;
             z-index: 3;
             font-family: "Arial", sans-serif;
@@ -167,8 +172,6 @@ and open the template in the editor.
         <b>Hi <span id="usercall"></span></b><br>
         Please recommend the game and join the <a
             href="https://kiwiirc.com/client/irc.thecout.com/?nick=hamster|?&theme=cli#clashofhamster">Chat</a>!<br>
-        Try the Android App! <a href="clashofhamster.apk"><img id="androidicon" width="30px" height="30px"
-                                                               src="client/assets/img/android-icon-3062.png"/></a>
     </div>
 </div>
 <script type="text/javascript" src="cordova.js"></script>
@@ -183,47 +186,47 @@ and open the template in the editor.
     } else {
         document.getElementById("usercall").innerHTML = "guest";
     }
-$()
+    $()
 </script>
-
 
 
 <svg class='intro' onclick="$(this).hide()" viewBox="0 0 800 800">
 
-    <g id = "controls">
-        <text id = "title" class = "title" text-anchor="middle" x="400" y="200">Clash of Hamster</text>
-        <text id = "instruct" class = "instructions" text-anchor="middle" x="400" y="650">click to begin</text>
+    <g id="controls">
+        <text id="title" class="title" text-anchor="middle" x="400" y="200">Clash of Hamster</text>
+        <text id="instruct" class="instructions" text-anchor="middle" x="400" y="650">click to begin</text>
         <!--     <text class = "info" x="5" y="695">move: WASD</text>
             <text class = "info" x="5" y="715">fire: click</text>
             <text class = "info" x="5" y="735">pause: F</text>
             <text class = "info" x="5" y="755">grab: E</text>
             <text class = "info" x="5" y="775">zoom: +-</text>
             <text class = "info" x="5" y="795">testing: T</text> -->
-        <g transform = "translate(130,380)">
+        <g transform="translate(130,380)">
             <!--     <rect class = "keyrect" id="q" x="0" y="0" width="60" height="60" fill='#99a' stroke-width="0"/>
                 <text class = "letter" text-anchor="middle" x="30" y="45">Q</text> -->
-            <rect class = "keyrect" id="e" x="140" y="0" width="60" height="60" fill='#99a' stroke-width="0"/>
-            <text class = "letter" text-anchor="middle" x="170" y="45">E</text>
-            <rect class = "keyrect" id="e" x="210" y="0" width="60" height="60" fill='#99a' stroke-width="0"/>
-            <text class = "letter" text-anchor="middle" x="240" y="45">R</text>
-            <rect class = "keyrect" id="w" x="70" y="0" width="60" height="60" fill='#555' stroke-width="0"/>
-            <text class = "letter" text-anchor="middle" x="100" y="45">W</text>
-            <rect class = "keyrect" id="s" x="70" y="70" width="60" height="60" fill='#555' stroke-width="0"/>
-            <text class = "letter" text-anchor="middle" x="100" y="113">S</text>
-            <rect class = "keyrect" id="d" x="140" y="70" width="60" height="60" fill='#555' stroke-width="0"/>
-            <text class = "letter" text-anchor="middle" x="170" y="113">D</text>
-            <rect class = "keyrect" id="d" x="210" y="70" width="60" height="60" fill='#99a' stroke-width="0"/>
-            <text class = "letter" text-anchor="middle" x="240" y="113">F</text>
-            <rect class = "keyrect" id="a" x="0" y="70" width="60" height="60" fill='#555' stroke-width="0"/>
-            <text class = "letter" text-anchor="middle" x="30" y="113">A</text>
+            <rect class="keyrect" id="e" x="140" y="0" width="60" height="60" fill='#99a' stroke-width="0"/>
+            <text class="letter" text-anchor="middle" x="170" y="45">E</text>
+            <rect class="keyrect" id="e" x="210" y="0" width="60" height="60" fill='#99a' stroke-width="0"/>
+            <text class="letter" text-anchor="middle" x="240" y="45">R</text>
+            <rect class="keyrect" id="w" x="70" y="0" width="60" height="60" fill='#555' stroke-width="0"/>
+            <text class="letter" text-anchor="middle" x="100" y="45">W</text>
+            <rect class="keyrect" id="s" x="70" y="70" width="60" height="60" fill='#555' stroke-width="0"/>
+            <text class="letter" text-anchor="middle" x="100" y="113">S</text>
+            <rect class="keyrect" id="d" x="140" y="70" width="60" height="60" fill='#555' stroke-width="0"/>
+            <text class="letter" text-anchor="middle" x="170" y="113">D</text>
+            <rect class="keyrect" id="d" x="210" y="70" width="60" height="60" fill='#99a' stroke-width="0"/>
+            <text class="letter" text-anchor="middle" x="240" y="113">F</text>
+            <rect class="keyrect" id="a" x="0" y="70" width="60" height="60" fill='#555' stroke-width="0"/>
+            <text class="letter" text-anchor="middle" x="30" y="113">A</text>
         </g>
-        <g transform = "translate(480,350) scale(0.35)">
+        <g transform="translate(480,350) scale(0.35)">
             <path fill="#555" d="M284.5,182c0,15.74-12.76,28.5-28.5,28.5l0,0c-15.74,0-28.5-12.76-28.5-28.5v-49
 		c0-15.74,12.76-28.5,28.5-28.5l0,0c15.74,0,28.5,12.76,28.5,28.5V182z"/>
             <g>
                 <path fill="#555" d="M274,88.035c15.071,6.217,25.557,19.987,25.557,35.988v67.953c0,16.001-10.485,29.771-25.557,35.988V264.5
 			h147V141.806C421,72.325,362.797,16,291,16h-17V88.035z"/>
-                <path fill="#555" d="M91,275v95.193C91,439.675,149.203,496,221,496h70c71.797,0,130-56.325,130-125.807V275H91z"/>
+                <path fill="#555"
+                      d="M91,275v95.193C91,439.675,149.203,496,221,496h70c71.797,0,130-56.325,130-125.807V275H91z"/>
                 <path fill="#222" d="M238,264.5v-36.535c-15.071-6.217-25.557-19.987-25.557-35.988v-67.953
 			c0-16.001,10.485-29.771,25.557-35.988V16h-17C149.203,16,91,72.325,91,141.806V264.5H238z"/>
             </g>
@@ -232,10 +235,17 @@ $()
 </svg>
 <script src="client/lib/jquery.js"></script>
 <script>
-    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+    (function (i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r;
+        i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date();
+        a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0];
+        a.async = 1;
+        a.src = g;
+        m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', 'http://www.google-analytics.com/analytics.js', 'ga');
 
     ga('create', 'UA-92510786-1', 'auto');
     ga('send', 'pageview');
