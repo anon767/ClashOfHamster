@@ -250,7 +250,7 @@ var Player = function (name, health, x, y, rotation, xvel, yvel, id, healthLabel
     this.blockRender.regX = 0;
     this.blockRender.snapToPixel = true;
     this.blockRender.regY = 0;
-    this.TextO.x = 5;
+    this.TextO.x = -5;
     this.TextO.y = -35;
     this.TextO.textBaseline = "alphabetic";
     if (mePlayer && mePlayer.socketId !== this.socketId)

@@ -149,7 +149,7 @@ function Eventcallback(data) {
     if (data['id']) { //retrieve unique ID for identification in network
         var pos = posrange[Math.floor(Math.random() * posrange.length)];
         if (pos[0] > window.innerWidth / 2) {
-            stage.x -= Math.abs(window.innerWidth / 2 - pos[0]);
+            stage.x -= Math.abs(window.innerWidth / 2 - pos[0]) % stage.size;
             //    stage.background.x = stage.background.x - stage.x + stage.x * 0.1;
         }
         runner = Runner.create();
@@ -169,7 +169,7 @@ function Eventcallback(data) {
             mePlayer.damageTrackerUpdate(data[0]['n'] + " joined the game");
         }
 
-        var hl = new StatusLabel().create(0, -30, "#76B852", 50, 5, stage);
+        var hl = new StatusLabel().create(-5, -30, "#76B852", 50, 5, stage);
         var joinedPlayer = new Player(data[0]['n'], data['0']['h'], data['0']['x'],
             data['0']['y'], data['0']['r'], 0, 0, data['0']['i'], hl); //create a new player
         players[data['0']['i']] = joinedPlayer;
