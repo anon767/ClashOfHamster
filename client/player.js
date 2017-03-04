@@ -239,6 +239,7 @@ var Player = function (name, health, x, y, rotation, xvel, yvel, id, healthLabel
     this.blockRender.y = y;
     this.blockRender.x = x;
     this.blockRender.PlayerO.regX = this.blockRender.width / 2;
+    this.blockRender.PlayerO.y += 3;
     this.blockRender.PlayerO.regY = this.blockRender.height / 2;
     this.blockPhysics = Bodies.rectangle(this.blockRender.x, this.blockRender.y, this.blockRender.width, this.blockRender.height, {
         mass: 1,

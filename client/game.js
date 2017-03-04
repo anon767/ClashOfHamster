@@ -149,7 +149,7 @@ function Eventcallback(data) {
     if (data['id']) { //retrieve unique ID for identification in network
         var pos = posrange[Math.floor(Math.random() * posrange.length)];
         if (pos[0] > window.innerWidth / 2) {
-            stage.x -= Math.abs(window.innerWidth / 2 - pos[0]) % stage.size;
+            stage.x -= Math.abs(window.innerWidth / 2 - pos[0]);
             //    stage.background.x = stage.background.x - stage.x + stage.x * 0.1;
         }
         runner = Runner.create();
