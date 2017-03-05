@@ -18,7 +18,7 @@ var Player = function (name, health, x, y, rotation, xvel, yvel, id, healthLabel
     this.name = name;
     this.PlayerO = new createjs.Shape();
     this.TextO = new createjs.Text(name, "13px Arial", "#171369");
-    this.damageTracker = new createjs.Text("", "22px Arial", "darkred");
+    this.damageTracker = new createjs.Text("", "24px Arial", "red");
     this.damageTracker.yvel = 0;
     this.damageTracker.x = 15;
     this.damageTracker.xvel = 0;
@@ -63,7 +63,7 @@ var Player = function (name, health, x, y, rotation, xvel, yvel, id, healthLabel
         if (by != -1) {
             console.log(this.blockRender.x, this.blockRender.y);
             stage.addChild(new Blood(this.blockRender.x, this.blockRender.y, stage));
-            createjs.Tween.get(this.blockRender).to({rotation: -90, alpha: 0}, 800).call(function (e) {
+            createjs.Tween.get(this.blockRender).to({rotation: -90, alpha: 0}, 900).call(function (e) {
                 stage.removeChild(e["target"]);
             });
 
@@ -93,7 +93,7 @@ var Player = function (name, health, x, y, rotation, xvel, yvel, id, healthLabel
         }
         this.damageTracker.text = x;
         this.damageTracker.yvel = -10;
-        createjs.Tween.get(this.damageTracker).to({alpha: 0.0, y: this.damageTracker.y - 155}, 1500);
+        createjs.Tween.get(this.damageTracker).to({alpha: 0.0, y: this.damageTracker.y - 155}, 3000);
     };
     this.update = function (socketO) {
 
