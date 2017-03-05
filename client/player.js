@@ -61,7 +61,6 @@ var Player = function (name, health, x, y, rotation, xvel, yvel, id, healthLabel
         Matter.World.remove(engine.world, [this.blockPhysics]);
         delete objects[this.blockRender.id];
         if (by != -1) {
-            console.log(this.blockRender.x, this.blockRender.y);
             stage.addChild(new Blood(this.blockRender.x, this.blockRender.y, stage));
             createjs.Tween.get(this.blockRender).to({rotation: -90, alpha: 0}, 900).call(function (e) {
                 stage.removeChild(e["target"]);
