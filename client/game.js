@@ -34,7 +34,7 @@ function keyboardCheck(event) {
     if ((keyboard.keys[87] || keyboard.keys[38] || (isMobile && joystick.up())) && mePlayer.boostTimer > 0) { // up
         up = true;
         y = -mePlayer.speedY;
-        mePlayer.blockRender.PlayerO.rotation = 10;
+        mePlayer.blockRender.PlayerO.rotation = -mePlayer.blockRender.PlayerO.scaleX * 10;
         mePlayer.boost();
     } else {
         up = false;
@@ -65,7 +65,7 @@ function keyboardCheck(event) {
     }
     if (keyboard.keys[83] || keyboard.keys[40] || (isMobile && joystick.down())) { // down
         y = mePlayer.speedY;
-        mePlayer.blockRender.PlayerO.rotation = 10;
+        mePlayer.blockRender.PlayerO.rotation = mePlayer.blockRender.PlayerO.scaleX * 10;
         down = true;
     } else {
         down = false;

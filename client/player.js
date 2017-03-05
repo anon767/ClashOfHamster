@@ -175,10 +175,12 @@ var Player = function (name, health, x, y, rotation, xvel, yvel, id, healthLabel
         Matter.Body.setPosition(this.blockPhysics, {x: x, y: y});
         if (y < this.blockRender.y) {
             this.particleUpdate();
+            this.blockRender.PlayerO.rotation = -this.blockRender.PlayerO.scaleX*10;
         } else {
             for (i = 0; i < this.ps.particles.length; i++) {
                 this.ps.particles[i].dispose(stage);
             }
+            this.blockRender.PlayerO.rotation = 0;
         }
         //Matter.Body.translate(this.blockPhysics, {x: x, y: y});
 
