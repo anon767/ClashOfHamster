@@ -45,6 +45,7 @@ var Bullet = function (x, y, color, id, tox, toy) {
     this.blockRender.explode = function () {
         (new Explosion()).create(this.x, this.y, this.playerId, stage);
         stage.removeChild(this);
+        delete objects[this.id];
         Matter.World.remove(engine.world, [this.blockPhysics]);
     };
     this.move = function () {
@@ -58,7 +59,7 @@ var Bullet = function (x, y, color, id, tox, toy) {
     this.blockPhysics.timer = this.blockRender.timer;
     stage.addChild(this.blockRender);
     World.add(world, this.blockPhysics);
-    objects.push(this);
+    objects[this.blockRender.id] = (this);
     return this;
 
 };

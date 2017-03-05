@@ -107,10 +107,11 @@ function keyboardCheck(event) {
  */
 var pingi = 0;
 function refreshCanvas() {
-
     for (var i = 0; i < objects.length; i++) {
-        objects[i].blockRender.x = objects[i].blockPhysics.position.x;
-        objects[i].blockRender.y = objects[i].blockPhysics.position.y;
+        if (objects.hasOwnProperty(i)) {
+            objects[i].blockRender.x = objects[i].blockPhysics.position.x;
+            objects[i].blockRender.y = objects[i].blockPhysics.position.y;
+        }
     }
 }
 var event = {}
@@ -210,7 +211,7 @@ function Eventcallback(data) {
             mePlayer.damageTrackerUpdate(players[data['3']['id']].name + " had disconnect");
         }
         if (players[data['3']['id']] != null) {
-            players[data['3']['id']].remove(stage);
+            players[data['3']['id']].remove(stage, data['3']['by']);
             delete players[data['3']['id']]; //remove
         }
     } else if (data['5']) { //initialize map
@@ -255,8 +256,8 @@ function mouseEvent(evt) {
         var multx = (mePlayer.blockPhysics.speed) > 1 ? (mePlayer.blockPhysics.speed) / 2 : 1;
         var multy = (mePlayer.blockPhysics.speed) > 1 ? (mePlayer.blockPhysics.speed) / 3 : 1;
 
-        var x = mePlayer.blockRender.x + (multx) * 22 * Math.cos(angle);
-        var y = mePlayer.blockRender.y + (multy) * 27 * Math.sin(angle);
+        var x = mePlayer.blockRender.x + (multx) * 27 * Math.cos(angle);
+        var y = mePlayer.blockRender.y + (multy) * 29 * Math.sin(angle);
 
         socketObject.send(JSON.stringify({
             6: {
@@ -267,10 +268,13 @@ function mouseEvent(evt) {
                 toy: (evt.stageY - 1 * stage.y + adjust)
             }
         }));
+        var rand = Math.floor(Math.random() * 4);
+        // if (rand === 0) {
         Matter.Body.applyForce(mePlayer.blockPhysics, mePlayer.blockPhysics.position, {
-            x: -mePlayer.blockRender.PlayerO.scaleX * 0.004,
+            x: -mePlayer.blockRender.PlayerO.scaleX * 0.001 * rand,
             y: 0
-        })
+        });
+        //}
         canshoot = false;
         setTimeout(function () {
             canshoot = true;
@@ -315,7 +319,8 @@ $(document).ready(function () {
         {id: "player", src: "client/assets/img/playeranimation2.png"},
         {id: "grenadelauncher", src: "client/assets/img/grenadelauncher.png"},
         {id: "playerInfo", src: "client/assets/img/playerInfo.png"},
-        {id: "brick", src: "client/assets/img/bricks.jpg"}
+        {id: "brick", src: "client/assets/img/bricks.jpg"},
+        {id: "blood", src: "client/assets/img/blood.png"}
     ]);
     queue.on("complete", handleComplete, this);
     function handleComplete() {

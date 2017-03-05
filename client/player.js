@@ -55,11 +55,21 @@ var Player = function (name, health, x, y, rotation, xvel, yvel, id, healthLabel
         }
     };
 
-    this.remove = function (stage) {
+    this.remove = function (stage, by) {
         delete stage.blocking[this.id];
-        Matter.World.remove(engine.world, [this.blockPhysics]);
         stage.removeChild(this.healthLabel);
-        stage.removeChild(this.blockRender);
+        Matter.World.remove(engine.world, [this.blockPhysics]);
+        delete objects[this.blockRender.id];
+        if (by != -1) {
+            console.log(this.blockRender.x, this.blockRender.y);
+            stage.addChild(new Blood(this.blockRender.x, this.blockRender.y, stage));
+            createjs.Tween.get(this.blockRender).to({rotation: -90, alpha: 0}, 800).call(function (e) {
+                stage.removeChild(e["target"]);
+            });
+
+        } else {
+            stage.removeChild(this.blockRender);
+        }
     };
     this.particleUpdate = function () {
         this.ps.position = {
@@ -266,6 +276,6 @@ var Player = function (name, health, x, y, rotation, xvel, yvel, id, healthLabel
     this.addParticle();
     stage.addChild(this.blockRender);
     World.add(world, this.blockPhysics);
-    objects.push(this);
+    objects[this.blockRender.id] = (this);
     return this;
 };

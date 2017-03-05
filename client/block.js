@@ -14,8 +14,8 @@ var Block = function (x, y, color, width, height, stage, isBlock, options) {
         img.src = queue.getResult("brick").src;
         this.blockRender.graphics.beginBitmapFill(img, 'repeat').drawRect(0, 0, width, height);
     }
-    this.blockRender.regX = width/2;
-    this.blockRender.regY = height/2;
+    this.blockRender.regX = width / 2;
+    this.blockRender.regY = height / 2;
     this.blockRender.mouseEnabled = false;
     this.blockRender.type = "block";
     this.blockRender.width = width;
@@ -23,10 +23,10 @@ var Block = function (x, y, color, width, height, stage, isBlock, options) {
     this.blockRender.color = color;
     this.blockRender.snapToPixel = true;
     this.blockRender.tickEnabled = false;
-    this.blockRender.cache(-width, -height, width*2, height*2,2); //cache this shit, unless its moveable later we dont have to update cache
+    this.blockRender.cache(-width, -height, width * 2, height * 2, 2); //cache this shit, unless its moveable later we dont have to update cache
     stage.addChild(this.blockRender);
     World.add(world, this.blockPhysics);
-    objects.push(this);
+    objects[this.blockRender.id] = (this);
     return this;
 
 };
