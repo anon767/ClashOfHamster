@@ -17,7 +17,7 @@ var Player = function (name, health, x, y, rotation, xvel, yvel, id, healthLabel
     this.type = "player";
     this.name = name;
     this.PlayerO = new createjs.Shape();
-    this.TextO = new createjs.Text(name, "13px Arial", "#171369");
+    this.TextO = new createjs.Text(name, "13px Arial", "lightgreen");
     this.damageTracker = new createjs.Text("", "24px Arial", "red");
     this.damageTracker.yvel = 0;
     this.damageTracker.x = 15;
@@ -60,7 +60,7 @@ var Player = function (name, health, x, y, rotation, xvel, yvel, id, healthLabel
         stage.removeChild(this.healthLabel);
         Matter.World.remove(engine.world, [this.blockPhysics]);
         delete objects[this.blockRender.id];
-        if (by != -1) {
+        if (by && by != -1) {
             stage.addChild(new Blood(this.blockRender.x, this.blockRender.y, stage));
             createjs.Tween.get(this.blockRender).to({rotation: -90, alpha: 0}, 900).call(function (e) {
                 stage.removeChild(e["target"]);
@@ -174,7 +174,7 @@ var Player = function (name, health, x, y, rotation, xvel, yvel, id, healthLabel
         Matter.Body.setPosition(this.blockPhysics, {x: x, y: y});
         if (y < this.blockRender.y) {
             this.particleUpdate();
-            this.blockRender.PlayerO.rotation = -this.blockRender.PlayerO.scaleX*10;
+            this.blockRender.PlayerO.rotation = -this.blockRender.PlayerO.scaleX * 10;
         } else {
             for (i = 0; i < this.ps.particles.length; i++) {
                 this.ps.particles[i].dispose(stage);
@@ -205,7 +205,7 @@ var Player = function (name, health, x, y, rotation, xvel, yvel, id, healthLabel
         this.ps.velocityY = {min: -2, max: 2};
         this.ps.velocityX = {min: -2, max: 2};
         this.ps.radius = {min: 3, max: 8};
-        this.ps.count = 200;
+        this.ps.count = 400;
         this.ps.startColor = {
             min: new RGBA(230, 50, 0, 255),
             max: new RGBA(255, 230, 0, 255)

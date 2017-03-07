@@ -114,23 +114,34 @@ function refreshCanvas() {
         }
     }
 }
-var event = {}
+var event = {};
+var fps = 60;
+var now;
+var then = Date.now();
+var interval = 1000 / fps;
+var delta;
 function tick() {
+    now = Date.now();
+    delta = now - then;
+
     if (!createjs.Ticker.getPaused()) {
-        event.delta = socketObject.socket.latency;
-        Runner.tick(runner, engine, event.delta);
-        keyboardCheck(event);
-        refreshCanvas();
-        if (pingi == 0) {
-            socketObject.getLatency();
-            pingi = 200;
+        if (delta > interval) {
+            event.delta = socketObject.socket.latency;
+            Runner.tick(runner, engine, event.delta);
+            keyboardCheck(event);
+            refreshCanvas();
+            if (pingi == 0) {
+                socketObject.getLatency();
+                pingi = 200;
+            }
+            else
+                pingi--;
+            mePlayer.update(socketObject);
+            stage.update(event);
+            mePlayer.sendUpdate(socketObject);
+            lastTick = event.timestamp;
+            then = now - (delta % interval);
         }
-        else
-            pingi--;
-        mePlayer.update(socketObject);
-        stage.update(event);
-        mePlayer.sendUpdate(socketObject);
-        lastTick = event.timestamp;
         requestAnimationFrame(tick);
     }
 }
@@ -150,9 +161,12 @@ function Eventcallback(data) {
     if (data['id']) { //retrieve unique ID for identification in network
         var pos = posrange[Math.floor(Math.random() * posrange.length)];
         if (pos[0] > window.innerWidth / 2) {
-            stage.x -= Math.abs(window.innerWidth / 2 - pos[0]);
+            stage.x = Math.floor(-pos[0] + stage.innerWidth * 0.5);
             //    stage.background.x = stage.background.x - stage.x + stage.x * 0.1;
         }
+        // if (pos[1] < window.innerHeight / 2) {
+        stage.y = Math.floor(window.innerHeight * 0.5);
+        // }
         runner = Runner.create();
         //Runner.run(runner, engine);
         runner.isFixed = true;
@@ -164,7 +178,7 @@ function Eventcallback(data) {
         // socketObject.setCompression();
     } else if (data['0']) { //retrieved initial send (onjoin)
         if (players[data['0']['i']]) { //if there already was a bootstrap attempt for the player
-            players[data['0']['i']].remove(stage);
+            players[data['0']['i']].remove(stage, null);
             players[data['0']['i']] = null; //remove
         } else {
             mePlayer.damageTrackerUpdate(data[0]['n'] + " joined the game");
@@ -232,8 +246,10 @@ function Eventcallback(data) {
         boostLabel.y -= adjust;
         stage.playerInfo.y -= adjust;
         stage.background2.x = stage.size;
+        stage.background3.y = -stage.height * 4;
+
     } else if (data['6']) {
-        var b = new Bullet(data['6']['x'], data['6']['y'], "black", data['6']['id'], data['6']['tox'], data['6']['toy']);
+        var b = new Bullet(data['6']['x'], data['6']['y'], "darkgrey", data['6']['id'], data['6']['tox'], data['6']['toy']);
         b.move();
     }
 }
@@ -314,7 +330,7 @@ var mouseMove = function () {
 $(document).ready(function () {
     if (window.StatusBar) window.StatusBar.hide();
     queue.loadManifest([
-        {id: "bg", src: "client/assets/img/background.jpg"},
+        {id: "bg", src: "client/assets/img/bg_1_1.png"},
         {id: "explosion", src: "client/assets/img/explosion.png"},
         {id: "player", src: "client/assets/img/playeranimation2.png"},
         {id: "grenadelauncher", src: "client/assets/img/grenadelauncher.png"},
