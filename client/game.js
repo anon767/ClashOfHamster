@@ -167,6 +167,8 @@ function Eventcallback(data) {
         // if (pos[1] < window.innerHeight / 2) {
         stage.y = Math.floor(window.innerHeight * 0.5);
         // }
+
+
         runner = Runner.create();
         //Runner.run(runner, engine);
         runner.isFixed = true;
@@ -248,7 +250,10 @@ function Eventcallback(data) {
         stage.playerInfo.y -= adjust;
         stage.background2.x = stage.size;
         stage.background3.y = -stage.height * 4;
-
+        stage.height = window.innerHeight;
+        stage.innerWidth = window.innerWidth;
+        stage.canvas.width = window.innerWidth;
+        stage.canvas.height = window.innerHeight;
     } else if (data['6']) {
         var b = new Bullet(data['6']['x'], data['6']['y'], "darkgrey", data['6']['id'], data['6']['tox'], data['6']['toy']);
         b.move();

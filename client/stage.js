@@ -28,7 +28,7 @@ var Stage = function () {
         boostLabel.y -= adjust;
         stage.playerInfo.y -= adjust;
         stage.background2.x = stage.size;
-        stage.background3.y = -stage.height * 4;
+      //  stage.background3.y = -stage.height * 4;
 /*        if (window.RT) clearTimeout(window.RT);
         window.RT = setTimeout(function () {
             location.reload();
