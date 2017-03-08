@@ -19,15 +19,15 @@ and open the template in the editor.
 <body style="overflow: hidden">
 
 <canvas id="stage" height="800" style="position:absolute; left: 0px; top: 0px;"></canvas>
-<div id="overlay">
-    <img id="loading" src="client/assets/img/icons/pMtW1K.gif">
-    </div>
+
 <script type="text/javascript" src="client/lib/jquery.js"></script>
 <script type="text/javascript" src="client/lib/jquery-UI.js"></script>
 <script src="client/sessionstorage.js"></script>
 <link rel="stylesheet" href="client/assets/css/jquery-ui.css"/>
 <link rel="stylesheet" href="client/assets/css/style.css">
-
+<div id="overlay">
+    <img id="loading" src="client/assets/img/icons/pMtW1K.gif">
+</div>
 <script>
     $.urlParam = function (name) {
         var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
