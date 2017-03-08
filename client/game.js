@@ -172,6 +172,7 @@ function Eventcallback(data) {
         runner.isFixed = true;
         mePlayer = new Player(username, 100, pos[0], pos[1], 0, 0, 0, data['id'], healthLabel, boostLabel); //create Player
         new Weapon(mePlayer.blockRender);
+        $("#overlay").hide();
         tick();
         stage.addEventListener("stagemousemove", mouseMove);
         mePlayer.initSend(socketObject);
