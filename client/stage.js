@@ -18,10 +18,14 @@ var Stage = function () {
     stage.mouseEnabled = true;
     stage.snapToPixelEnabled = true; //seems like lagging out the game but idk
     $(window).bind('resize', function (e) {
-        if (window.RT) clearTimeout(window.RT);
+        stage.height = window.innerHeight;
+        stage.innerWidth = window.innerWidth;
+        stage.canvas.width = window.innerWidth;
+        stage.canvas.height = window.innerHeight;
+/*        if (window.RT) clearTimeout(window.RT);
         window.RT = setTimeout(function () {
             location.reload();
-        }, 100);
+        }, 100);*/
     });
     stage.moveStage = function () {
         if (mePlayer.blockRender.x > (stage.innerWidth * 0.5)) { //only move stage if its between size
