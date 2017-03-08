@@ -22,6 +22,13 @@ var Stage = function () {
         stage.innerWidth = window.innerWidth;
         stage.canvas.width = window.innerWidth;
         stage.canvas.height = window.innerHeight;
+        adjust = (window.innerHeight - stage.height) > 0 ? 0 : window.innerHeight - stage.height;
+        stage.y = adjust;
+        healthLabel.y -= adjust;
+        boostLabel.y -= adjust;
+        stage.playerInfo.y -= adjust;
+        stage.background2.x = stage.size;
+        stage.background3.y = -stage.height * 4;
 /*        if (window.RT) clearTimeout(window.RT);
         window.RT = setTimeout(function () {
             location.reload();
