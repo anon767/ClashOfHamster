@@ -1,4 +1,3 @@
-@import url(http://fonts.googleapis.com/css?family=Roboto:300);
 
 * {
     -webkit-touch-callout: none;
@@ -154,8 +153,39 @@ body {
 }
 
 #status {
+    border-radius: 25px;
+    padding: 10px;
     position: fixed;
     top: 400px;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.5);
+    pointer-events: none;
+}
+
+#status:empty {
+    display: none;
+}
+
+#stats {
+    min-width: 100px;
+    border-radius: 5px;
+    padding: 10px;
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.5);
+    pointer-events: none;
+}
+
+#chatbox {
+    border: none;
+    color: white;
+    background: rgba(0, 0, 0, 0.3);
+    display: none;
+    position: fixed;
+    top: 90%;
+    pointer-events: none;
 }
 
 #joystick {
@@ -177,7 +207,7 @@ body {
     /* margin: 0 100px 100px; */
     padding: 45px;
     position: relative;
-    text-align: center;
+    text-align: left;
     width: 50%;
     z-index: 1;
 }
@@ -206,6 +236,7 @@ body {
         width: auto;
     }
 }
+
 #overlay {
     position: absolute;
     left: 0;
@@ -216,6 +247,7 @@ body {
     opacity: 0.8;
     filter: alpha(opacity=80);
 }
+
 #loading {
     width: 50px;
     height: 57px;

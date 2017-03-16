@@ -28,11 +28,12 @@ var Stage = function () {
         boostLabel.y -= adjust;
         stage.playerInfo.y -= adjust;
         stage.background2.x = stage.size;
-      //  stage.background3.y = -stage.height * 4;
-/*        if (window.RT) clearTimeout(window.RT);
-        window.RT = setTimeout(function () {
-            location.reload();
-        }, 100);*/
+        stage.y = Math.floor(-mePlayer.blockRender.y + window.innerHeight / 2);
+        //  stage.background3.y = -stage.height * 4;
+        /*        if (window.RT) clearTimeout(window.RT);
+         window.RT = setTimeout(function () {
+         location.reload();
+         }, 100);*/
     });
     stage.moveStage = function () {
         if (mePlayer.blockRender.x > (stage.innerWidth * 0.5)) { //only move stage if its between size
@@ -57,11 +58,11 @@ var Stage = function () {
             }
         }
 
-        if (mePlayer.blockRender.y + adjust < window.innerHeight / 2 ) { //only move stage if its between size
+        if (mePlayer.blockRender.y + adjust < window.innerHeight / 2) { //only move stage if its between size
             var yNew = Math.floor(-mePlayer.blockRender.y + window.innerHeight / 2);
-            if (yNew >= (window.innerHeight - stage.height)) {
-                stage.y = yNew;
-            }
+
+            stage.y = yNew;
+
         }
 
     };

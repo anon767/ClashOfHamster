@@ -16,9 +16,7 @@ function Communication(Eventcallback, onopencallback) {
     this.socket.latency = 1;
     this.socket.ping = 1;
     this.socket.pong = 1;
-    this.socket.onopen = function () {
-        onopencallback();
-    };
+    this.socket.open = onopencallback;
     this.socket.onerror = function (e) {
         console.log("error occured ", e);
     }
@@ -26,6 +24,10 @@ function Communication(Eventcallback, onopencallback) {
         if (s.data === "logoff:exceeded") {
             alert("There are too many Hamster on the Server, try another!");
             location.href = "index.html";
+            return;
+        }
+        if (s.data === "hello") {
+            this.open();
             return;
         }
         if (s.data === "8") {

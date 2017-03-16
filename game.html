@@ -9,65 +9,66 @@ and open the template in the editor.
     <title>Clash of Hamsters</title>
     <meta charset="utf-8">
     <meta name="viewport"
-          content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi"
+          content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height"
           content="width=device-width, height=device-height"/>
     <meta name="format-detection" content="telephone=no">
     <meta name="msapplication-tap-highlight" content="no">
     <meta name="apple-mobile-web-app-capable" content="yes">
-
+    <link rel="icon" sizes="16x16 32x32 64x64" href="client/img/icons/favico.ico">
 </head>
 <body style="overflow: hidden">
 
 <canvas id="stage" height="800" style="position:absolute; left: 0px; top: 0px;"></canvas>
 
-<script type="text/javascript" src="client/lib/jquery.js"></script>
-<script type="text/javascript" src="client/lib/jquery-UI.js"></script>
-<script src="client/sessionstorage.js"></script>
+
 <link rel="stylesheet" href="client/assets/css/jquery-ui.css"/>
 <link rel="stylesheet" href="client/assets/css/style.css">
 <div id="overlay">
     <img id="loading" src="client/assets/img/icons/pMtW1K.gif">
 </div>
-<script>
-    $.urlParam = function (name) {
-        var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
-        return results[1] || 0;
-    }
-    var username = decodeURIComponent($.urlParam("user"));
-    var server = decodeURIComponent($.urlParam("server"));
-    var storage = new storage();
-    storage.setname(username);
-    storage.addLogins();
-</script>
-<script type="text/javascript" src="cordova.js"></script>
-<script src="client/stage.js"></script>
+
+<div id="dead" style="text-align:center;font-size:12px;display:none;"><img style="width:100px!important;"
+                                                                           src="client/assets/img/icons/dead.png"></div>
+<div id="joystick"></div>
+<div id="status"></div>
+<div id="stats">Top List<div id="statistic"></div></div>
+<input type="text" id="chatbox" placeholder="Tell me stories"/>
+<script type="text/javascript" src="client/lib/jquery.js"></script>
+<script type="text/javascript" src="client/lib/jquery-UI.js"></script>
 <script src="client/lib/matter.js"></script>
 <script src="client/lib/tween.js"></script>
 <script src="client/lib/preload.js"></script>
 <script src="client/lib/jsend.js"></script>
 <script src="client/lib/virtualJoystick.js"></script>
 <script src="client/lib/easeljs.js"></script>
-<script src="client/explosion.js"></script>
-<script src="client/socket.js"></script>
-<script src="client/mouse.js"></script>
-<script src="client/keyboard.js"></script>
-<script src="client/particle.js"></script>
-<script src="client/player.js"></script>
-<script src="client/block.js"></script>
-<script src="client/statusLabel.js"></script>
-<script src="client/collision.js"></script>
-<script src="client/bullet.js"></script>
-<script src="client/background.js"></script>
-<script src="client/game.js"></script>
-<script src="client/playerInfo.js"></script>
-<script src="client/weapon.js"></script>
-<script src="client/Minimap.js"></script>
-<script src="client/Blood.js"></script>
-<div id="dead" style="text-align:center;font-size:12px;display:none;"><img style="width:100px!important;"
-                                                                           src="client/assets/img/icons/dead.png"></div>
-<div id="joystick"></div>
-<div id="status"></div>
+<script src="client/lib/sessionstorage.js"></script>
+<script src="playit.js"></script>
 <script>
+    $.urlParam = function (name) {
+        var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+        return results[1] || 0;
+    }
+    var entityMap = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#39;',
+        '/': '&#x2F;',
+        '`': '&#x60;',
+        '=': '&#x3D;'
+    };
+
+    function escapeHtml(string) {
+        return String(string).replace(/[&<>"'`=\/]/g, function (s) {
+            return entityMap[s];
+        });
+    }
+    var username = decodeURIComponent(escapeHtml($.urlParam("user")));
+    var server = decodeURIComponent($.urlParam("server"));
+    var storage = new storage();
+    storage.setname(username);
+    storage.addLogins();
     (function (i, s, o, g, r, a, m) {
         i['GoogleAnalyticsObject'] = r;
         i[r] = i[r] || function () {

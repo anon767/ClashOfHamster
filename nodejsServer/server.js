@@ -1,6 +1,6 @@
 var Gameroom = require("./Gameroom.js");
 const WebSocket = require('uws');
-var id = 0;
+var id = 1;
 var map = [{"width": 2500, "height": 800}, {"x": "150", "y": "350", "w": "150", "h": "13"}, {
     "x": "250",
     "y": "70",
@@ -29,9 +29,10 @@ const wss = new WebSocket.Server({port: 9300});
 console.log("started");
 
 function init(client, id, gameroom, wss) {
+    console.log("initiated");
     client.send(JSON.stringify({"id": id}));
     client.send(JSON.stringify({"5": gameroom.getMap()}));
-    wss.clients.forEach(function each(c) {
+    gameroom.getClients().forEach(function each(c) {
         if (c && c !== client && c.readyState === WebSocket.OPEN) {
             c.send(JSON.stringify({2: id}));
         }
@@ -41,6 +42,7 @@ function init(client, id, gameroom, wss) {
 
 wss.on('connection', function connection(ws) {
     console.log("connected");
+    ws.send("hello");
     ws.on('message', function incoming(data) {
             if (data[0] === "7") {
                 var s = parseInt(data[2]);
@@ -60,6 +62,7 @@ wss.on('connection', function connection(ws) {
                 return;
             }
             var response = JSON.parse(data);
+
             if (response[1]) {
                 var responseparam = response[1].split(",");
                 if (responseparam[3] > 200) {
@@ -83,17 +86,22 @@ wss.on('connection', function connection(ws) {
 
         }
     );
-    ws.on('close', function close() {
-        var id = ws.id;
-        if (typeof ws.gameroom != "undefined" && ws.gameroom)
-            ws.gameroom.removeClient(id);
 
+    ws.on('close', function close() {
+        var cid = ws.id;
+        if (typeof ws.gameroom != "undefined" && ws.gameroom)
+            ws.gameroom.removeClient(cid);
+        var tempGameroom = ws.gameroom;
 
         console.log("player disconnected");
-        wss.clients.forEach(function each(client) {
-            if (client && client !== ws && client.readyState === WebSocket.OPEN) {
-                client.send(JSON.stringify({3: {id: id, by: -1}}));
-            }
-        });
+        if(tempGameroom){
+            tempGameroom.getClients().forEach(function each(client) {
+                if (client && client !== ws && client.readyState === WebSocket.OPEN) {
+                    client.send(JSON.stringify({3: {id: cid, by: -1}}));
+                }
+            });
+        }
+        if (wss.clients.length == 0)
+            id = 1;
     });
 });

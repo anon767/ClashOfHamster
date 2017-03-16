@@ -1,5 +1,13 @@
 /* global createjs, username */
-"use strict";
+
+console.log("     _           _              __   _                         _");
+console.log("    | |         | |            / _| | |                       | |");
+console.log(" ___| | __ _ ___| |__     ___ | |_  | |__   __ _ _ __ ___  ___| |_ ___ _ __");
+console.log("/ __| |/ _` / __| '_ \\   / _ \\|  _| | '_ \\ / _` | '_ ` _ \\/ __| __/ _ \\ '__|");
+console.log("| (__| | (_| \\__ \\ | | | | (_) | |   | | | | (_| | | | | | \\__ \\ ||  __/ |");
+console.log("\\___|_|\\__,_|___/_| |_|  \\___/|_|   |_| |_|\\__,_|_| |_| |_|___/\\__\\___|_|");
+
+
 var Engine = Matter.Engine,
     Render = Matter.Render,
     Runner = Matter.Runner,
@@ -24,6 +32,7 @@ var isMobile = false;
 var adjust;
 var lastTick = null;
 var posrange = [[100, 100], [2000, 100]];
+
 /**
  * moves when direction is set
  * @returns {undefined}
@@ -31,6 +40,10 @@ var posrange = [[100, 100], [2000, 100]];
  */
 function keyboardCheck(event) {
     var x = 0, y = 0;
+    if (keyboard.keys[89]) {
+        $("#chatbox").show();
+        $("#chatbox").focus();
+    }
     if ((keyboard.keys[87] || keyboard.keys[38] || (isMobile && joystick.up())) && mePlayer.boostTimer > 0) { // up
         up = true;
         y = -mePlayer.speedY;
@@ -151,6 +164,9 @@ function OnOpen() {
         socketObject.send("7:" + server);
 }
 
+function refreshTopList() {
+
+}
 /**
  * retrieve server information and parses
  * @param {type} data
@@ -167,8 +183,6 @@ function Eventcallback(data) {
         // if (pos[1] < window.innerHeight / 2) {
         stage.y = Math.floor(window.innerHeight * 0.5);
         // }
-
-
         runner = Runner.create();
         //Runner.run(runner, engine);
         runner.isFixed = true;
@@ -192,6 +206,7 @@ function Eventcallback(data) {
             data['0']['y'], data['0']['r'], 0, 0, data['0']['i'], hl); //create a new player
         players[data['0']['i']] = joinedPlayer;
         new Weapon(joinedPlayer.blockRender);
+        refreshTopList();
 
     } else if (data['1']) { //update player
         var params = data['1'].split(",");
@@ -208,7 +223,6 @@ function Eventcallback(data) {
             }
             players[id].health = h;
             players[id].healthLabel.update(players[id].health, mePlayer.maxHealth);
-
             players[id].blockRender.weapon.rotation = a;
             players[id].blockRender.weapon.scaleY = Math.abs(a) > 90 ? -2 : 2;
 
@@ -223,9 +237,12 @@ function Eventcallback(data) {
         if (data['3']['by'] === mePlayer.socketId && players[data['3']['id']] !== undefined && players[data['3']['id']]) {
             mePlayer.damageTrackerUpdate("you killed " + players[data['3']['id']].name);
         } else if (players[data['3']['by']] !== undefined && players[data['3']['id']] !== undefined && players[data['3']['id']] !== null && players[data['3']['by']] !== null && data['3']['by'] != "-1") {
-            mePlayer.damageTrackerUpdate(players[data['3']['by']].name + " killed " + players[data['3']['id']].name);
+            //  mePlayer.damageTrackerUpdate(players[data['3']['by']].name + " killed " + players[data['3']['id']].name);
+            mePlayer.addStatus(players[data['3']['by']].name + " killed " + players[data['3']['id']].name);
+            refreshTopList();
         } else if (players[data['3']['id']] !== undefined && players[data['3']['id']] && data['3']['by'] == "-1") {
-            mePlayer.damageTrackerUpdate(players[data['3']['id']].name + " had disconnect");
+            //  mePlayer.damageTrackerUpdate(players[data['3']['id']].name + " had disconnect");
+            mePlayer.addStatus(players[data['3']['id']].name + " had disconnect");
         }
         if (players[data['3']['id']] != null) {
             players[data['3']['id']].remove(stage, data['3']['by']);
@@ -257,6 +274,8 @@ function Eventcallback(data) {
     } else if (data['6']) {
         var b = new Bullet(data['6']['x'], data['6']['y'], "darkgrey", data['6']['id'], data['6']['tox'], data['6']['toy']);
         b.move();
+    } else if (data['10']) {
+        mePlayer.addStatus("<b>" + escapeHtml(data["10"]) + "</b>");
     }
 }
 
@@ -268,7 +287,8 @@ function Eventcallback(data) {
 function mouseEvent(evt) {
 
     if (mePlayer.blockRender.weapon && canshoot) {
-
+        if (isMobile)
+            mouseMove();
         if (evt.stageX - stage.x < mePlayer.blockRender.x) {
             mePlayer.setScale(-1);
         } else if (evt.stageX - stage.x > mePlayer.blockRender.x) {
@@ -287,7 +307,7 @@ function mouseEvent(evt) {
                 x: x,
                 y: y,
                 tox: (evt.stageX - 1 * stage.x),
-                toy: (evt.stageY - 1 * stage.y + adjust)
+                toy: (evt.stageY - 1 * stage.y )
             }
         }));
         var rand = Math.floor(Math.random() * 4);
@@ -312,12 +332,14 @@ Matter.Events.on(engine, 'collisionStart', function (e) {
                 if (f.bodyB.socketId === mePlayer.socketId)
                     mePlayer.hit(f.bodyA);
                 f.bodyA.blockRender.explode();
+                stage.addChild(new Blood(f.bodyB.position.x, f.bodyB.position.y, stage));
             }
         } else if ((f.bodyB.label === "bullet")) {
             if (f.bodyA.label === "player") {
                 if (f.bodyA.socketId === mePlayer.socketId)
                     mePlayer.hit(f.bodyB);
                 f.bodyB.blockRender.explode();
+                stage.addChild(new Blood(f.bodyA.position.x, f.bodyA.position.y, stage));
             }
         }
     });
@@ -331,7 +353,22 @@ var mouseMove = function () {
     mePlayer.blockRender.weapon.scaleY = Math.abs(angle) > 90 ? -2 : 2;
     mePlayer.blockRender.weapon.rotation = angle;
 };
+var entityMap = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#39;',
+    '/': '&#x2F;',
+    '`': '&#x60;',
+    '=': '&#x3D;'
+};
 
+function escapeHtml(string) {
+    return String(string).replace(/[&<>"'`=\/]/g, function (s) {
+        return entityMap[s];
+    });
+}
 
 $(document).ready(function () {
     if (window.StatusBar) window.StatusBar.hide();
@@ -348,7 +385,7 @@ $(document).ready(function () {
     function handleComplete() {
         stage = new Stage();
         socketObject = new Communication(Eventcallback, OnOpen); //reduce globals, parameterize callbacks
-
+        $("#chatbox").hide();
         healthLabel = new StatusLabel().create(94, 42, "#76B852", 137, 13, stage);
         boostLabel = new StatusLabel().create(94, 56, "#ffd699", 137, 13, stage);
 
@@ -388,6 +425,18 @@ $(document).ready(function () {
         }
         mouse = new Mouse();
         mouse.setMouse(stage, mouseEvent);
+        $("#chatbox").keypress(function (event) {
+            if (event.which == 13) {
+                socketObject.socket.send(JSON.stringify({
+                    "10": username + "> " + $("#chatbox").val()
+                }));
+                mePlayer.addStatus("<b>" + username + "> " + escapeHtml($("#chatbox").val()) + "<b>");
+                $("#chatbox").val("");
+                $("#chatbox").hide();
+                return false;
+            }
+        });
         createjs.Ticker.setFPS(65);
+
     }
 });

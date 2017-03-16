@@ -19,7 +19,7 @@ var Bullet = function (x, y, color, id, tox, toy) {
     this.blockPhysics.blockRender = this.blockRender;
     this.blockRender.xvel = 0;
     this.blockRender.yvel = 0;
-    this.blockRender.maxTime = 75;
+    this.blockRender.maxTime = 70;
     this.blockRender.on("tick", function (event) {
         this.timer += 1;
         if (this.timer > this.maxTime) {

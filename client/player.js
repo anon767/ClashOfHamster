@@ -13,6 +13,7 @@ var Player = function (name, health, x, y, rotation, xvel, yvel, id, healthLabel
     this.blockRender = new createjs.Container();
     this.maxHealth = 100;
     this.lasthit = -1;
+    this.points = 0;
     this.health = health;
     this.type = "player";
     this.name = name;
@@ -62,7 +63,7 @@ var Player = function (name, health, x, y, rotation, xvel, yvel, id, healthLabel
         delete objects[this.blockRender.id];
         if (by && by != -1) {
             stage.addChild(new Blood(this.blockRender.x, this.blockRender.y, stage));
-            createjs.Tween.get(this.blockRender).to({rotation: -90, alpha: 0}, 900).call(function (e) {
+            createjs.Tween.get(this.blockRender).to({alpha: 0}, 900).call(function (e) {
                 stage.removeChild(e["target"]);
             });
 
@@ -77,18 +78,24 @@ var Player = function (name, health, x, y, rotation, xvel, yvel, id, healthLabel
         };
         this.ps.update(stage);
     };
+    this.addStatus = function (text) {
+        if (text.length > 5) {
+            if ($("#status > div").size() > 10) {
+                $("#status").html("");
+            }
+            $("#status").append("<div class=\"statusmsg\">" + text + "</div>");
+        }
+    };
     this.damageTrackerUpdate = function (x) {
         this.damageTracker.alpha = 1;
         this.damageTracker.gravityCounter = 0;
         this.damageTracker.x = 15;
         this.damageTracker.y = 15;
-        if (x.length > 5) {
-            if ($("#status > div").size() > 7) {
-                $("#status").html("");
-            }
-            $("#status").prepend("<div class=\"statusmsg\">" + x + "</div>");
-            if (x.indexOf("you killed") !== -1)
-                storage.addKills();
+        this.addStatus(x);
+        if (x && typeof x === "string" && x.indexOf("you killed") !== -1) {
+            storage.addKills();
+            this.point++;
+            this.health += (100 - this.health) / 4;
         }
         this.damageTracker.text = x;
         this.damageTracker.yvel = -10;
@@ -176,7 +183,7 @@ var Player = function (name, health, x, y, rotation, xvel, yvel, id, healthLabel
             this.particleUpdate();
             this.blockRender.PlayerO.rotation = -this.blockRender.PlayerO.scaleX * 10;
         } else {
-            for (i = 0; i < this.ps.particles.length; i++) {
+            for (var i = 0; i < this.ps.particles.length; i++) {
                 this.ps.particles[i].dispose(stage);
             }
             this.blockRender.PlayerO.rotation = 0;
@@ -223,10 +230,12 @@ var Player = function (name, health, x, y, rotation, xvel, yvel, id, healthLabel
     this.socketId = id;
     this.blockRender.yvel = yvel;
     this.hit = function (objecta) {
-        this.lasthit = objecta.socketId;
-        var damage = Math.abs(Math.floor(1.5 * ( 10 * (this.blockRender.y - this.blockRender.height) / objecta.position.y)));
-        this.damageTrackerUpdate(damage);
-        this.health -= damage;
+        if (objecta.socketId !== this.socketId) {
+            this.lasthit = objecta.socketId;
+            var damage = Math.abs(Math.floor(1.5 * ( 10 * (this.blockRender.y - this.blockRender.height) / objecta.position.y)));
+            this.damageTrackerUpdate("-" + damage);
+            this.health -= damage;
+        }
     };
     this.blockRender.rotation = rotation;
 //this.blockRender.PlayerO.graphics.beginBitmapFill(img).drawRect(0, 0, 44, 47);

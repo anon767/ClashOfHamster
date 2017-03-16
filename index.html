@@ -15,6 +15,7 @@ and open the template in the editor.
     <meta name="msapplication-tap-highlight" content="no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <link rel="stylesheet" href="client/assets/css/style.css">
+    <link rel="icon" sizes="16x16 32x32 64x64" href="client/img/icons/favico.ico">
     <style>
 
         .keyrect {
@@ -153,8 +154,8 @@ and open the template in the editor.
             <form class="login-form" method="GET" action="game.html">
                 <input type="text" maxlength=20 name="user" id="user" placeholder="username" required/>
                 <select name="server">
-                    <option value="0">Gameroom 1 4Chan</option>
-                    <option value="1">Gameroom 2 Pr0gramm</option>
+                    <option value="0">Gameroom 1</option>
+                    <option value="1">Gameroom 2</option>
                     <option value="2">Gameroom 3</option>
                 </select>
                 <button>login</button>
@@ -168,16 +169,14 @@ and open the template in the editor.
     <div class="locker" id="info">
         <br>
         <b>Hi <span id="usercall"></span></b><br>
-
-
-        Feel free to join the <a
-            href="https://kiwiirc.com/client/irc.thecout.com/?nick=hamster|?&theme=cli#clashofhamster">Chat</a>!<br>
-
+        <b>WASD/Arrow-keys</b> = Move<br>
+        <b>Space</b> = Boost<br>
+        <b>Mouse-Click/Touch</b> = Shoot<br>
+        <b>Y</b> = Chat<br>
         <br>
-        <div class="addthis_inline_share_toolbox"></div>
+
     </div>
 </div>
-<script type="text/javascript" src="cordova.js"></script>
 <script>
     if (typeof(localStorage) !== "undefined") {
         if (localStorage.getItem("name")) {
