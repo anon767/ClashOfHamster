@@ -132,7 +132,6 @@ var Player = function (name, health, x, y, rotation, xvel, yvel, id, healthLabel
                     location.reload();
             }, 1000);
             $('#dead').show();
-
             storage.addDeaths();
             $('#dead').dialog({
                 autoOpen: true,

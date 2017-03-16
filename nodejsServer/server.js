@@ -28,13 +28,13 @@ gamerooms.push(new Gameroom(2, map))
 const wss = new WebSocket.Server({port: 9300});
 console.log("started");
 
-function init(client, id, gameroom, wss) {
+function init(client, cid, gameroom, wss) {
     console.log("initiated");
-    client.send(JSON.stringify({"id": id}));
+    client.send(JSON.stringify({"id": cid}));
     client.send(JSON.stringify({"5": gameroom.getMap()}));
     gameroom.getClients().forEach(function each(c) {
         if (c && c !== client && c.readyState === WebSocket.OPEN) {
-            c.send(JSON.stringify({2: id}));
+            c.send(JSON.stringify({2: cid}));
         }
     });
 }

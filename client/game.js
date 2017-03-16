@@ -165,7 +165,7 @@ function OnOpen() {
 }
 
 function refreshTopList() {
-
+return;
 }
 /**
  * retrieve server information and parses
@@ -389,7 +389,6 @@ $(document).ready(function () {
         healthLabel = new StatusLabel().create(94, 42, "#76B852", 137, 13, stage);
         boostLabel = new StatusLabel().create(94, 56, "#ffd699", 137, 13, stage);
 
-        window.addEventListener('resize', stage.resizeCanvas, false);
 
         render = Render.create({
             element: document.body,
