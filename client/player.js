@@ -60,6 +60,7 @@ var Player = function (name, health, x, y, rotation, xvel, yvel, id, healthLabel
         delete stage.blocking[this.id];
         stage.removeChild(this.healthLabel);
         Matter.World.remove(engine.world, [this.blockPhysics]);
+        objects[this.blockRender.id] = null;
         delete objects[this.blockRender.id];
         if (by && by != -1) {
             stage.addChild(new Blood(this.blockRender.x, this.blockRender.y, stage));

@@ -163,9 +163,28 @@ function OnOpen() {
     if (!mePlayer)
         socketObject.send("7:" + server);
 }
-
+function compare(a, b) {
+    if (a == null || b == null)
+        return 0;
+    else if (a.points < b.points)
+        return 1;
+    else if (a.points > b.points)
+        return -1;
+    return 0;
+}
 function refreshTopList() {
-return;
+    $("#statistic").html("");
+    var temp = [];
+    players.forEach(function each(e) {
+        if (e)
+            temp.push({"name": e.name, "points": e.points});
+    });
+    temp.push({"name": mePlayer.name, "points": mePlayer.points});
+    temp.sort(compare);
+    for (var i = 0; i < Math.min(5, temp.length); i++) {
+        $("#statistic").append((i + 1) + ". <b>" + temp[i].name + "</b><br>");
+    }
+    return;
 }
 /**
  * retrieve server information and parses
@@ -198,12 +217,13 @@ function Eventcallback(data) {
             players[data['0']['i']].remove(stage, null);
             players[data['0']['i']] = null; //remove
         } else {
-            mePlayer.damageTrackerUpdate(data[0]['n'] + " joined the game");
+            mePlayer.damageTrackerUpdate(data['0']['n'] + " joined the game");
         }
 
         var hl = new StatusLabel().create(-5, -30, "#76B852", 50, 5, stage);
         var joinedPlayer = new Player(data[0]['n'], data['0']['h'], data['0']['x'],
             data['0']['y'], data['0']['r'], 0, 0, data['0']['i'], hl); //create a new player
+        joinedPlayer.points = data['0']['p'];
         players[data['0']['i']] = joinedPlayer;
         new Weapon(joinedPlayer.blockRender);
         refreshTopList();
@@ -225,7 +245,6 @@ function Eventcallback(data) {
             players[id].healthLabel.update(players[id].health, mePlayer.maxHealth);
             players[id].blockRender.weapon.rotation = a;
             players[id].blockRender.weapon.scaleY = Math.abs(a) > 90 ? -2 : 2;
-
             //players[id].healthLabel.x = x;
             //players[id].healthLabel.y = y - 50;
         } else {
@@ -236,18 +255,21 @@ function Eventcallback(data) {
     } else if (data['3']) { //player dead
         if (data['3']['by'] === mePlayer.socketId && players[data['3']['id']] !== undefined && players[data['3']['id']]) {
             mePlayer.damageTrackerUpdate("you killed " + players[data['3']['id']].name);
+            mePlayer.points++;
         } else if (players[data['3']['by']] !== undefined && players[data['3']['id']] !== undefined && players[data['3']['id']] !== null && players[data['3']['by']] !== null && data['3']['by'] != "-1") {
             //  mePlayer.damageTrackerUpdate(players[data['3']['by']].name + " killed " + players[data['3']['id']].name);
             mePlayer.addStatus(players[data['3']['by']].name + " killed " + players[data['3']['id']].name);
-            refreshTopList();
+            players[data['3']['by']].points++;
         } else if (players[data['3']['id']] !== undefined && players[data['3']['id']] && data['3']['by'] == "-1") {
             //  mePlayer.damageTrackerUpdate(players[data['3']['id']].name + " had disconnect");
             mePlayer.addStatus(players[data['3']['id']].name + " had disconnect");
         }
         if (players[data['3']['id']] != null) {
             players[data['3']['id']].remove(stage, data['3']['by']);
+            players[data['3']['id']] = null;
             delete players[data['3']['id']]; //remove
         }
+        refreshTopList();
     } else if (data['5']) { //initialize map
         stage.size = data['5']['0']["width"]; //set map size
         stage.height = (data['5']['0']["height"]);

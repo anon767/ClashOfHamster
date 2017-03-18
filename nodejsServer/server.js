@@ -52,6 +52,7 @@ wss.on('connection', function connection(ws) {
                 if (gamerooms[s].countClients() > 6)
                     ws.send("logoff:exceeded");
                 ws.id = id;
+                ws.points = 0;
                 gamerooms[s].addClient(ws, ws.id);
                 init(ws, ws.id, gamerooms[s], wss);
                 id++;
@@ -63,23 +64,25 @@ wss.on('connection', function connection(ws) {
             }
             var response = JSON.parse(data);
 
-            if (response[1]) {
-                var responseparam = response[1].split(",");
-                if (responseparam[3] > 200) {
-                    ws.send("gtfo");
-                    return;
-                }
-            }
-            if (response[6]) {
+            if (response['0']) {
+                response['0']["p"] = ws.points;
+                data = JSON.stringify(response);
+            } else if (response[6]) {
                 ws.gameroom.getClients().forEach(function each(client) {
                     if (client && client.readyState === WebSocket.OPEN) {
                         client.send(data);
                     }
                 });
                 return;
+            } else if (response[3]) {
+                ws.gameroom.getClients().forEach(function each(client) {
+                    if (client.id === response[3]['by']) {
+                        client.points++;
+                    }
+                });
             }
             ws.gameroom.getClients().forEach(function each(client) {
-                if (client && client !== ws && client.readyState === WebSocket.OPEN) {
+                if (client && client.id !== ws.id && client.readyState === WebSocket.OPEN) {
                     client.send(data);
                 }
             });
@@ -94,14 +97,15 @@ wss.on('connection', function connection(ws) {
         var tempGameroom = ws.gameroom;
 
         console.log("player disconnected");
-        if(tempGameroom){
+        if (tempGameroom) {
             tempGameroom.getClients().forEach(function each(client) {
                 if (client && client !== ws && client.readyState === WebSocket.OPEN) {
                     client.send(JSON.stringify({3: {id: cid, by: -1}}));
                 }
             });
         }
-        if (wss.clients.length == 0)
+        if (wss.clients.length == 0) {
             id = 1;
+        }
     });
 });
