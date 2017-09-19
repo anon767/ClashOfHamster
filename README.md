@@ -1,4 +1,4 @@
-# Clas of Hamster
+# Clash of Hamster
 
 ### Set up:
 
