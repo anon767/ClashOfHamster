@@ -121,7 +121,7 @@ function keyboardCheck(event) {
 var pingi = 0;
 function refreshCanvas() {
     for (var i = 0; i < objects.length; i++) {
-        if (objects.hasOwnProperty(i)) {
+        if (objects[i]) {
             objects[i].blockRender.x = objects[i].blockPhysics.position.x;
             objects[i].blockRender.y = objects[i].blockPhysics.position.y;
         }
