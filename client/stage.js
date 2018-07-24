@@ -26,7 +26,7 @@ var Stage = function () {
         stage.playerInfo.y -= adjust;
         stage.y = Math.floor(-mePlayer.blockRender.y + window.innerHeight / 2);
 
-
+        stage.updateViewport(window.innerWidth, window.innerHeight);
     });
     stage.moveStage = function () {
         if (mePlayer.blockRender.x > (stage.innerWidth * 0.5)) { //only move stage if its between size

@@ -141,26 +141,26 @@ function tick() {
     now = Date.now();
     delta = now - then;
 
-    //  if (!createjs.Ticker.getPaused()) {
-    if (delta > interval) {
-        event.delta = socketObject.socket.latency;
-        Runner.tick(runner, engine, event.delta);
-        keyboardCheck(event);
-        refreshCanvas();
-        if (pingi == 0) {
-            socketObject.getLatency();
-            pingi = 200;
+    if (!createjs.Ticker.isPaused) {
+        if (delta > interval) {
+            event.delta = socketObject.socket.latency;
+            Runner.tick(runner, engine, event.delta);
+            keyboardCheck(event);
+            refreshCanvas();
+            if (pingi == 0) {
+                socketObject.getLatency();
+                pingi = 200;
+            }
+            else
+                pingi--;
+            mePlayer.update(socketObject);
+            stage.update(event);
+            mePlayer.sendUpdate(socketObject);
+            lastTick = event.timestamp;
+            then = now - (delta % interval);
         }
-        else
-            pingi--;
-        mePlayer.update(socketObject);
-        stage.update(event);
-        mePlayer.sendUpdate(socketObject);
-        lastTick = event.timestamp;
-        then = now - (delta % interval);
+        requestAnimationFrame(tick);
     }
-    requestAnimationFrame(tick);
-    //}
 }
 
 function OnOpen() {
@@ -463,7 +463,7 @@ $(document).ready(function () {
                 return false;
             }
         });
-        createjs.Ticker.setFPS(65);
+        createjs.Ticker.isPaused = false
 
     }
 });

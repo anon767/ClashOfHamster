@@ -19,7 +19,7 @@ var Player = function (name, health, x, y, rotation, xvel, yvel, id, healthLabel
     this.name = name;
     this.PlayerO = new createjs.Shape();
     this.TextO = new createjs.Text(name, "13px Arial", "lightgreen");
-    this.damageTracker = new createjs.Text("", "24px Arial", "red");
+    this.damageTracker = new createjs.Text("", "24px Arial", "white");
     this.damageTracker.yvel = 0;
     this.damageTracker.x = 15;
     this.damageTracker.xvel = 0;
@@ -100,7 +100,9 @@ var Player = function (name, health, x, y, rotation, xvel, yvel, id, healthLabel
         }
         this.damageTracker.text = x;
         this.damageTracker.yvel = -10;
-        createjs.Tween.get(this.damageTracker).to({alpha: 0.0, y: this.damageTracker.y - 155}, 3000);
+
+        this.damageTracker.cache(-250, -50, 500, 100);
+        createjs.Tween.get(this.damageTracker).to({alpha: 0.0, y: this.damageTracker.y - 155}, 6000);
     };
     this.update = function (socketO) {
 
@@ -109,7 +111,7 @@ var Player = function (name, health, x, y, rotation, xvel, yvel, id, healthLabel
         }
 
         if (this.health <= 0) {
-            createjs.Ticker.setPaused(true);
+            createjs.Ticker.isPaused = true;
             socketO.send('{"3": {"id": ' + this.socketId + ',"by": ' + this.lasthit + '}}');
             socketObject.socket.close();
 
@@ -232,7 +234,7 @@ var Player = function (name, health, x, y, rotation, xvel, yvel, id, healthLabel
     this.hit = function (objecta) {
         if (objecta.socketId !== this.socketId) {
             this.lasthit = objecta.socketId;
-            var damage = Math.abs(Math.floor(1.5 * ( 10 * (this.blockRender.y - this.blockRender.height) / objecta.position.y)));
+            var damage = Math.abs(Math.floor(1.5 * (10 * (this.blockRender.y - this.blockRender.height) / objecta.position.y)));
             this.damageTrackerUpdate("-" + damage);
             this.health -= damage;
         }
@@ -272,7 +274,8 @@ var Player = function (name, health, x, y, rotation, xvel, yvel, id, healthLabel
     this.blockRender.snapToPixel = true;
     this.blockRender.regY = 0;
     this.TextO.x = -5;
-    this.TextO.y = -35;
+    this.TextO.y = -45;
+    this.TextO.cache(-50, -50, 100, 100);
     this.TextO.textBaseline = "alphabetic";
     if (mePlayer && mePlayer.socketId !== this.socketId)
         this.blockRender.addChild(this.blockRender.PlayerO, this.healthLabel, this.TextO, this.damageTracker);
