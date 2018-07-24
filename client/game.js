@@ -22,7 +22,8 @@ var engine = Engine.create({
         enableSleeping: false
     }),
     world = engine.world;
-var joystick, stage = null, timeCircle, socketObject, keyboard = new Keyboard(), collision, mePlayer = null, mouse, healthLabel, boostLabel;
+var joystick, stage = null, timeCircle, socketObject, keyboard = new Keyboard(), collision, mePlayer = null, mouse,
+    healthLabel, boostLabel;
 var up = false, left = false, right = false, down = false, jump = false;
 var players = [null, null, null, null, null, null]; //allocate some space for players
 var queue = new createjs.LoadQueue(false);
@@ -119,6 +120,7 @@ function keyboardCheck(event) {
  * @returns {undefined}
  */
 var pingi = 0;
+
 function refreshCanvas() {
     for (var i = 0; i < objects.length; i++) {
         if (objects[i]) {
@@ -127,42 +129,45 @@ function refreshCanvas() {
         }
     }
 }
+
 var event = {};
 var fps = 60;
 var now;
 var then = Date.now();
 var interval = 1000 / fps;
 var delta;
+
 function tick() {
     now = Date.now();
     delta = now - then;
 
-    if (!createjs.Ticker.getPaused()) {
-        if (delta > interval) {
-            event.delta = socketObject.socket.latency;
-            Runner.tick(runner, engine, event.delta);
-            keyboardCheck(event);
-            refreshCanvas();
-            if (pingi == 0) {
-                socketObject.getLatency();
-                pingi = 200;
-            }
-            else
-                pingi--;
-            mePlayer.update(socketObject);
-            stage.update(event);
-            mePlayer.sendUpdate(socketObject);
-            lastTick = event.timestamp;
-            then = now - (delta % interval);
+    //  if (!createjs.Ticker.getPaused()) {
+    if (delta > interval) {
+        event.delta = socketObject.socket.latency;
+        Runner.tick(runner, engine, event.delta);
+        keyboardCheck(event);
+        refreshCanvas();
+        if (pingi == 0) {
+            socketObject.getLatency();
+            pingi = 200;
         }
-        requestAnimationFrame(tick);
+        else
+            pingi--;
+        mePlayer.update(socketObject);
+        stage.update(event);
+        mePlayer.sendUpdate(socketObject);
+        lastTick = event.timestamp;
+        then = now - (delta % interval);
     }
+    requestAnimationFrame(tick);
+    //}
 }
 
 function OnOpen() {
     if (!mePlayer)
         socketObject.send("7:" + server);
 }
+
 function compare(a, b) {
     if (a == null || b == null)
         return 0;
@@ -172,6 +177,7 @@ function compare(a, b) {
         return -1;
     return 0;
 }
+
 function refreshTopList() {
     $("#statistic").html("");
     var temp = [];
@@ -186,6 +192,7 @@ function refreshTopList() {
     }
     return;
 }
+
 /**
  * retrieve server information and parses
  * @param {type} data
@@ -287,8 +294,6 @@ function Eventcallback(data) {
         healthLabel.y -= adjust;
         boostLabel.y -= adjust;
         stage.playerInfo.y -= adjust;
-        stage.background2.x = stage.size;
-        stage.background3.y = -stage.height * 4;
         stage.height = window.innerHeight;
         stage.innerWidth = window.innerWidth;
         stage.canvas.width = window.innerWidth;
@@ -329,7 +334,7 @@ function mouseEvent(evt) {
                 x: x,
                 y: y,
                 tox: (evt.stageX - 1 * stage.x),
-                toy: (evt.stageY - 1 * stage.y )
+                toy: (evt.stageY - 1 * stage.y)
             }
         }));
         var rand = Math.floor(Math.random() * 4);
@@ -371,7 +376,7 @@ var mouseMove = function () {
         return;
     var rads = Math.atan2(stage.mouseY - 1 * stage.y - mePlayer.blockRender.y - mePlayer.blockRender.weapon.y, stage.mouseX - 1 * stage.x - mePlayer.blockRender.x + mePlayer.blockRender.weapon.x);
     var angle = rads * (180 / Math.PI);
-    mePlayer.blockRender.PlayerO.scaleX = (stage.mouseX - 1 * stage.x  ) > mePlayer.blockRender.x ? 1 : -1;
+    mePlayer.blockRender.PlayerO.scaleX = (stage.mouseX - 1 * stage.x) > mePlayer.blockRender.x ? 1 : -1;
     mePlayer.blockRender.weapon.scaleY = Math.abs(angle) > 90 ? -2 : 2;
     mePlayer.blockRender.weapon.rotation = angle;
 };
@@ -404,6 +409,7 @@ $(document).ready(function () {
         {id: "blood", src: "client/assets/img/blood.png"}
     ]);
     queue.on("complete", handleComplete, this);
+
     function handleComplete() {
         stage = new Stage();
         socketObject = new Communication(Eventcallback, OnOpen); //reduce globals, parameterize callbacks

@@ -16,6 +16,8 @@ var Weapon = function (container) {
     this.canvasO.bulletHeight = 4;
     this.canvasO.tickEnabled = false;
     this.canvasO.graphics.beginBitmapFill(img, 'no-repeat').drawRect(0, 0, 16, 10);
+    this.canvasO.cache(-16 , -10 , 16*2, 10*2); //cache this shit, unless its moveable later we dont have to update cache
+
     container.weapon = this.canvasO;
     container.addChild(this.canvasO);
     return this.canvasO;

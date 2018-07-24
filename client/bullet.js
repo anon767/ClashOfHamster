@@ -32,6 +32,8 @@ var Bullet = function (x, y, color, id, tox, toy) {
     this.blockRender.timer = 0;
     this.blockRender.accelerationTime = 10;
     this.blockRender.graphics.beginFill(color).drawCircle(0, 0, width, height);
+    this.blockRender.cache(-width, -height, width * 2, height * 2); //cache this shit, unless its moveable later we dont have to update cache
+
     this.blockRender.regX = 0;
     this.blockRender.regY = 0;
     this.blockRender.playerId = id;

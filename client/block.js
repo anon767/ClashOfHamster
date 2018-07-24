@@ -13,6 +13,8 @@ var Block = function (x, y, color, width, height, stage, isBlock, options) {
         var img = new Image(1215, 792);
         img.src = queue.getResult("brick").src;
         this.blockRender.graphics.beginBitmapFill(img, 'repeat').drawRect(0, 0, width, height);
+        this.blockRender.cache(-width , -height , width*2, height*2,0.5); //cache this shit, unless its moveable later we dont have to update cache
+
     }
     this.blockRender.regX = width / 2;
     this.blockRender.regY = height / 2;
@@ -21,7 +23,7 @@ var Block = function (x, y, color, width, height, stage, isBlock, options) {
     this.blockRender.width = width;
     this.blockRender.height = height;
     this.blockRender.color = color;
-    this.blockRender.snapToPixel = true;
+    this.blockRender.snapToPixel = false;
     this.blockRender.tickEnabled = false;
     //this.blockRender.cache(-width, -height, width * 2, height * 2, 2); //cache this shit, unless its moveable later we dont have to update cache
     stage.addChild(this.blockRender);

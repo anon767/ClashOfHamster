@@ -6,11 +6,11 @@ function rand(min, max) {
 
 function randColor(min, max) {
     return new RGBA(
-            rand(min.r, max.r),
-            rand(min.g, max.g),
-            rand(min.b, max.b),
-            rand(min.a, max.a)
-            );
+        rand(min.r, max.r),
+        rand(min.g, max.g),
+        rand(min.b, max.b),
+        rand(min.a, max.a)
+    );
 }
 
 function RGBA(r, g, b, a) {
@@ -33,7 +33,7 @@ function Particle() {
     this.shape = null;
 
     this.isDead = function () {
-        return this.lifetime < 1 ;
+        return this.lifetime < 1;
     };
 
     this.update = function (stage) {
@@ -43,18 +43,18 @@ function Particle() {
             this.shape = new createjs.Shape();
             this.shape.graphics.beginRadialGradientFill([this.startColor.str(), this.endColor.str()], [0, 1], this.radius * 2, this.radius * 2, 0, this.radius * 2, this.radius * 2, this.radius);
             this.shape.graphics.drawCircle(this.radius * 2, this.radius * 2, this.radius);
+            this.shape.cache(-this.radius * 2, -this.radius * 2, this.radius * 4, this.radius * 4);
+            createjs.Tween.get(this.shape)
+                .wait(this.lifetime * .7)
+                .to({alpha: 0.5, useTicks: true}, this.lifetime);
 
             createjs.Tween.get(this.shape)
-                    .wait(this.lifetime * .7)
-                    .to({alpha: 0.5, useTicks: true}, this.lifetime);
+                .wait(this.lifetime * .5)
+                .to({scaleX: 0, useTicks: true}, this.lifetime);
 
             createjs.Tween.get(this.shape)
-                    .wait(this.lifetime * .5)
-                    .to({scaleX: 0, useTicks: true}, this.lifetime);
-
-            createjs.Tween.get(this.shape)
-                    .wait(this.lifetime * .5)
-                    .to({scaleY: 0, useTicks: true}, this.lifetime);
+                .wait(this.lifetime * .5)
+                .to({scaleY: 0, useTicks: true}, this.lifetime);
 
             stage.addChild(this.shape);
         }
@@ -108,11 +108,15 @@ function ParticleSystem() {
         if (this.particles.length < this.count) {
             var p = new Particle();
             p.lifetime = rand(this.lifetime.min, this.lifetime.max);
-            p.position = {x: this.position.x + rand(this.positionOffsetX.min, this.positionOffsetX.max),
-                y: this.position.y + rand(this.positionOffsetY.min, this.positionOffsetY.max)};
+            p.position = {
+                x: this.position.x + rand(this.positionOffsetX.min, this.positionOffsetX.max),
+                y: this.position.y + rand(this.positionOffsetY.min, this.positionOffsetY.max)
+            };
             p.radius = rand(this.radius.min, this.radius.max);
-            p.velocity = {x: rand(this.velocityX.min, this.velocityX.max),
-                y: rand(this.velocityY.min, this.velocityY.max)}
+            p.velocity = {
+                x: rand(this.velocityX.min, this.velocityX.max),
+                y: rand(this.velocityY.min, this.velocityY.max)
+            }
 
             p.startColor = randColor(this.startColor.min, this.startColor.max);
             p.endColor = randColor(this.endColor.min, this.endColor.max);
