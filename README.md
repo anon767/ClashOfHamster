@@ -37,6 +37,10 @@ php pack.php
 
 to shrink and compile the javascript frontend code
 
-## Demo
+## Ingame Screenshots
 
-http://thecout.com
+![lobby](https://github.com/anon767/ClashOfHamster/blob/physicsengine2/Screenshot%20from%202020-08-31%2017-42-12.png?raw=true)
+
+
+![inamge](https://github.com/anon767/ClashOfHamster/blob/physicsengine2/Screenshot%20from%202020-08-31%2017-41-47.png?raw=true)
+
