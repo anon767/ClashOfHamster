@@ -5,7 +5,7 @@
   "main": "server.js",
   "dependencies": {
     "websocket": "^1.0.24",
-    "ws": "^2.1.0",
+    "ws": "^3.3.1",
     "uws": "*"
   },
   "devDependencies": {},
